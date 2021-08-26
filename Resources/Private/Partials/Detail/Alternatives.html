@@ -37,7 +37,9 @@
             </div>
           </f:then>
         </f:if>
-        <div class="edm-event-detail__alternatives__details-registration_deadline">
+        <div
+          class="edm-event-detail__alternatives__details-registration_deadline"
+        >
           <span class="icon-calendar-before-standard"
             >Anmeldeschluss:
             <f:format.date
@@ -76,20 +78,30 @@
       <div class="edm-event-detail__alternatives__buttons">
         <f:if condition="{event.is_bookable}">
           <f:then>
-            <button
-              onClick="switchActiveEvent({event.id}, true);"
-              type="button"
-              class="edm-event-detail__alternatives__buttons-show"
+            <f:link.action
+              controller="Event"
+              action="detail"
+              pageUid="{settings.pageuids.eventDetail}"
+              arguments="{eventId: event.id, eventBaseSlug: eventBase.slug}"
             >
-              Anzeigen
-            </button>
+              <button
+                type="button"
+                class="edm-event-detail__alternatives__buttons-show"
+              >
+                Anzeigen
+              </button>
+            </f:link.action>
+
             <f:if condition="{settings.enrollmentOnExternalWebsite}">
               <f:then
                 ><f:link.external
                   target="_blank"
-                  uri="{settings.enrollmentUrl}{eventBase.slug}"
+                  uri="{settings.enrollmentUrl}{eventBase.slug}/{event.id}"
                 >
-                  <button type="button" class="edm-event-detail__alternatives__buttons-apply">
+                  <button
+                    type="button"
+                    class="edm-event-detail__alternatives__buttons-apply"
+                  >
                     Anmelden
                   </button>
                 </f:link.external></f:then
@@ -98,7 +110,7 @@
                 <f:link.action
                   controller="Enrollment"
                   action="new"
-                  pageUid="{settings.pageuids.enrollment}"
+                  pageUid="{settings.pageuids.eventEnrollment}"
                   arguments="{eventId: event.id, eventBaseSlug: eventBase.slug}"
                 >
                   <button

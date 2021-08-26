@@ -30,7 +30,7 @@
     </f:if>
     <f:if condition="{eventBase.descriptions}">
       <f:for each="{eventBase.descriptions}" as="description">
-        <f:if condition="{description.slug} == 'beschreibung'">
+        <f:if condition="{description.slug} == {settings.edm.slugs.eventDescription}">
           <f:format.raw>{description.text}</f:format.raw>
         </f:if>
       </f:for>

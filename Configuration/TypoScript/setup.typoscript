@@ -119,6 +119,10 @@ plugin.tx_edm {
                     clientSecret = {$plugin.tx_edm.edm.auth.password.clientSecret}
                 }
             }
+
+            slugs {
+                eventDescription = {$plugin.tx_edm.edm.slugs.eventDescription}
+            }
         }
 
         versions {

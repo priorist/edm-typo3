@@ -1,0 +1,46 @@
+<div class="edm-event-detail__header__button">
+  <f:if condition="{event.is_bookable}">
+    <f:then>
+      <f:if condition="{settings.enrollmentOnExternalWebsite}">
+        <f:then>
+          <f:link.external
+            target="_blank"
+            uri="{settings.enrollmentUrl}{eventBaseSlug}"
+          >
+            <button type="button" class="event-header__button-apply">
+              Jetzt anmelden
+            </button>
+          </f:link.external>
+        </f:then>
+        <f:else>
+          <f:link.action
+            class="stage-apply-button"
+            controller="Enrollment"
+            action="new"
+            pageUid="{settings.pageuids.enrollment}"
+            arguments="{eventId: event.id, eventBaseSlug: eventBaseSlug}"
+          >
+            <button
+              id="stage-apply-button"
+              type="button"
+              class="event-header__button-apply"
+            >
+              Jetzt anmelden
+            </button>
+          </f:link.action>
+        </f:else>
+      </f:if>
+    </f:then>
+    <f:else>
+      <button
+        id="stage-apply-button"
+        type="button"
+        class="event-header__button-unavailable"
+        disabled
+        aria-disabled="true"
+      >
+        Zurzeit nicht buchbar
+      </button>
+    </f:else>
+  </f:if>
+</div>

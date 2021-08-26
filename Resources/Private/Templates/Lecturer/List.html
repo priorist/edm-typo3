@@ -1,0 +1,25 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+  <div class="edm-lecturers">
+    <h1>
+      Dozierende
+      <f:if condition="{lecturers}">(<f:count>{lecturers}</f:count>)</f:if>
+    </h1>
+    <f:if condition="{lecturers}">
+      <f:then>
+        <ul>
+          <f:for each="{lecturers}" as="lecturer">
+            <f:render
+              partial="List/LecturerItem"
+              arguments="{lecturer: lecturer}"
+            />
+          </f:for>
+        </ul>
+      </f:then>
+      <f:else>
+        <li>Keine Dozierenden gefunden.</li>
+      </f:else>
+    </f:if>
+  </div>
+</f:section>

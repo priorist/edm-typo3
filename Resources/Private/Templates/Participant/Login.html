@@ -1,0 +1,33 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+    <header>
+        <h1>Teilnehmer-Login</h1>
+    </header>
+
+    <f:if condition="{internalError}">
+        <p><strong>Hoppla, da ist etwas schief gelaufen! Hilf uns, das Problem zu lösen und schreib uns eine E-Mail zu deinem Problem.</strong></p>
+    </f:if>
+
+    <f:if condition="{invalidLogin}">
+        <p><strong>Falscher Benutzername oder falsches Passwort.</strong></p>
+    </f:if>
+
+    <f:if condition="{participant}">
+        <f:then>
+            Angemeldet als <strong>{participant.first_name} {participant.last_name}.</strong>
+            <f:link.action action="logout">Abmelden</f:link.action>
+            <script>
+                var participantToken = <f:format.raw>{participantTokenJson}</f:format.raw>;
+                var participant = <f:format.raw>{participantJson}</f:format.raw>;
+            </script>
+        </f:then>
+        <f:else>
+            <f:form action="login" method="post" id="seminar-login">
+                <f:form.textfield maxlength="64" placeholder="Benutzername" name="login[username]" required="required" />
+                <f:form.password name="login[password]" additionalAttributes="{required: 'required', placeholder: 'Kennwort', data-rsa-encryption: ''}" />
+                <f:form.submit value="Anmelden" class="navigation_button" />
+            </f:form>
+        </f:else>
+    </f:if>
+</f:section>

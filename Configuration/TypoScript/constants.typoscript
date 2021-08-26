@@ -1,0 +1,11 @@
+plugin.tx_edm {
+    view {
+			templateRootPath = EXT:edm/Resources/Private/Templates/
+			partialRootPath = EXT:edm/Resources/Private/Partials/
+			layoutRootPath = EXT:edm/Resources/Private/Layouts/
+    }
+
+	settings {
+		feUsername = api-teilnehmer
+	}
+}

@@ -1,0 +1,42 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+  <div class="edm-lecturer">
+    <h1>
+      {f:if(condition: '{lecturer.title}', then: '{lecturer.title} ', else:
+      '')}{lecturer.first_name} {lecturer.last_name}
+    </h1>
+    <f:if condition="{lecturer.image}">
+      <div class="edm-lecturer__image">
+        <img src="{settings.edm.url}{lecturer.image.url}" />
+      </div>
+    </f:if>
+    <f:if condition="{events}">
+      <div class="edm-lecturer__events">
+        <ul></ul>
+        <f:for each="{events}" as="event">
+          <li>
+            {event.id}:
+            <f:link.action
+              pageUid="{settings.pageuids.eventDetail}"
+              controller="Event"
+              action="detail"
+              arguments="{eventBaseSlug: event.event_base.slug, id: event.id}"
+              section="{event.id}"
+            >
+              {event.meta.event_base_name} | {event.first_day} |
+              {f:if(condition: '{event.prices -> f:count()} > 1', then: 'ab ',
+              else: '')}
+              <f:format.number
+                decimalSeparator=","
+                thousandsSeparator="."
+                decimals="2"
+                >{event.prices.0.amount}</f:format.number
+              >€
+            </f:link.action>
+          </li>
+        </f:for>
+      </div>
+    </f:if>
+  </div>
+</f:section>

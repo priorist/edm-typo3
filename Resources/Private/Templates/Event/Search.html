@@ -1,0 +1,30 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+  <div class="edm-event-search">
+    <f:if condition="{internalError}">
+      <f:then>
+        <f:render partial="InternalError" />
+      </f:then>
+      <f:else>
+        <script>
+          var __filterData = {filterData -> f:format.json() -> f:format.htmlentitiesDecode()}
+        </script>
+        <div class="edm-event-search__header">
+          <h1>Unsere Angebote für Sie</h1>
+          <h2 class="edm-event-search__header__event-count">
+            Es werden Ihnen {groupedEvents -> f:count()} von {groupedEvents ->
+            f:count()} Angeboten angezeigt.
+          </h2>
+        </div>
+        <div class="edm-event-search__container">
+          <div class="edm-event-search__event-list">
+            <f:for each="{groupedEvents}" as="event">
+              <f:render partial="Event" arguments="{event: event}" />
+            </f:for>
+          </div>
+        </div>
+      </f:else>
+    </f:if>
+  </div>
+</f:section>

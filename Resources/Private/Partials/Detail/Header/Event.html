@@ -1,0 +1,9 @@
+<f:render
+  partial="EventBase/EventBaseImage"
+  arguments="{eventBase: eventBase}"
+/>
+<h1 class="edm-event-detail__header__heading">{eventBase.name}</h1>
+<f:render
+  partial="Detail/Header/Button"
+  arguments="{event: event, eventCount: eventCount, eventBaseSlug: eventBase.slug}"
+/>

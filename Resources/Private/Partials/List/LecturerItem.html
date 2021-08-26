@@ -1,0 +1,10 @@
+<li>
+  {lecturer.id}:
+  <f:link.action
+    pageUid="{settings.pageuids.lecturerDetail}"
+    action="detail"
+    arguments="{lecturerId: lecturer.id}"
+  >
+    {lecturer.first_name} {lecturer.last_name}
+  </f:link.action>
+</li>

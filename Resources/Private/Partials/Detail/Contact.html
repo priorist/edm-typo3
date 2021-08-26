@@ -1,0 +1,53 @@
+<div class="edm-event-detail__contact">
+  <f:if condition="{internalError}">
+    <f:then>
+      <f:render partial="InternalError" />
+    </f:then>
+    <f:else>
+      <h2>Any questions?</h2>
+      <h3>Contact us!</h3>
+        <div class="edm-event-detail__contact-person">
+          <f:if condition="{contactPerson.image}">
+            <img
+              src="{f:uri.image(src:'{settings.edm.url}{contactPerson.image.url}', width:'166')}"
+              alt="Kontaktperson"
+              class="event-contact-person__image"
+            />
+          </f:if>
+          <div class="edm-event-detail__contact-person__details">
+            <h4>
+              <f:if condition="{contactPerson.title}">
+                {contactPerson.title}
+              </f:if>
+              {contactPerson.first_name} {contactPerson.last_name}
+            </h4>
+
+            <f:if condition="{contactPerson.description">
+              <p>
+                <f:format.stripTags
+                  >{contactPerson.description}</f:format.stripTags
+                >
+              </p>
+            </f:if>
+
+            <f:if condition="{contactPerson.main_contact_info.email}">
+              <span>
+                <a href="mailto:{contactPerson.main_contact_info.email}"
+                  ><strong
+                    >{contactPerson.main_contact_info.email}</strong
+                  ></a
+                >
+              </span>
+            </f:if>
+
+            <f:if condition="{contactPerson.main_contact_info.phone}">
+              <span>
+                Telefon: {contactPerson.main_contact_info.phone}
+              </span>
+            </f:if>
+          </div>
+        </div>
+      </div>
+    </f:else>
+  </f:if>
+</div>

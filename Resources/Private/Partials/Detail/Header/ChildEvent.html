@@ -1,0 +1,18 @@
+<f:render
+  partial="EventBase/EventBaseImage"
+  arguments="{eventBase: eventBase}"
+/>
+<h1 class="edm-event-detail__header__heading">{eventBase.name}</h1>
+<h3 class="edm-event-detail__header__subtitle">
+  Teil der Veranstaltung
+  <f:link.action
+    pageUid="{settings.pageuids.detail}"
+    action="detail"
+    arguments="{eventBaseSlug: parentEventBase.slug}"
+    >{parentEventBase.name}</f:link.action
+  >
+</h3>
+<f:render
+  partial="Detail/Header/Button"
+  arguments="{event: parentEvent, eventCount: eventCount, eventBaseSlug: parentEventBase.slug}"
+/>

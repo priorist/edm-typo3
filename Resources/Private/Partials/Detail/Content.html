@@ -1,0 +1,90 @@
+<f:for each="{event.dates}" as="date" iteration="iterator">
+  <f:if condition="{iterator.total} > 1">
+    <f:if condition="{iterator.isLast}">
+      <f:variable name="lastDayIndex" value="{iterator.index}" />
+    </f:if>
+  </f:if>
+</f:for>
+
+<div class="edm-event-detail__content">
+  <f:if condition="{eventBase.files}">
+    <f:for each="{eventBase.files}" as="file" iteration="iterator">
+      <f:if condition="{file.tags}">
+        <f:for each="{file.tags}" as="tag">
+          <f:if
+            condition="{tag} !== 'Teilnehmerdokument' && {tag} !== 'Titelbild' && {tag} !== 'Anmeldung'"
+          >
+            <f:variable name="DocumentsExist" value="true" />
+          </f:if>
+        </f:for>
+      </f:if>
+    </f:for>
+  </f:if>
+  <div class="edm-event-detail__content__description">
+    <f:if condition="{DocumentsExist} == 'true'">
+      <h3 class="mt-0">Weiteres Informationsmaterial</h3>
+      <f:render
+        partial="EventBase/EventBaseDocuments"
+        arguments="{eventBaseFiles: eventBase.files}"
+      />
+    </f:if>
+    <f:if condition="{eventBase.descriptions}">
+      <f:for each="{eventBase.descriptions}" as="description">
+        <f:if condition="{description.slug} == 'beschreibung'">
+          <f:format.raw>{description.text}</f:format.raw>
+        </f:if>
+      </f:for>
+    </f:if>
+  </div>
+  <div class="edm-event-detail__content__summary">
+    <f:if condition="{eventBase.partners}">
+      <h4>Kooperationspartner</h4>
+      <p>Diese Veranstaltung wird durchgeführt in Kooperation mit:</p>
+      <div class="edm-event-detail__content__summary-partners">
+        <f:render
+          partial="EventBase/EventBasePartner"
+          arguments="{partners: eventBase.partners}"
+        />
+      </div>
+    </f:if>
+    <f:if condition="{event}">
+      <f:if condition="{event.lecturers}">
+        <div class="edm-event-detail__content__summary-lecturers">
+          <h4>Dozent*in</h4>
+          <f:render
+            partial="Event/EventLecturers"
+            arguments="{lecturers: event.lecturers}"
+          />
+        </div>
+      </f:if>
+      <f:if condition="{event.dates}">
+        <div class="edm-event-detail__content__summary-dates">
+          <h4>Termine</h4>
+          <table>
+            <tbody class="dates">
+              <f:for each="{event.dates}" as="date">
+                <tr>
+                  <td>
+                    <f:format.date date="{date.day}" format="%d. %B %Y" />
+                  </td>
+                  <td>{date.start_time} - {date.end_time}</td>
+                </tr>
+              </f:for>
+            </tbody>
+          </table>
+        </div>
+      </f:if>
+      <f:if condition="{event.location}">
+        <f:variable
+          name="location"
+          value="{event.location.address.address_line_1}, {event.location.address.postcode}, {event.location.address.city}"
+        ></f:variable>
+
+        <div class="edm-event-detail__content__summary-location">
+          <h4>Veranstaltungsort</h4>
+          <p>{location}</p>
+        </div>
+      </f:if>
+    </f:if>
+  </div>
+</div>

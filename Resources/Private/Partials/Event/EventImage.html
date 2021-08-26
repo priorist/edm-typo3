@@ -1,0 +1,36 @@
+<f:if condition="{event.files}">
+  <f:for each="{event.files}" as="file" iteration="iterator">
+    <f:if condition="{file.tags}">
+      <f:for each="{file.tags}" as="tag">
+        <f:if condition="{tag} == 'Titelbild'">
+          <f:variable name="imgExists" value="true" />
+          <f:variable name="imgIndex" value="{iterator.index}" />
+        </f:if>
+      </f:for>
+    </f:if>
+  </f:for>
+  <f:if condition="{imgExists} == 'true'">
+    <f:if condition="{fullWidth}">
+      <f:then>
+        <div class="edm-event__image-full-width">
+          <f:image
+            src="{settings.edm.url}{event.files.{imgIndex}.url}"
+            width="1260"
+            height="540"
+          />
+        </div>
+      </f:then>
+      <f:else>
+        <div class="edm-event__image">
+          <f:link.action
+            pageUid="{settings.pageuids.detail}"
+            action="detail"
+            arguments="{eventBaseSlug: event.slug}"
+          >
+            <img src="{settings.edm.url}{event.files.{imgIndex}.url}" />
+          </f:link.action>
+        </div>
+      </f:else>
+    </f:if>
+  </f:if>
+</f:if>

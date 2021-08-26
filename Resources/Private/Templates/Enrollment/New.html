@@ -1,0 +1,30 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+  <f:if condition="{participantToken}">
+    <f:then>
+      <script type="text/javascript">
+        var __isLoggedIn = true;
+      </script>
+    </f:then>
+    <f:else>
+      <script type="text/javascript">
+        var __isLoggedIn = false;
+      </script>
+    </f:else>
+  </f:if>
+  <div id="edm-registration-form"></div>
+  <script type="text/javascript">
+    var __authToken = "<f:format.raw>{accessToken}</f:format.raw>";
+    var __event = <f:format.htmlentitiesDecode><f:format.json>{event}</f:format.json></f:format.htmlentitiesDecode>;
+  </script>
+  <script src="/typo3conf/ext/edm/Resources/Public/js/bundle.js"></script>
+  <script type="text/javascript">
+    EdmForm.init(
+      false,
+      __event,
+      "event",
+      document.getElementById("edm-registration-form"),
+    );
+  </script>
+</f:section>

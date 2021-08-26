@@ -1,0 +1,8 @@
+<li class="edm-event__details-list__start-date">
+  <ul style="list-style:none;padding:0;">
+      <li>{f:if(condition:'{events -> f:count()} > 1', then: 'ab ', else: '{f:if(condition:\'{events.0.dates -> f:count()} > 1\', then: \'ab \', else: \'\')}')}<f:format.date date="{first_day}" format="d.m.Y" /></li>
+      <f:if condition="{events -> f:count()} > 1">
+          <li><span style="font-weight: 400;"><f:count>{events}</f:count> Termine</span></li>
+      </f:if>  
+  </ul>
+</li>

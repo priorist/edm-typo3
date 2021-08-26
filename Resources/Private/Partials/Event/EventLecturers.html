@@ -1,0 +1,32 @@
+<f:for each="{lecturers}" as="lecturer">
+  <div class="d-flex flex-lg-row flex-column">
+    <f:if condition="{lecturer.image}">
+      <img class="lecturer-image" src="{settings.edm.url}{lecturer.image.url}" />
+    </f:if>
+    <div class="d-flex flex-column" style="max-width: 304px">
+      <h4>
+        <f:if condition="{lecturer.title}"> {lecturer.title} </f:if>
+        {lecturer.first_name} {lecturer.last_name}
+      </h4>
+      <p>
+        <f:if condition="{lecturer.description}">
+          <f:then>
+            <f:format.raw>{lecturer.description}</f:format.raw>
+          </f:then>
+          <f:else>
+            <f:for
+              each="{lecturer.qualifications}"
+              as="qualification"
+              iteration="iterator"
+            >
+              <f:if condition="{iterator.isLast}">
+                <f:then> {qualification} </f:then>
+                <f:else> {qualification}, </f:else>
+              </f:if>
+            </f:for>
+          </f:else>
+        </f:if>
+      </p>
+    </div>
+  </div>
+</f:for>

@@ -1,0 +1,44 @@
+<div class="edm-event">
+  <f:if condition="{settings.view.showImage} == '1'">
+    <f:render partial="Event/EventImage" arguments="{event: event}" />
+  </f:if>
+  <div class="edm-event__wrapper">
+    <h4 class="edm-event__name">{event.event_type_name}</h4>
+    <f:render
+      partial="Event/EventLink"
+      arguments="{showAll: settings.listFilter.showAll, event: event}"
+    />
+    <div class="edm-event__details">
+      <div class="edm-event__details-summary">
+        <f:format.stripTags allowedTags="<p><ul><li>">
+          {event.summary}
+        </f:format.stripTags>
+      </div>
+      <ul class="edm-event__details-list">
+        <f:if condition="{settings.view.showPrice} == '1'">
+          <f:render
+            partial="Event/EventPrice"
+            arguments="{lowest_price: event.lowest_price, price_count: event.price_count}"
+          />
+        </f:if>
+        <f:render
+          partial="Event/EventLocation"
+          arguments="{locations: event.locations}"
+        />
+        <f:render
+          partial="Event/EventStartDate"
+          arguments="{events: event.events, first_day: event.first_day}"
+        />
+      </ul>
+      <f:if condition="{settings.view.showPartners} == '1' && {event.partners}">
+        <div class="edm-event__details-partners">
+          <span>in Kooperation mit</span>
+          <f:render
+            partial="Event/EventPartner"
+            arguments="{partners: event.partners}"
+          />
+        </div>
+      </f:if>
+    </div>
+  </div>
+</div>

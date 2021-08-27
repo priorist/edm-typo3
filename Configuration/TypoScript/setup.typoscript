@@ -1,0 +1,162 @@
+page = PAGE
+page {
+    10 = FLUIDTEMPLATE
+    10 {
+        templateName = Default
+
+        layoutRootPaths {
+            10 = EXT:edm/Resources/Private/Layouts/
+        }
+
+        templateRootPaths {
+            10 = EXT:edm/Resources/Private/Templates/
+        }
+
+        partialRootPaths {
+            10 = EXT:edm/Resources/Private/Partials/
+        }
+    }
+
+    config {
+        contentObjectExceptionHandler = 0
+    }
+}
+
+lib.dynamicContent = COA
+lib.dynamicContent {
+    10 = LOAD_REGISTER
+    10 {
+        colPos.cObject = TEXT
+        colPos.cObject {
+            field = colPos
+            ifEmpty.cObject = TEXT
+            ifEmpty.cObject {
+                value.current = 1
+                ifEmpty = 0
+            }
+        }
+        pageUid.cObject = TEXT
+        pageUid.cObject {
+            field = pageUid
+            ifEmpty.data = TSFE:id
+        }
+        contentFromPid.cObject = TEXT
+        contentFromPid.cObject {
+            data = DB:pages:{register:pageUid}:content_from_pid
+            data.insertData = 1
+        }
+        wrap.cObject = TEXT
+        wrap.cObject {
+            field = wrap
+        }
+    }
+    20 = CONTENT
+    20 {
+        table = tt_content
+        select {
+            includeRecordsWithoutDefaultTranslation = 1
+            orderBy = sorting
+            where = {#colPos}={register:colPos}
+            where.insertData = 1
+            pidInList.data = register:pageUid
+            pidInList.override.data = register:contentFromPid
+        }
+        stdWrap {
+            dataWrap = {register:wrap}
+            required = 1
+        }
+    }
+    30 = RESTORE_REGISTER
+}
+
+# Login status / Logout widget
+lib.loginStatus = USER_INT
+lib.loginStatus {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    pluginName = Pi1
+    extensionName = Edm
+    switchableControllerActions {
+      Participant {
+        1 = status
+      }
+    }
+}
+
+# Plugins
+plugin.tx_edm {
+    mvc {
+        callDefaultActionIfActionCantBeResolved = 1
+    }
+
+    view {
+		templateRootPaths {
+			0 = EXT:edm/Resources/Private/Templates/
+			10 = {$plugin.tx_edm.view.templateRootPath}
+		}
+
+		partialRootPaths {
+			0 = EXT:edm/Resources/Private/Partials/
+			10 = {$plugin.tx_edm.view.partialRootPath}
+		}
+
+		layoutRootPaths {
+			0 = EXT:edm/Resources/Private/Layouts/
+			10 = {$plugin.tx_edm.view.layoutRootPath}
+		}
+	}
+
+    settings {
+        edm {
+            url = {$plugin.tx_edm.edm.url}
+            auth {
+                anonymous { 
+                    clientId = {$plugin.tx_edm.edm.auth.anonymous.clientId}
+                    clientSecret = {$plugin.tx_edm.edm.auth.anonymous.clientSecret}
+                }
+
+                password {
+                    clientId = {$plugin.tx_edm.edm.auth.password.clientId}
+                    clientSecret = {$plugin.tx_edm.edm.auth.password.clientSecret}
+                }
+            }
+
+            slugs {
+                eventDescription = {$plugin.tx_edm.edm.slugs.eventDescription}
+            }
+        }
+
+        versions {
+            form = {$plugin.tx_edm.versions.form}
+            config = {$plugin.tx_edm.versions.config}
+            login = {$plugin.tx_edm.versions.login}
+        }
+
+        errors {
+            enrollment {
+                mailFrom = {$plugin.tx_edm.errors.enrollment.mailFrom}
+                mailTo = {$plugin.tx_edm.errors.enrollment.mailTo}
+                mailSubject = {$plugin.tx_edm.errors.enrollment.mailSubject}
+            }
+        }
+
+        pageuids {
+            home = {$plugin.tx_edm.pageuids.home}
+            eventSearch = {$plugin.tx_edm.pageuids.eventSearch}
+            eventDetail = {$plugin.tx_edm.pageuids.eventDetail}
+            eventEnrollment = {$plugin.tx_edm.pageuids.eventEnrollment}
+            login = {$plugin.tx_edm.pageuids.login}
+            logout = {$plugin.tx_edm.pageuids.logout}
+            privacy = {$plugin.tx_edm.pageuids.privacy}
+            locationDetail = {$plugin.tx_edm.pageuids.locationDetail}
+            lecturerDetail = {$plugin.tx_edm.pageuids.lecturerDetail}
+            404 = {$plugin.tx_edm.pageuids.404}
+        }
+
+        pages {
+            detail = {$plugin.tx_edm.pages.detail}
+            enrollment = {$plugin.tx_edm.pages.enrollment}
+        }
+
+        feUsername = {$plugin.tx_edm.settings.feUsername}
+    }
+}

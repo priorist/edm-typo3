@@ -1,0 +1,18 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+  <div class="edm-location">
+    <h1>{location.name}</h1>
+    <f:if condition="{location.address}">
+      <ul class="edm-location__address">
+        <li>{location.address.address_line_1}</li>
+        <li>{location.address.postcode} {location.address.city}</li>
+      </ul>
+    </f:if>
+    <f:if condition="{location.image}">
+      <div class="edm-location__image">
+        <img src="{settings.edm.url}{location.image.url}" />
+      </div>
+    </f:if>
+  </div>
+</f:section>

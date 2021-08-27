@@ -1,0 +1,15 @@
+<li class="edm-event__details-list__partner">
+  in Kooperation mit
+  <f:for each="{partners}" as="partner">
+    <f:link.external uri="{partner.url}" target="_blank">
+      <f:if condition="{partner.logo}">
+        <f:then>
+          <img class="partner-image" src="{settings.edm.url}{partner.logo.url}" />
+        </f:then>
+        <f:else>
+          <h4>{partner.name}</h4>
+        </f:else>
+      </f:if>
+    </f:link.external>
+  </f:for>
+</li>

@@ -1,0 +1,141 @@
+<div class="edm-event-detail__alternatives">
+  <h2>Termine und Orte</h2>
+  <f:for each="{events}" as="event">
+    <div class="edm-event-detail__alternatives__alternative">
+      <h3 class="edm-event-detail__alternatives__heading">
+        <f:format.date date="{event.first_day}" format="%d. %B %Y" />
+        <f:for each="{event.dates}" as="date" iteration="iterator">
+          <f:if condition="{iterator.total} > 1">
+            <f:then>
+              <f:if condition="{iterator.isLast}"
+                >-
+                <f:format.date date="{date.day}" format="%d. %B %Y" />
+              </f:if>
+            </f:then>
+          </f:if>
+        </f:for>
+      </h3>
+      <div class="edm-event-detail__alternatives__details">
+        <f:if condition="!{events.0.group_children}">
+          <f:then>
+            <div class="edm-event-detail__alternatives__details-date">
+              <div class="d-flex">
+                <span class="icon-duration-before-standard"></span>
+                <table class="table">
+                  <tbody>
+                    <f:for each="{event.dates}" as="date">
+                      <tr>
+                        <td>
+                          <f:format.date date="{date.day}" format="%d. %B %Y" />
+                        </td>
+                        <td>{date.start_time} - {date.end_time}</td>
+                      </tr>
+                    </f:for>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </f:then>
+        </f:if>
+        <div
+          class="edm-event-detail__alternatives__details-registration_deadline"
+        >
+          <span class="icon-calendar-before-standard"
+            >Anmeldeschluss:
+            <f:format.date
+              date="{event.registration_deadline}"
+              format="%d. %B %Y"
+          /></span>
+        </div>
+        <div class="edm-event-detail__alternatives__details-ocation">
+          <span>{event.location.name}</span>
+        </div>
+        <div class="edm-event-detail__alternatives__details-lecturers">
+          <span
+            >mit
+            <f:for each="{event.lecturers}" as="lecturer" iteration="iterator">
+              <f:if condition="{iterator.isLast}">
+                <f:then>
+                  <f:if condition="{lecturer.title}"> {lecturer.title} </f:if>
+                  {lecturer.first_name} {lecturer.last_name}
+                </f:then>
+                <f:else>
+                  <f:if condition="{lecturer.title}"> {lecturer.title} </f:if>
+                  {lecturer.first_name} {lecturer.last_name},
+                </f:else>
+              </f:if>
+            </f:for>
+          </span>
+        </div>
+        <div class="edm-event-detail__alternatives__details-price">
+          <f:render
+            partial="Event/EventPrice"
+            arguments="{prices: event.prices, context: event-alternative, lowest_price: event.lowest_price, min_price: event.min_price, min_price_reduced: event.min_price_reduced}"
+          />
+        </div>
+      </div>
+
+      <div class="edm-event-detail__alternatives__buttons">
+        <f:if condition="{event.is_bookable}">
+          <f:then>
+            <f:link.action
+              action="detail"
+              pageUid="{settings.pageuids.eventDetail}"
+              additionalParams="{eventId: event.id}"
+              arguments="{eventBaseSlug: slug}"
+            >
+              <button
+                type="button"
+                class="edm-event-detail__alternatives__buttons-show"
+              >
+                Anzeigen
+              </button>
+            </f:link.action>
+
+            <f:if condition="{settings.enrollmentOnExternalWebsite}">
+              <f:then
+                ><f:link.external
+                  target="_blank"
+                  uri="{settings.enrollmentUrl}{slug}/{event.id}"
+                >
+                  <button
+                    type="button"
+                    class="edm-event-detail__alternatives__buttons-apply"
+                  >
+                    Anmelden
+                  </button>
+                </f:link.external></f:then
+              >
+              <f:else>
+                <f:link.action
+                  controller="Enrollment"
+                  action="new"
+                  pageUid="{settings.pageuids.eventEnrollment}"
+                  arguments="{eventId: event.id, eventBaseSlug: slug}"
+                >
+                  <button
+                    type="button"
+                    class="edm-event-detail__alternatives__buttons-apply"
+                  >
+                    Anmelden
+                  </button>
+                </f:link.action>
+              </f:else>
+            </f:if>
+          </f:then>
+          <f:else>
+            <button
+              type="button"
+              class="edm-event-detail__alternatives__buttons-unavailable"
+              style="width: 310px"
+              disabled
+              aria-disabled="true"
+            >
+              Zurzeit nicht buchbar
+            </button>
+          </f:else>
+        </f:if>
+      </div>
+    </div>
+  </f:for>
+</div>

@@ -1,0 +1,16 @@
+<f:variable name="showAllValue" value="{f:if(condition: '{showAll}', then: 'true', else: 'false')}" />
+
+<f:link.action
+  pageUid="{settings.pageuids.eventDetail}"
+  action="detail"
+  arguments="{eventBaseSlug: event.slug}"
+  additionalParams="{showAll: showAllValue, id: event.events.0.id}"
+  section="{event.events.0.id}"
+>
+  <h3 class="edm-event__link">
+    {event.name}
+    <f:if condition="{event.is_new}">
+      <span class="new-offer">NEU</span>
+    </f:if>
+  </h3>
+</f:link.action>

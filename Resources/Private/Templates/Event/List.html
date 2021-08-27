@@ -1,0 +1,14 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+  <f:if condition="{groupedEvents}">
+    <div class="edm-event-list">
+      <h1>Upcoming Events (<f:count>{groupedEvents}</f:count>)</h1>
+      <ul>
+        <f:for each="{groupedEvents}" as="event">
+          <f:render partial="Event" arguments="{event: event}" />
+        </f:for>
+      </ul>
+    </div>
+  </f:if>
+</f:section>

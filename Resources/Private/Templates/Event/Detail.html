@@ -1,0 +1,96 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+  <f:if condition="{internalError}">
+    <f:then>
+      <div class="content">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <f:render partial="InternalError" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </f:then>
+    <f:else>
+      <script type="text/javascript">
+        var __events = <f:format.stripTags><f:format.json>{events}</f:format.json></f:format.stripTags>;
+        var __cities = <f:format.htmlentitiesDecode><f:format.json>{cities}</f:format.json></f:format.htmlentitiesDecode>;
+        var __enrollmentPage = <f:format.htmlentitiesDecode><f:format.json>{settings.pages.enrollment}</f:format.json></f:format.htmlentitiesDecode>;
+      </script>
+
+      <f:variable name="city" value="{cities.0}" />
+      <div class="edm-event-detail">
+        <f:if condition="{eventBase}">
+          <f:then>
+            <f:if condition="{events}">
+              <f:then>
+                <f:variable name="event" value="{f:if(condition: '{currentEvent}', then: '{currentEvent}', else: '{events.0}')}" />
+                <f:variable name="eventCount" value="{events -> f:count()}" />
+                <f:variable
+                  name="priceCount"
+                  value="{event.prices -> f:count()}"
+                />
+                <f:render
+                  partial="Detail/Header"
+                  arguments="{eventBase: eventBase, event: event, eventCount: eventCount, eventDegree: eventDegree, priceCount: priceCount}"
+                />
+                <f:render
+                  partial="Detail/Content"
+                  arguments="{eventBase: eventBase, event: event}"
+                />
+                <f:if condition="{events -> f:count()} > 1">
+                  <f:render
+                    partial="Detail/Alternatives"
+                    arguments="{slug: eventBase.slug, events: events}"
+                  />
+                </f:if>
+                <f:render
+                  partial="Detail/Contact"
+                  arguments="{contactPerson: eventBase.contact_person}"
+                />
+              </f:then>
+              <f:else if="{noEventAvailable} == true">
+                <f:render
+                  partial="Detail/Header"
+                  arguments="{eventBase: eventBase, eventDegree: eventDegree}"
+                />
+                <f:render
+                  partial="Detail/Content"
+                  arguments="{eventBase: eventBase}"
+                />
+                <f:render
+                  partial="Detail/Contact"
+                  arguments="{contactPerson: eventBase.contact_person}"
+                />
+              </f:else>
+            </f:if>
+          </f:then>
+          <f:else if="{parentEvent}">
+            <f:render
+              partial="Detail/Header"
+              arguments="{eventBase: event.event_base, parentEvent: parentEvent, event: event, eventCount: eventCount}"
+            />
+            <f:render
+              partial="Detail/Content"
+              arguments="{eventBase: event.event_base, event: event}"
+            />
+            <f:render
+              partial="Detail/Contact"
+              arguments="{contactPerson: parentEvent.event_base.contact_person}"
+            />
+          </f:else>
+          <f:else>
+            <div class="container mt-5 mb-5">
+              <h3>
+                Leider konnte für Ihre Anfrage keine Veranstaltung gefunden
+                werden.
+              </h3>
+            </div>
+          </f:else>
+        </f:if>
+      </div>
+    </f:else>
+  </f:if>
+</f:section>

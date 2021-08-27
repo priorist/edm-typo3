@@ -1,0 +1,15 @@
+<f:if condition="{priceCount} > 1">
+  <f:then>
+    <f:for each="{prices}" as="price" iteration="index">
+      <f:format.number decimals="2" decimalSeparator="," thousandsSeparator="."
+        >{price.amount}</f:format.number
+      >€ {price.price_type_name}{f:if(condition: '{index.isLast}', then: '',
+      else: ',')}
+    </f:for>
+  </f:then>
+  <f:else>
+    <f:format.number decimals="2" decimalSeparator="," thousandsSeparator="."
+      >{prices.0.amount}</f:format.number
+    >€
+  </f:else>
+</f:if>

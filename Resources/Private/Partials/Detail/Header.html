@@ -1,0 +1,59 @@
+<f:for each="{event.dates}" as="date" iteration="iterator">
+  <f:if condition="{iterator.total} > 1">
+    <f:then>
+      <f:variable name="multipleDays" value='true' />
+      <f:if condition="{iterator.isLast}">
+        <f:variable name="lastDayIndex" value="{iterator.index}" />
+      </f:if>
+    </f:then>
+    <f:else>
+      <f:variable name="multipleDays" value='false' />
+    </f:else>
+  </f:if>
+</f:for>
+
+<div class="edm-event-detail__header">
+  <f:if condition="{parentEvent}">
+    <f:then>
+      <f:render partial="Detail/Header/ChildEvent" arguments="{event: event, eventBase: event.event_base, parentEvent: parentEvent, parentEventBase: parentEvent.event_base, eventCount: eventCount}" />
+    </f:then>
+    <f:else>
+      <f:render partial="Detail/Header/Event" arguments="{event: event, eventBase: eventBase, eventCount: eventCount}" />
+    </f:else>
+  </f:if>
+  <div class="edm-event-detail__header__summary">
+    <f:format.stripTags allowedTags="<p><ul><li>">
+      {eventBase.summary}
+    </f:format.stripTags>
+  </div>
+  <f:if condition="{event}">
+    <f:if condition="{eventCount} > 1">
+      <button onclick="scrollToAlternatives()" type="button" class="edm-event-detail__header__show_alternatives">
+        Alternative Termine und Orte anzeigen
+      </button>
+    </f:if>
+    <ul class="edm-event-detail__header__details">
+      <f:if condition="{event.location.name}">
+        <li><span class="location">{event.location.name}</span></li>
+      </f:if>
+      <f:if condition="{event.registration_deadline}">
+        <li>Anmeldeschluss:&nbsp;<span class="registration_deadline"><f:format.date date="{event.registration_deadline}" format="%d. %B %Y" /></span></li>
+      </f:if>
+      <f:if condition="{event.first_day}">
+        <li>
+          <ul class="dates" style="display:inline-block;">
+            <f:if condition="{multipleDays} == 'true'">
+              <f:then>
+                <li><span class="first_day"><f:format.date date="{event.first_day}" format="%d. %B %Y" /></span>&nbsp;-&nbsp;<span class="last_day"><f:format.date date="{event.dates.{lastDayIndex}.day}" format="%d. %B %Y" /></span></li>
+              </f:then>
+              <f:else>
+                <li><span class="first_day"><f:format.date date="{event.first_day}" format="%d. %B %Y" /></span></li>
+              </f:else>
+            </f:if>
+          </ul>
+        </li>
+      </f:if>
+      <li><span class="prices"><f:render partial="Event/EventPriceStage" arguments="{prices: event.prices, priceCount: priceCount}" /></span></li>
+    </ul>
+  </f:if>
+</div>

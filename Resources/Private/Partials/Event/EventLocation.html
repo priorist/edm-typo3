@@ -1,0 +1,15 @@
+<li class="edm-event__details-list__location">
+  <f:if condition="{locations -> f:count()} > 1">
+    <f:then> an <f:count>{locations}</f:count> Orten verfügbar </f:then>
+    <f:else>
+      <f:if condition="{location}">
+        <f:then> {location.name} </f:then>
+        <f:else>
+          <f:for each="{locations}" as="location" iteration="iterator">
+            {location.name}
+          </f:for>
+        </f:else>
+      </f:if>
+    </f:else>
+  </f:if>
+</li>

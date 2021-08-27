@@ -1,0 +1,13 @@
+mod.wizards.newContentElement.wizardItems.plugins {
+	elements {
+		edm {
+			iconIdentifier = edm
+			title = EDM
+			description = Plugin für Education Manager (EDM).
+			tt_content_defValues {
+				CType = list
+				list_type = edm_pi1
+			}
+		}
+	}
+}

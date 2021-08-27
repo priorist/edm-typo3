@@ -1,0 +1,25 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+  <div class="edm-locations">
+    <h1>
+      Locations
+      <f:if condition="{locations}">(<f:count>{locations}</f:count>)</f:if>
+    </h1>
+    <ul>
+      <f:if condition="{locations}">
+        <f:then>
+          <f:for each="{locations}" as="location">
+            <f:render
+              partial="List/LocationItem"
+              arguments="{location: location}"
+            />
+          </f:for>
+        </f:then>
+        <f:else>
+          <li>No Locations found.</li>
+        </f:else>
+      </f:if>
+    </ul>
+  </div>
+</f:section>

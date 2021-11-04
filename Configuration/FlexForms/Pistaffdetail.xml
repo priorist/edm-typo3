@@ -1,0 +1,31 @@
+<T3DataStructure>
+  <meta type="array">
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>Ansichten</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <settings.staffId>
+            <TCEforms>
+              <label>Mitarbeiter</label>
+              <config>
+                <type>select</type>
+                <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getStaffMembers</itemsProcFunc>
+                <renderType>selectSingle</renderType>
+                <items>
+                  <!-- empty by default -->
+                </items>
+                <eval>required</eval>
+              </config>
+            </TCEforms>
+          </settings.staffId>
+        </el>
+      </ROOT>
+    </sDEF>
+  </sheets>
+</T3DataStructure>

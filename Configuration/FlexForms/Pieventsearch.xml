@@ -1,0 +1,33 @@
+<T3DataStructure>
+  <meta type="array">
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>Ansichten</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <settings.view.showPrice>
+            <TCEforms>
+              <label>Preis anzeigen?</label>
+              <config>
+                <type>check</type>
+              </config>
+            </TCEforms>
+          </settings.view.showPrice>
+          <settings.eventSearchLimit>
+            <TCEforms>
+              <label>Anzahl der Ergebnisse</label>
+              <config>
+                <type>input</type>
+              </config>
+            </TCEforms>
+          </settings.eventSearchLimit>
+        </el>
+      </ROOT>
+    </sDEF>
+  </sheets>
+</T3DataStructure>

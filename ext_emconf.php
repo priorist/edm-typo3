@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Education Manager (EDM)',
-	'description' => 'Provides a plugin to render events from EDM in TYPO3.',
+	'description' => 'Provides several plugins to render data from EDM in TYPO3.',
 	'category' => 'plugin',
 	'author' => 'priorist GmbH',
 	'author_email' => 'contact@priorist.com',
@@ -11,7 +11,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'uploadfolder' => '0',
 	'createDirs' => '',
 	'clearCacheOnLoad' => 1,
-	'version' => '0.5.0',
+	'version' => '0.6.0',
 	'constraints' => array(
 		'depends' => array(
 			'typo3' => '9.5.0-0.0.0',

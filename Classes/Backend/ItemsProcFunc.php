@@ -1,8 +1,8 @@
 <?php
 
-namespace Priorist\Edm\Backend;
+namespace Priorist\EdmTypo3\Backend;
 
-use Priorist\AIS\Client\Client;
+use Priorist\EDM\Client\Client;
 
 class ItemsProcFunc
 {

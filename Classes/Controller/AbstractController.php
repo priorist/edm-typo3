@@ -1,8 +1,8 @@
 <?php
 
-namespace Priorist\Edm\Controller;
+namespace Priorist\EdmTypo3\Controller;
 
-use Priorist\AIS\Client\Client;
+use Priorist\EDM\Client\Client;
 
 class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -16,7 +16,7 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 	 * @var array
 	 */
 	protected $_classes = array(
-		'session'	=> 'Priorist\Edm\Core\Session'
+		'session'	=> 'Priorist\EdmTypo3\Core\Session'
 	);
 
 	/**

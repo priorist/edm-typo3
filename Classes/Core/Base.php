@@ -1,5 +1,5 @@
 <?php
-namespace Priorist\Edm\Core;
+namespace Priorist\EdmTypo3\Core;
 
 class Base {
 

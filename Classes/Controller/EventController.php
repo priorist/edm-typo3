@@ -1,6 +1,6 @@
 <?php
 
-namespace Priorist\Edm\Controller;
+namespace Priorist\EdmTypo3\Controller;
 
 class EventController extends AbstractController
 {

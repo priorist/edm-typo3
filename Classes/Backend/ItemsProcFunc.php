@@ -127,7 +127,7 @@ class ItemsProcFunc
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
-        $fullTypoScript = $configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT, 'tx_edm', 'edm_pi1');
+        $fullTypoScript = $configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
         $settings = $fullTypoScript['plugin.']['tx_edm.']['settings.'];
         $url = $settings['edm.']['url'];
         $clientId = $settings['edm.']['auth.']['anonymous.']['clientId'];

@@ -4,13 +4,15 @@ namespace Priorist\EdmTypo3\Controller;
 
 use Exception;
 use InvalidArgumentException;
+use Psr\Http\Message\ResponseInterface;
 
 class ParticipantController extends AbstractController
 {
     /**
 	 * Login
 	 */
-    public function loginAction() {
+    public function loginAction(): ResponseInterface
+    {
         // Assign content object to view
         $this->view->assign('data', $this->configurationManager->getContentObject()->data);
 
@@ -66,12 +68,15 @@ class ParticipantController extends AbstractController
         $loginPageId = $settings['pageuids']['login'];
 
         $this->redirectParticipant($loginPageId);
+
+        return $this->htmlResponse();
     }
 
     /**
 	 * Status
 	 */
-    public function statusAction() {
+    public function statusAction(): ResponseInterface
+    {
         try {
             $participant = $this->getClient()->getUser();
         } catch (Exception $e) {
@@ -87,18 +92,23 @@ class ParticipantController extends AbstractController
         }
 
         $this->view->assign('participant', $participant);
+
+        return $this->htmlResponse();
     }
 
     /**
 	 * Logout
 	 */
-    public function logoutAction() {
+    public function logoutAction(): ResponseInterface
+    {
         $settings = $this->settings;
         $logoutPageId = $settings['pageuids']['logout'];
 
         $this->logoutParcticipant();
 
         $this->redirectParticipant($logoutPageId);
+
+        return $this->htmlResponse();
     }
 
     /**

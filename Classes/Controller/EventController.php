@@ -2,12 +2,14 @@
 
 namespace Priorist\EdmTypo3\Controller;
 
+use Psr\Http\Message\ResponseInterface;
+
 class EventController extends AbstractController
 {
 	/**
 	 * List all upcoming events
 	 */
-	public function listAction()
+	public function listAction(): ResponseInterface
 	{
 		// Assign plugin settings from TypoScript to view
 		$settings = $this->settings;
@@ -38,19 +40,20 @@ class EventController extends AbstractController
 			}
 		} catch (\Throwable $e) {
 			$this->view->assign('internalError', true);
-			return;
 		}
 
 		$groupedEvents = array_splice($this->getEventsGroupedByEventBase($events), 0, $limit);
 
 		// Assign events from EDM to view
 		$this->view->assign('groupedEvents', $groupedEvents);
+
+		return $this->htmlResponse();
 	}
 
 	/**
 	 * List all upcoming events for search
 	 */
-	public function searchAction()
+	public function searchAction(): ResponseInterface
 	{
 		$limit = $this->settings['eventSearchLimit'] ?: '1000';
 
@@ -64,7 +67,6 @@ class EventController extends AbstractController
 			$events = $this->getClient()->event->findUpcoming($eventParams);
 		} catch (\Throwable $e) {
 			$this->view->assign('internalError', true);
-			return;
 		}
 
 		$sanitizedEvents = $this->sanitizeEvents($events);
@@ -74,12 +76,14 @@ class EventController extends AbstractController
 		$this->view->assign('filterData', $this->prepareFilterDataForEvents($sanitizedEvents, $categoryTree));
 		$this->view->assign('groupedEvents', $groupedEvents);
 		$this->view->assign('categoryTree', $categoryTree);
+
+		return $this->htmlResponse();
 	}
 
 	/**
 	 * Detailed view of an event
 	 */
-	public function detailAction()
+	public function detailAction(): ResponseInterface
 	{
 		if ($_GET['showAll'] === 'true') {
 			$showAll = true;
@@ -88,6 +92,8 @@ class EventController extends AbstractController
 		}
 
 		$this->abstractDetailAction($showAll);
+
+		return $this->htmlResponse();
 	}
 
 	protected function abstractDetailAction(bool $showAll)
@@ -376,7 +382,6 @@ class EventController extends AbstractController
 
 	protected function getEventsBasedOnId(array $settings, bool $showAll)
 	{
-		// TODO: prüfen, ob das so funktioniert (wenn serializer_format angepasst wurde)
 		$eventId = $_GET['eventId'];
 		$eventBaseSlug = $this->request->getArgument('eventBaseSlug');
 

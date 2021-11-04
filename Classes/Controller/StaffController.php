@@ -2,12 +2,15 @@
 
 namespace Priorist\EdmTypo3\Controller;
 
+use Psr\Http\Message\ResponseInterface;
+
 class StaffController extends AbstractController
 {
     /*
      * Get details of a staff member from EDM
      */
-    public function detailAction() {
+    public function detailAction(): ResponseInterface
+    {
         // Get staff member ID from Typo3 BE
         $staffId = $this->settings['staffId'];
 
@@ -24,7 +27,8 @@ class StaffController extends AbstractController
             $this->view->assign('staff', $staff);
         } catch (\Throwable $e) {
             $this->view->assign('internalError', true);
-            return;
         }
+
+        return $this->htmlResponse();
     }
 }

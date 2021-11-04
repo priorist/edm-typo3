@@ -2,9 +2,11 @@
 
 namespace Priorist\EdmTypo3\Controller;
 
+use Psr\Http\Message\ResponseInterface;
+
 class EnrollmentController extends AbstractController
 {
-   public function newAction()
+   public function newAction(): ResponseInterface
    {
       // Get 'eventId' parameter from URL
       if ($this->request->hasArgument('eventId')) {
@@ -39,7 +41,6 @@ class EnrollmentController extends AbstractController
             $this->view->assign('event', $event);
          } catch (\Throwable $e) {
             $this->view->assign('internalError', true);
-            return;
          }
 
          // Get participantToken from Typo3 session
@@ -47,7 +48,8 @@ class EnrollmentController extends AbstractController
       } else {
          // no event id in URL, so no enrollment possible
          $this->view->assign('internalError', true);
-         return;
       }
+
+      return $this->htmlResponse();
    }
 }

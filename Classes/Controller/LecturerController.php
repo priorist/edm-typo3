@@ -2,12 +2,14 @@
 
 namespace Priorist\EdmTypo3\Controller;
 
+use Psr\Http\Message\ResponseInterface;
+
 class LecturerController extends AbstractController
 {
   /**
    * List Lecturers
    */
-  public function listAction()
+  public function listAction(): ResponseInterface
   {
     try {
       // Retrieve lecturers from EDM
@@ -17,14 +19,15 @@ class LecturerController extends AbstractController
       $this->view->assign('lecturers', $lecturers);
     } catch (\Throwable $e) {
       $this->view->assign('internalError', true);
-      return;
     }
+
+    return $this->htmlResponse();
   }
 
   /**
    * Lecturer Detail View
    */
-  public function detailAction()
+  public function detailAction(): ResponseInterface
   {
     if ($this->request->hasArgument('lecturerId')) {
       $lecturerFilter = $this->request->getArgument('lecturerId');
@@ -55,11 +58,11 @@ class LecturerController extends AbstractController
       } catch (\Throwable $e) {
         var_dump($e->getMessage());
         $this->view->assign('internalError', true);
-        return;
       }
     } else {
       $this->view->assign('internalError', true);
-      return;
     }
+
+    return $this->htmlResponse();
   }
 }

@@ -3,6 +3,8 @@ namespace Priorist\EdmTypo3\Core;
 
 require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('core') . 'Classes/SingletonInterface.php';
 
+// TODO: needs refactoring!!!
+
 /**
  * Typo3 Session Handling
  *

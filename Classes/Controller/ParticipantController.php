@@ -6,11 +6,13 @@ use Exception;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
+// TODO: needs refactoring!!!
+
 class ParticipantController extends AbstractController
 {
     /**
-	 * Login
-	 */
+     * Login
+     */
     public function loginAction(): ResponseInterface
     {
         // Assign content object to view
@@ -30,8 +32,6 @@ class ParticipantController extends AbstractController
             $participantToken = $this->getClient()->getAccessToken();
             $this->assignParticipantToken($participantToken);
             $this->assignParticipantToken($participantToken, true);
-
-            return;
         }
 
         // Get values of login form inputs
@@ -39,10 +39,6 @@ class ParticipantController extends AbstractController
         $loginUsername = trim($arguments['login']['username']);
         $loginPassword = trim($arguments['login']['password']);
 
-        // If input fields are empty, return
-		if ($loginUsername == '' || $loginPassword == '') {
-			return;
-        }
 
         // Login participant in EDM Client based on his entered login credentials
         try {
@@ -50,11 +46,9 @@ class ParticipantController extends AbstractController
         } catch (InvalidArgumentException $e) {
             // If EDM Login is not successful, set 'invalidLogin' to true, assign it to FE and return
             $this->view->assign('invalidLogin', true);
-            return;
         } catch (Exception $e) {
             // If another exception occurs, set 'internalError' to true, assign it to FE and return
             $this->view->assign('internalError', true);
-            return;
         }
 
         // Virtual Typo3 Login with fixed user
@@ -73,8 +67,8 @@ class ParticipantController extends AbstractController
     }
 
     /**
-	 * Status
-	 */
+     * Status
+     */
     public function statusAction(): ResponseInterface
     {
         try {
@@ -97,8 +91,8 @@ class ParticipantController extends AbstractController
     }
 
     /**
-	 * Logout
-	 */
+     * Logout
+     */
     public function logoutAction(): ResponseInterface
     {
         $settings = $this->settings;
@@ -112,15 +106,16 @@ class ParticipantController extends AbstractController
     }
 
     /**
-	 * Actual Typo3 login with fix user credentials
+     * Actual Typo3 login with fix user credentials
      *
      * @param $participantToken passed accessToken from EDM to be stored in the session
      *
      * @return object information about the participant from EDM
-	 */
-    public function loginParticipant($participantToken) {
+     */
+    public function loginParticipant($participantToken)
+    {
         $settings = $this->settings;
-        $feUsername= $settings['feUsername'];
+        $feUsername = $settings['feUsername'];
 
         // This is dirty, but needs to be done by hand atm
         // TODO: does not work with Typo3 v10, needs to be replaced with Authentication Service
@@ -148,30 +143,33 @@ class ParticipantController extends AbstractController
     }
 
     /**
-	 * Actual Typo3 logout and removal of session data
-	 */
-    public function logoutParcticipant() {
+     * Actual Typo3 logout and removal of session data
+     */
+    public function logoutParcticipant()
+    {
         $GLOBALS['TSFE']->fe_user->logoff();
         $this->session->removeData();
     }
 
     /**
-	 * Actual Typo3 login with fixed user credentials
+     * Actual Typo3 login with fixed user credentials
      *
      * @param int $pageId ID of page that should be redirected to
-	 */
-    public function redirectParticipant(int $pageId) {
+     */
+    public function redirectParticipant(int $pageId)
+    {
         $uri = $this->uriBuilder->setTargetPageUid($pageId)->build();
         $this->redirectToUri($uri, 0, 404);
     }
 
     /**
-	 * Assign participant information to FE
+     * Assign participant information to FE
      *
      * @param $participant object containing information about participant
      * @param bool $json whether the actual object or JSON should be assigned to the view
-	 */
-    public function assignParticipant($participant, bool $json = false) {
+     */
+    public function assignParticipant($participant, bool $json = false)
+    {
         $value = $participant->toArray();
         $key = 'participant';
 
@@ -185,12 +183,13 @@ class ParticipantController extends AbstractController
     }
 
     /**
-	 * Assign participantToken information to FE
+     * Assign participantToken information to FE
      *
      * @param $participantToken object containing information about participantToken
      * @param bool $json whether the actual object or JSON should be assigned to the view
-	 */
-    public function assignParticipantToken($participantToken, bool $json = false) {
+     */
+    public function assignParticipantToken($participantToken, bool $json = false)
+    {
         $value = [
             'accessToken' => $participantToken->getToken(),
             'hasExpired' => $participantToken->hasExpired(),
@@ -208,14 +207,15 @@ class ParticipantController extends AbstractController
     }
 
     /**
-	 * Encode array information as JSON for further FE usage in JavaScript
+     * Encode array information as JSON for further FE usage in JavaScript
      *
      * @param string $key name of the fluid variable assigned to FE
      * @param array $value value that will be assigned to the variable
      *
      * @return array
-	 */
-    public function assignAsJson(string $key, array $value) : array {
+     */
+    public function assignAsJson(string $key, array $value): array
+    {
         $key .= "Json";
         $value = json_encode($value);
 

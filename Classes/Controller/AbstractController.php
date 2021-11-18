@@ -6,68 +6,55 @@ use Priorist\EDM\Client\Client;
 
 class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-	protected $client = null;
-	protected $session;
-	protected $settings;
+	protected $client;
 
-	/**
-	 * Lists AbstractController's class dependencies.
-	 *
-	 * @var array
-	 */
-	protected $_classes = array(
-		'session'	=> 'Priorist\EdmTypo3\Core\Session'
-	);
-
-	/**
-	 * Initializes the current action
-	 */
-	public function initializeAction()
+	private function setClient()
 	{
-		$this->session	= \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($this->_classes['session']);
+		$settings = $this->settings;
+		$url = $settings['edm']['url'];
+		$clientId = $settings['edm']['auth']['anonymous']['clientId'];
+		$clientSecret = $settings['edm']['auth']['anonymous']['clientSecret'];
+
+		$this->client = new Client($url, $clientId, $clientSecret);
+
+		return $this;
 	}
 
-	/**
-	 *
-	 */
-	public function setUserSession($ident, $value)
+	private function storeAccessToken($accessToken)
 	{
-		$this->context->setUserSession($ident, $value);
+		$registry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Registry::class);
+		$registryData = [
+			'access_token' => $accessToken,
+			'timestamp' => time(),
+		];
+		$registry->set('tx_edm', 'edm_cache_access-token', $registryData);
 	}
 
-	/**
-	 *
-	 */
-	public function getUserSession($ident)
-	{
-		return $this->context->getUserSession($ident);
-	}
-
-	/**
-	 * Get EDM Client
-	 */
 	public function getClient()
 	{
-		// TODO: prevent creation of new request token per request
-		/* Initialize client if not already set */
-		if ($this->client === null) {
-			$settings = $this->settings;
-			$url = $settings['edm']['url'];
+		$registry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Registry::class);
 
-			// Check whether there's an already logged in participant
-			$participantToken = $this->session->get('participantToken');
+		if (false === $edmCacheAccessToken = $registry->get('tx_edm', 'edm_cache_access-token')) {
+			// no access token has been set yet
+			$this->setClient();
+			$this->storeAccessToken($this->client->getAccessToken());
+		} else {
+			$timestampOfPersistedAccessToken = $edmCacheAccessToken['timestamp'];
+			$currentTimestamp = time();
+			$expirationPeriod = 43200; // 12 hours in seconds
 
-			if ($participantToken !== null) {
-				$clientId = $settings['edm']['auth']['password']['clientId'];
-				$clientSecret = $settings['edm']['auth']['password']['clientSecret'];
-				$this->client = new Client($url, $clientId, $clientSecret);
-				$this->client->setAccessToken($participantToken);
+			if (($currentTimestamp - $expirationPeriod) >= $timestampOfPersistedAccessToken) {
+				// set access token has expired
+				$registry->remove('tx_edm', 'edm_cache_access-token');
+				$this->setClient();
+				$this->storeAccessToken($this->client->getAccessToken());
 			} else {
-				$clientId = $settings['edm']['auth']['anonymous']['clientId'];
-				$clientSecret = $settings['edm']['auth']['anonymous']['clientSecret'];
-				$this->client = new Client($url, $clientId, $clientSecret);
+				// set access token is still valid
+				$persistedAccessToken = $edmCacheAccessToken['access_token'];
+				$this->client->setAccessToken($persistedAccessToken); // $this->client currently null
 			}
 		}
+
 		return $this->client;
 	}
 

@@ -2,12 +2,14 @@
 
 namespace Priorist\EdmTypo3\Controller;
 
+use Psr\Http\Message\ResponseInterface;
+
 class LocationController extends AbstractController
 {
    /**
     * List Locations
     */
-   public function listAction()
+   public function listAction(): ResponseInterface
    {
       try {
          // Retrieve locations from EDM
@@ -17,14 +19,15 @@ class LocationController extends AbstractController
          $this->view->assign('locations', $locations);
       } catch (\Throwable $e) {
          $this->view->assign('internalError', true);
-         return;
       }
+
+      return $this->htmlResponse();
    }
 
    /**
     * Location Detail View
     */
-   public function detailAction()
+   public function detailAction(): ResponseInterface
    {
       if ($this->request->hasArgument('locationId')) {
          $locationFilter = $this->request->getArgument('locationId');
@@ -36,11 +39,11 @@ class LocationController extends AbstractController
             $this->view->assign('location', $location);
          } catch (\Throwable $e) {
             $this->view->assign('internalError', true);
-            return;
          }
       } else {
          $this->view->assign('internalError', true);
-         return;
       }
+
+      return $this->htmlResponse();
    }
 }

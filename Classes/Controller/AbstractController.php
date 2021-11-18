@@ -8,6 +8,10 @@ class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 {
 	protected $client;
 
+	public function __construct(Client $client) {
+		$this->client = $client;
+	}
+
 	private function setClient()
 	{
 		$settings = $this->settings;

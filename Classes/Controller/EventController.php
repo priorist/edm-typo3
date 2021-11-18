@@ -11,6 +11,8 @@ class EventController extends AbstractController
 	 */
 	public function listAction(): ResponseInterface
 	{
+		var_dump($this->client);
+
 		// Assign plugin settings from TypoScript to view
 		$settings = $this->settings;
 		$this->view->assign('settings', $settings);

@@ -3,6 +3,7 @@
 namespace Priorist\EdmTypo3\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
 class StaffController extends AbstractController
 {
@@ -25,7 +26,8 @@ class StaffController extends AbstractController
 
             // Assign staff member from EDM to view
             $this->view->assign('staff', $staff);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
+            fwrite(STDERR, $e);
             $this->view->assign('internalError', true);
         }
 

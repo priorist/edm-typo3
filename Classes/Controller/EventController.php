@@ -3,6 +3,8 @@
 namespace Priorist\EdmTypo3\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
+use Exception;
 
 class EventController extends AbstractController
 {
@@ -11,8 +13,6 @@ class EventController extends AbstractController
 	 */
 	public function listAction(): ResponseInterface
 	{
-		var_dump($this->client);
-
 		// Assign plugin settings from TypoScript to view
 		$settings = $this->settings;
 		$this->view->assign('settings', $settings);
@@ -33,16 +33,17 @@ class EventController extends AbstractController
 		$limit = $filters['limit'] ?: '1000';
 		$showAll = $filters['showAll'];
 
-		try {
+		/* try { */
 			if ($showAll === '1') {
 				$events = $this->getClient()->getRestClient()->fetchCollection('events', $eventParams); // TODO: Methode in AIS SDK für findAll
 			} else {
 				$events = $this->getClient()->event->findUpcoming($eventParams);
 				$events = $this->sanitizeEvents($events);
 			}
-		} catch (\Throwable $e) {
+		/* } catch (Throwable $e) {
+			fwrite(STDERR, $e);
 			$this->view->assign('internalError', true);
-		}
+		} */
 
 		$groupedEvents = array_splice($this->getEventsGroupedByEventBase($events), 0, $limit);
 
@@ -389,7 +390,8 @@ class EventController extends AbstractController
 
 		try {
 			$eventBase = $this->getClient()->eventBase->findBySlug($eventBaseSlug);
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
+			fwrite(STDERR, $e);
 			$this->view->assign('internalError', true);
 			return;
 		}
@@ -403,8 +405,8 @@ class EventController extends AbstractController
 			// Get events from EDM, transform them to array and assign the results to FE
 			try {
 				$currentEvent = $this->getClient()->event->findById($eventId, $eventParams);
-			} catch (\Throwable $e) {
-				var_dump($e->getMessage());
+			} catch (Throwable $e) {
+				fwrite(STDERR, $e);
 				$this->view->assign('internalError', true);
 				return;
 			}
@@ -478,7 +480,8 @@ class EventController extends AbstractController
 	{
 		try {
 			$eventBase = $this->getClient()->eventBase->findBySlug($slug);
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
+			fwrite(STDERR, $e);
 			$this->view->assign('internalError', true);
 			return;
 		}
@@ -486,7 +489,8 @@ class EventController extends AbstractController
 		return $eventBase;
 	}
 
-	protected function getEventsFromEventBase(int $eventBaseId, bool $showAll) {
+	protected function getEventsFromEventBase(int $eventBaseId, bool $showAll)
+	{
 		$eventParams = [
 			'expand' => '~all,event_base.contact_person,event_base.group_children',
 			'event_base' => $eventBaseId
@@ -499,7 +503,8 @@ class EventController extends AbstractController
 			} else {
 				$events = $this->getClient()->event->findUpcoming($eventParams);
 			}
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
+			fwrite(STDERR, $e);
 			$this->view->assign('internalError', true);
 			return;
 		}

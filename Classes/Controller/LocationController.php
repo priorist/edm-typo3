@@ -3,6 +3,7 @@
 namespace Priorist\EdmTypo3\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
 class LocationController extends AbstractController
 {
@@ -17,7 +18,8 @@ class LocationController extends AbstractController
 
          // Assign categories from EDM to view
          $this->view->assign('locations', $locations);
-      } catch (\Throwable $e) {
+      } catch (Throwable $e) {
+         fwrite(STDERR, $e);
          $this->view->assign('internalError', true);
       }
 
@@ -37,7 +39,8 @@ class LocationController extends AbstractController
 
             // Assign categories from EDM to view
             $this->view->assign('location', $location);
-         } catch (\Throwable $e) {
+         } catch (Throwable $e) {
+            fwrite(STDERR, $e);
             $this->view->assign('internalError', true);
          }
       } else {

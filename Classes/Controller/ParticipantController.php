@@ -44,9 +44,11 @@ class ParticipantController extends AbstractController
         try {
             $participantToken = $this->getClient()->logIn($loginUsername, $loginPassword);
         } catch (InvalidArgumentException $e) {
+            fwrite(STDERR, $e);
             // If EDM Login is not successful, set 'invalidLogin' to true, assign it to FE and return
             $this->view->assign('invalidLogin', true);
         } catch (Exception $e) {
+            fwrite(STDERR, $e);
             // If another exception occurs, set 'internalError' to true, assign it to FE and return
             $this->view->assign('internalError', true);
         }
@@ -74,6 +76,7 @@ class ParticipantController extends AbstractController
         try {
             $participant = $this->getClient()->getUser();
         } catch (Exception $e) {
+            fwrite(STDERR, $e);
             $participant = null;
         }
 

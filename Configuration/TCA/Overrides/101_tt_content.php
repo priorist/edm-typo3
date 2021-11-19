@@ -1,85 +1,89 @@
 <?php
 defined('TYPO3_MODE') or die();
 
+$extensionKey = 'Edm';
+$extensionIcon = 'EXT:edm/ext_icon.svg';
+$pluginGroup = 'Education Manager (EDM)';
+
 // Register Plugins in Backend
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Edm',
+    $extensionKey,
     'Pieventlist',
     'Veranstaltungen: Liste',
-    'EXT:edm/ext_icon.svg',
-    'Education Manager (EDM)'
+    $extensionIcon,
+    $pluginGroup
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Edm',
+    $extensionKey,
     'Pieventdetail',
     'Veranstaltungen: Detailseite',
-    'EXT:edm/ext_icon.svg',
-    'Education Manager (EDM)'
+    $extensionIcon,
+    $pluginGroup
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Edm',
+    $extensionKey,
     'Pieventsearch',
     'Veranstaltungen: Suche',
-    'EXT:edm/ext_icon.svg',
-    'Education Manager (EDM)'
+    $extensionIcon,
+    $pluginGroup
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Edm',
+    $extensionKey,
     'Pilocationlist',
     'Veranstaltungsorte: Liste',
-    'EXT:edm/ext_icon.svg',
-    'Education Manager (EDM)'
+    $extensionIcon,
+    $pluginGroup
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Edm',
+    $extensionKey,
     'Pilocationdetail',
     'Veranstaltungsorte: Detailseite',
-    'EXT:edm/ext_icon.svg',
-    'Education Manager (EDM)'
+    $extensionIcon,
+    $pluginGroup
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Edm',
+    $extensionKey,
     'Pienrollmentnew',
     'Veranstaltungen: Anmeldung',
-    'EXT:edm/ext_icon.svg',
-    'Education Manager (EDM)'
+    $extensionIcon,
+    $pluginGroup
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Edm',
+    $extensionKey,
     'Piparticipantloginlogout',
     'Teilnehmer-Login',
-    'EXT:edm/ext_icon.svg',
-    'Education Manager (EDM)'
+    $extensionIcon,
+    $pluginGroup
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Edm',
+    $extensionKey,
     'Pistaffdetail',
     'Kontaktperson: Detailseite',
-    'EXT:edm/ext_icon.svg',
-    'Education Manager (EDM)'
+    $extensionIcon,
+    $pluginGroup
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Edm',
+    $extensionKey,
     'Pilecturerlist',
     'Dozierende: Liste',
-    'EXT:edm/ext_icon.svg',
-    'Education Manager (EDM)'
+    $extensionIcon,
+    $pluginGroup
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Edm',
+    $extensionKey,
     'Pilecturerdetail',
     'Dozierende: Detailseite',
-    'EXT:edm/ext_icon.svg',
-    'Education Manager (EDM)'
+    $extensionIcon,
+    $pluginGroup
 );
 
 // Add FlexForm to Plugin

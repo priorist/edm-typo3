@@ -10,8 +10,8 @@
 	"require": {
 		"php": "^7.4",
 		"priorist/edm-sdk": "^0.6.0",
-		"typo3/cms-core": "^10.4 || 11.5.1",
-		"typo3/cms-backend": "^10.4 || 11.5.1"
+		"typo3/cms-core": "^10.4 || ^11",
+		"typo3/cms-backend": "^10.4 || ^11"
 	},
 	"license": "GPL-2.0-or-later",
 	"authors": [

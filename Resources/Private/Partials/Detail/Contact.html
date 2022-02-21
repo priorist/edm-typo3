@@ -9,9 +9,10 @@
         <div class="edm-event-detail__contact-person">
           <f:if condition="{contactPerson.image}">
             <img
-              src="{f:uri.image(src:'{settings.edm.url}{contactPerson.image.url}', width:'166')}"
+              src="{settings.edm.url}{contactPerson.image.url}"
               alt="Kontaktperson"
               class="event-contact-person__image"
+              width="166"
             />
           </f:if>
           <div class="edm-event-detail__contact-person__details">

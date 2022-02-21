@@ -34,12 +34,14 @@ class EventController extends AbstractController
 		$showAll = $filters['showAll'];
 
 		/* try { */
-			if ($showAll === '1') {
-				$events = $this->getClient()->getRestClient()->fetchCollection('events', $eventParams); // TODO: Methode in AIS SDK für findAll
-			} else {
-				$events = $this->getClient()->event->findUpcoming($eventParams);
-				$events = $this->sanitizeEvents($events);
-			}
+		if ($showAll === '1') {
+			$events = $this->getClient()->getRestClient()->fetchCollection('events', $eventParams); // TODO: Methode in AIS SDK für findAll
+			$eventsArray = $events->toArray();
+			$events = $eventsArray['results'];
+		} else {
+			$events = $this->getClient()->event->findUpcoming($eventParams);
+			$events = $this->sanitizeEvents($events);
+		}
 		/* } catch (Throwable $e) {
 			fwrite(STDERR, $e);
 			$this->view->assign('internalError', true);

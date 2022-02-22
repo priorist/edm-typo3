@@ -10,6 +10,25 @@
         </TCEforms>
         <type>array</type>
         <el>
+          <settings.detailOnExternalWebsite>
+            <TCEforms>
+              <label>Veranstaltungen auf externe Website verlinken?</label>
+              <onChange>reload</onChange>
+              <config>
+                <type>check</type>
+              </config>
+            </TCEforms>
+          </settings.detailOnExternalWebsite>
+          <settings.detailUrl>
+            <TCEforms>
+              <label>URL der externen Website (z.B https://academy.priorist.com/veranstaltung/)</label>
+              <displayCond>FIELD:settings.detailOnExternalWebsite:REQ:true</displayCond>
+              <config>
+                <type>input</type>
+                <eval>required</eval>
+              </config>
+            </TCEforms>
+          </settings.detailUrl>
           <settings.view.showPrice>
             <TCEforms>
               <label>Preis anzeigen?</label>

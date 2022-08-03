@@ -44,7 +44,7 @@ class EnrollmentController extends AbstractController
          }
 
          // Get participantToken from Typo3 session
-         $this->view->assign('participantToken', $this->session->get('participantToken'));
+         // $this->view->assign('participantToken', $this->session->get('participantToken'));
       } else {
          // no event id in URL, so no enrollment possible
          $this->view->assign('internalError', true);

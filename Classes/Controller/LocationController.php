@@ -13,12 +13,22 @@ class LocationController extends AbstractController
    public function listAction(): ResponseInterface
    {
       try {
-         // Retrieve locations from EDM
-         $locations = $this->getClient()->getRestClient()->fetchCollection('event_locations', []);
+         // Get location IDs from Typo3 BE
+         $locationIds = $this->settings['locationFilter']['locations'];
 
-         // Assign categories from EDM to view
-         $this->view->assign('locations', $locations);
+         if ($locationIds !== '0')
+            $locationParams = [
+               'id' => explode(',', $locationIds)
+            ];
+
+         // Retrieve locations from EDM
+         $locations = $this->getClient()->getRestClient()->fetchCollection('event_locations', $locationParams ?? []);
+         $preparedLocations = $this->prepareLocationData($locations->toArray()['results']);
+
+         // Assign locations from EDM to view
+         $this->view->assign('locations', $preparedLocations);
       } catch (Throwable $e) {
+         var_dump($e->getMessage());
          fwrite(STDERR, $e);
          $this->view->assign('internalError', true);
       }
@@ -37,7 +47,7 @@ class LocationController extends AbstractController
             // Retrieve location from EDM
             $location = $this->getClient()->getRestClient()->fetchSingle('event_locations', $locationFilter, []);
 
-            // Assign categories from EDM to view
+            // Assign location from EDM to view
             $this->view->assign('location', $location);
          } catch (Throwable $e) {
             fwrite(STDERR, $e);
@@ -48,5 +58,31 @@ class LocationController extends AbstractController
       }
 
       return $this->htmlResponse();
+   }
+
+   protected function prepareLocationData(array $locations): array
+   {
+      foreach ($locations as &$location) {
+         // Add slug based on name if not available yet
+         if (!isset($location['slug'])) {
+            $location['slug'] = $this->slugify($location['name']);
+         }
+      }
+
+      return $locations;
+   }
+
+   private function slugify($input, $separator = '-')
+   {
+      $replaceSet = [
+         'ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'ß' => 'ss', ' ' => '-'
+      ];
+
+      $slug = strtr($input, $replaceSet);
+      $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $slug);
+      $slug = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $slug);
+      $slug = strtolower(trim($slug, '-'));
+      $slug = preg_replace('/[\/_|+ -]+/', $separator, $slug);
+      return $slug;
    }
 }

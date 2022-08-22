@@ -87,7 +87,7 @@ $pluginGroup = 'Education Manager (EDM)';
 );
 
 // Add FlexForm to Plugin
-foreach (['pieventlist', 'pieventdetail', 'pieventsearch', 'pistaffdetail'] as $plugin) {
+foreach (['pieventlist', 'pieventdetail', 'pieventsearch', 'pistaffdetail', 'pilocationlist'] as $plugin) {
     $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['edm_' . $plugin] = 'pi_flexform';
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
         'edm_' . $plugin,

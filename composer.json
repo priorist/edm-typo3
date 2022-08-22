@@ -2,6 +2,7 @@
 	"name": "priorist/edm-typo3",
 	"description": "Provides a plugin to render events from EDM in TYPO3.",
 	"type": "typo3-cms-extension",
+	"version": "0.9.3",
 	"config": {
 		"platform": {
 			"php": "7.4.1"

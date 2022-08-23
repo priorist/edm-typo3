@@ -6,6 +6,7 @@ use Exception;
 use Priorist\EDM\Client\Client;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Registry;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class AbstractController extends ActionController
@@ -13,6 +14,7 @@ class AbstractController extends ActionController
 	const REGISTRY_NAMESPACE = 'tx_edm';
 	const REGISTRY_KEY = 'cache_access-token';
 	const REGISTRY_EXPIRATION = 12; // expiration in hours
+	const LOG_MESSAGE_401 = 'EDM-Authentifizierung fehlgeschlagen. Access Token wird neu angefordert.';
 
 	protected $client = null;
 	protected $registry;
@@ -20,6 +22,7 @@ class AbstractController extends ActionController
 	public function __construct()
 	{
 		$this->registry = GeneralUtility::makeInstance(Registry::class);
+		$this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
 	}
 
 	protected function storeAccessToken($accessToken)
@@ -88,6 +91,12 @@ class AbstractController extends ActionController
 		}
 
 		return $this->client;
+	}
+
+	protected function resetAccessToken(): void
+	{
+		$this->logger->error(static::LOG_MESSAGE_401);
+		$this->registry->remove(static::REGISTRY_NAMESPACE, static::REGISTRY_KEY);
 	}
 
 	/**

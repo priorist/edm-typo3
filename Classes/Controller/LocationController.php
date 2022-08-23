@@ -2,6 +2,7 @@
 
 namespace Priorist\EdmTypo3\Controller;
 
+use Priorist\EDM\Client\Rest\ClientException;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
@@ -27,9 +28,12 @@ class LocationController extends AbstractController
 
          // Assign locations from EDM to view
          $this->view->assign('locations', $preparedLocations);
+      } catch (ClientException $e) {
+         if ($e->getCode() === 401) {
+            $this->resetAccessToken();
+            $this->view->assign('internalError', true);
+         }
       } catch (Throwable $e) {
-         var_dump($e->getMessage());
-         fwrite(STDERR, $e);
          $this->view->assign('internalError', true);
       }
 
@@ -49,8 +53,12 @@ class LocationController extends AbstractController
 
             // Assign location from EDM to view
             $this->view->assign('location', $location);
+         } catch (ClientException $e) {
+            if ($e->getCode() === 401) {
+               $this->resetAccessToken();
+               $this->view->assign('internalError', true);
+            }
          } catch (Throwable $e) {
-            fwrite(STDERR, $e);
             $this->view->assign('internalError', true);
          }
       } else {

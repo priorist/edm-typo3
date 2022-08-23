@@ -2,6 +2,7 @@
 
 namespace Priorist\EdmTypo3\Controller;
 
+use Priorist\EDM\Client\Rest\ClientException;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
@@ -26,8 +27,12 @@ class StaffController extends AbstractController
 
             // Assign staff member from EDM to view
             $this->view->assign('staff', $staff);
+        } catch (ClientException $e) {
+            if ($e->getCode() === 401) {
+                $this->resetAccessToken();
+                $this->view->assign('internalError', true);
+            }
         } catch (Throwable $e) {
-            fwrite(STDERR, $e);
             $this->view->assign('internalError', true);
         }
 

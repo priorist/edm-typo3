@@ -2,6 +2,7 @@
 
 namespace Priorist\EdmTypo3\Controller;
 
+use Priorist\EDM\Client\Rest\ClientException;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
@@ -18,8 +19,12 @@ class LecturerController extends AbstractController
 
       // Assign categories from EDM to view
       $this->view->assign('lecturers', $lecturers);
+    } catch (ClientException $e) {
+      if ($e->getCode() === 401) {
+        $this->resetAccessToken();
+        $this->view->assign('internalError', true);
+      }
     } catch (Throwable $e) {
-      fwrite(STDERR, $e);
       $this->view->assign('internalError', true);
     }
 
@@ -57,8 +62,12 @@ class LecturerController extends AbstractController
         // Assign lecturer and events from EDM to view
         $this->view->assign('lecturer', $lecturer);
         $this->view->assign('events', $events);
+      } catch (ClientException $e) {
+        if ($e->getCode() === 401) {
+          $this->resetAccessToken();
+          $this->view->assign('internalError', true);
+        }
       } catch (Throwable $e) {
-        fwrite(STDERR, $e);
         $this->view->assign('internalError', true);
       }
     } else {

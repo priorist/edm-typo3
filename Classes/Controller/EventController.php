@@ -2,9 +2,9 @@
 
 namespace Priorist\EdmTypo3\Controller;
 
+use Priorist\EDM\Client\Rest\ClientException;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
-use Exception;
 
 class EventController extends AbstractController
 {
@@ -33,24 +33,28 @@ class EventController extends AbstractController
 		$limit = $filters['limit'] ?: '1000';
 		$showAll = $filters['showAll'];
 
-		/* try { */
-		if ($showAll === '1') {
-			$events = $this->getClient()->getRestClient()->fetchCollection('events', $eventParams); // TODO: Methode in AIS SDK für findAll
-			$eventsArray = $events->toArray();
-			$events = $eventsArray['results'];
-		} else {
-			$events = $this->getClient()->event->findUpcoming($eventParams);
-			$events = $this->sanitizeEvents($events);
-		}
-		/* } catch (Throwable $e) {
-			fwrite(STDERR, $e);
+		try {
+			if ($showAll === '1') {
+				$events = $this->getClient()->getRestClient()->fetchCollection('events', $eventParams); // TODO: Methode in AIS SDK für findAll
+				$eventsArray = $events->toArray();
+				$events = $eventsArray['results'];
+			} else {
+				$events = $this->getClient()->event->findUpcoming($eventParams);
+				$events = $this->sanitizeEvents($events);
+			}
+
+			$groupedEvents = array_splice($this->getEventsGroupedByEventBase($events), 0, $limit);
+
+			// Assign events from EDM to view
+			$this->view->assign('groupedEvents', $groupedEvents);
+		} catch (ClientException $e) {
+			if ($e->getCode() === 401) {
+				$this->resetAccessToken();
+				$this->view->assign('internalError', true);
+			}
+		} catch (Throwable $e) {
 			$this->view->assign('internalError', true);
-		} */
-
-		$groupedEvents = array_splice($this->getEventsGroupedByEventBase($events), 0, $limit);
-
-		// Assign events from EDM to view
-		$this->view->assign('groupedEvents', $groupedEvents);
+		}
 
 		return $this->htmlResponse();
 	}
@@ -70,7 +74,12 @@ class EventController extends AbstractController
 
 		try {
 			$events = $this->getClient()->event->findUpcoming($eventParams);
-		} catch (\Throwable $e) {
+		} catch (ClientException $e) {
+			if ($e->getCode() === 401) {
+				$this->resetAccessToken();
+				$this->view->assign('internalError', true);
+			}
+		} catch (Throwable $e) {
 			$this->view->assign('internalError', true);
 		}
 
@@ -392,8 +401,12 @@ class EventController extends AbstractController
 
 		try {
 			$eventBase = $this->getClient()->eventBase->findBySlug($eventBaseSlug);
+		} catch (ClientException $e) {
+			if ($e->getCode() === 401) {
+				$this->resetAccessToken();
+				$this->view->assign('internalError', true);
+			}
 		} catch (Throwable $e) {
-			fwrite(STDERR, $e);
 			$this->view->assign('internalError', true);
 			return;
 		}
@@ -407,8 +420,12 @@ class EventController extends AbstractController
 			// Get events from EDM, transform them to array and assign the results to FE
 			try {
 				$currentEvent = $this->getClient()->event->findById($eventId, $eventParams);
+			} catch (ClientException $e) {
+				if ($e->getCode() === 401) {
+					$this->resetAccessToken();
+					$this->view->assign('internalError', true);
+				}
 			} catch (Throwable $e) {
-				fwrite(STDERR, $e);
 				$this->view->assign('internalError', true);
 				return;
 			}
@@ -482,8 +499,13 @@ class EventController extends AbstractController
 	{
 		try {
 			$eventBase = $this->getClient()->eventBase->findBySlug($slug);
+		} catch (ClientException $e) {
+			if ($e->getCode() === 401) {
+				$this->resetAccessToken();
+				$this->view->assign('internalError', true);
+			}
+			return;
 		} catch (Throwable $e) {
-			fwrite(STDERR, $e);
 			$this->view->assign('internalError', true);
 			return;
 		}
@@ -505,8 +527,13 @@ class EventController extends AbstractController
 			} else {
 				$events = $this->getClient()->event->findUpcoming($eventParams);
 			}
+		} catch (ClientException $e) {
+			if ($e->getCode() === 401) {
+				$this->resetAccessToken();
+				$this->view->assign('internalError', true);
+			}
+			return;
 		} catch (Throwable $e) {
-			fwrite(STDERR, $e);
 			$this->view->assign('internalError', true);
 			return;
 		}

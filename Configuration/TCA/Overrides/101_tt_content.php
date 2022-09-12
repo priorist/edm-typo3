@@ -86,6 +86,14 @@ $pluginGroup = 'Education Manager (EDM)';
     $pluginGroup
 );
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    $extensionKey,
+    'Piformerrorsenderrormessage',
+    'EDM: Anmelde-Fehler',
+    $extensionIcon,
+    $pluginGroup
+);
+
 // Add FlexForm to Plugin
 foreach (['pieventlist', 'pieventdetail', 'pieventsearch', 'pistaffdetail', 'pilocationlist'] as $plugin) {
     $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['edm_' . $plugin] = 'pi_flexform';

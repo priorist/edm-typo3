@@ -358,7 +358,7 @@ class EventController extends AbstractController
 		// Apply filters if any are set
 		if ($filters) {
 			if ($eventIds) {
-				$eventParams['id'] = explode(',', $eventIds);
+				$eventParams['id'] = $eventIds;
 			}
 			if ($categoryIds) {
 				$eventParams['event_base__categories'] = explode(',', $categoryIds);

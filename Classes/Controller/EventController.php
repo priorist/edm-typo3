@@ -66,11 +66,16 @@ class EventController extends AbstractController
 	{
 		$limit = $this->settings['eventSearchLimit'] ?: '1000';
 
+		// Get filter settings from backend
+		$filters = $this->getPluginFilter();
+
 		$eventParams = [
 			'page_size' => $limit,
 			'exclude_non_bookable_children' => 'true',
 			'serializer_format' => 'website_list'
 		];
+
+		$eventParams = $this->getListFilterForEventParams($filters, $eventParams);
 
 		try {
 			$events = $this->getClient()->event->findUpcoming($eventParams);

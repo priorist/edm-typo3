@@ -48,5 +48,28 @@
         </el>
       </ROOT>
     </sDEF>
+    <listFilter>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>Filter</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+          <settings.listFilter.context>
+            <TCEforms>
+              <label>Umgebung</label>
+              <config>
+                <type>select</type>
+                <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getContexts</itemsProcFunc>
+                <renderType>selectSingle</renderType>
+                <items>
+                  <!-- empty by default -->
+                </items>
+              </config>
+            </TCEforms>
+          </settings.listFilter.context>
+        </el>
+      </ROOT>
+    </listFilter>
   </sheets>
 </T3DataStructure>

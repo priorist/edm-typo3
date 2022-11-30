@@ -12,9 +12,7 @@ class ItemsProcFunc
      */
     public function getParentCategories(array $config)
     {
-        $categories = $this->getClient()->getRestClient()->fetchCollection('categories', [
-            'page_size' => 250
-        ]);
+        $categories = $this->getClient()->getRestClient()->fetchCollection('categories', []);
         $categoriesArray = $categories->toArray();
         $returnCategories = [];
 
@@ -35,9 +33,7 @@ class ItemsProcFunc
      */
     public function getCategories(array $config)
     {
-        $categories = $this->getClient()->getRestClient()->fetchCollection('categories', [
-            'page_size' => 250
-        ]);
+        $categories = $this->getClient()->getRestClient()->fetchCollection('categories', []);
         $categoriesArray = $categories->toArray();
         $returnCategories = [];
 
@@ -110,9 +106,7 @@ class ItemsProcFunc
 
     private function getAndFormatData(array $config, String $apiPath)
     {
-        $query = $this->getClient()->getRestClient()->fetchCollection($apiPath, [
-            'page_size' => 250
-        ]);
+        $query = $this->getClient()->getRestClient()->fetchCollection($apiPath, []);
         $queryArray = $query->toArray();
         $returnData[] = [
             'alle',

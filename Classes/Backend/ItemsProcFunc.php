@@ -12,7 +12,9 @@ class ItemsProcFunc
      */
     public function getParentCategories(array $config)
     {
-        $categories = $this->getClient()->getRestClient()->fetchCollection('categories', []);
+        $categories = $this->getClient()->getRestClient()->fetchCollection('categories', [
+            'page_size' => 250
+        ]);
         $categoriesArray = $categories->toArray();
         $returnCategories = [];
 
@@ -33,7 +35,9 @@ class ItemsProcFunc
      */
     public function getCategories(array $config)
     {
-        $categories = $this->getClient()->getRestClient()->fetchCollection('categories', []);
+        $categories = $this->getClient()->getRestClient()->fetchCollection('categories', [
+            'page_size' => 250
+        ]);
         $categoriesArray = $categories->toArray();
         $returnCategories = [];
 
@@ -64,7 +68,9 @@ class ItemsProcFunc
      */
     public function getStaffMembers(array $config)
     {
-        $query = $this->getClient()->getRestClient()->fetchCollection('staff_members', []);
+        $query = $this->getClient()->getRestClient()->fetchCollection('staff_members', [
+            'page_size' => 250
+        ]);
         $queryArray = $query->toArray();
         $returnData = [];
 
@@ -106,7 +112,9 @@ class ItemsProcFunc
 
     private function getAndFormatData(array $config, String $apiPath)
     {
-        $query = $this->getClient()->getRestClient()->fetchCollection($apiPath, []);
+        $query = $this->getClient()->getRestClient()->fetchCollection($apiPath, [
+            'page_size' => 250
+        ]);
         $queryArray = $query->toArray();
         $returnData[] = [
             'alle',

@@ -12,9 +12,7 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\EventController::class => 'list',
 			],
 			// non-cacheable actions
-			[
-				\Priorist\EdmTypo3\Controller\EventController::class => 'list'
-			]
+			[]
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
@@ -36,9 +34,7 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\EventController::class => 'search',
 			],
 			// non-cacheable actions
-			[
-				\Priorist\EdmTypo3\Controller\EventController::class => 'search',
-			]
+			[]
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(

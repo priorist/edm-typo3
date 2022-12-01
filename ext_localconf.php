@@ -22,9 +22,7 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\EventController::class => 'detail',
 			],
 			// non-cacheable actions
-			[
-				\Priorist\EdmTypo3\Controller\EventController::class => 'detail',
-			]
+			[]
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
@@ -54,9 +52,7 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\LocationController::class => 'detail',
 			],
 			// non-cacheable actions
-			[
-				\Priorist\EdmTypo3\Controller\LocationController::class => 'detail',
-			]
+			[]
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
@@ -66,9 +62,7 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\EnrollmentController::class => 'new',
 			],
 			// non-cacheable actions
-			[
-				\Priorist\EdmTypo3\Controller\EnrollmentController::class => 'new',
-			]
+			[]
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
@@ -78,9 +72,7 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\ParticipantController::class => 'login, logout',
 			],
 			// non-cacheable actions
-			[
-				\Priorist\EdmTypo3\Controller\ParticipantController::class => 'login, logout',
-			]
+			[]
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
@@ -90,9 +82,7 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\ParticipantController::class => 'status',
 			],
 			// non-cacheable actions
-			[
-				\Priorist\EdmTypo3\Controller\ParticipantController::class => 'status',
-			]
+			[]
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
@@ -102,9 +92,7 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\StaffController::class => 'detail',
 			],
 			// non-cacheable actions
-			[
-				\Priorist\EdmTypo3\Controller\StaffController::class => 'detail',
-			]
+			[]
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
@@ -124,9 +112,7 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\LecturerController::class => 'detail',
 			],
 			// non-cacheable actions
-			[
-				\Priorist\EdmTypo3\Controller\LecturerController::class => 'detail',
-			]
+			[]
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
@@ -136,9 +122,7 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\FormErrorController::class => 'sendErrorMessage',
 			],
 			// non-cacheable actions
-			[
-				\Priorist\EdmTypo3\Controller\FormErrorController::class => 'sendErrorMessage',
-			]
+			[]
 		);
 	}
 );

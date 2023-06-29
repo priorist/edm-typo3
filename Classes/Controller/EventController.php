@@ -165,6 +165,7 @@ class EventController extends AbstractController
 		$categoryData = array();
 		$formatData = array();
 		$locationData = array();
+		$lecturerData = array();
 		$allTitles = "";
 		$allContents = "";
 
@@ -199,6 +200,21 @@ class EventController extends AbstractController
 			// fill title & summary
 			$allTitles .= strip_tags($event['meta']['event_base_name']) . " ";
 			$allContents .= strip_tags($event['event_base']['summary']) . " ";
+
+			// fill lecturers
+			foreach ($event['lecturers'] as $lecturer) {
+				if (!isset($lecturerData[$lecturer['id']])) {
+					$lecturerData[$lecturer['id']]['last_name'] = $lecturer['last_name'];
+					$lecturerData[$lecturer['id']]['name'] = $lecturer['first_name'] . ' ' . $lecturer['last_name'];
+					$lecturerData[$lecturer['id']]['gender'] = $lecturer['gender'];
+					$lecturerData[$lecturer['id']]['title'] = $lecturer['title'];
+					$lecturerData[$lecturer['id']]['id'] = $lecturer['id'];
+				}
+			}
+
+			uasort($lecturerData, function ($a, $b) {
+				return $a['last_name'] <=> $b['last_name'];
+			});
 		}
 
 		$search = array('"', "'", "/\r|\n/");
@@ -227,6 +243,11 @@ class EventController extends AbstractController
 				'labelPlural' => 'Orte',
 				'data' => array_values($locationData),
 				'cities' => array_values(array_unique($cities)),
+			),
+			'lecturer' => array(
+				'labelSingular' => 'Dozent',
+				'labelPlural' => 'Dozenten',
+				'data' => array_values($lecturerData),
 			),
 			'date' => array(
 				'labelSingular' => 'Zeitraum',
@@ -294,6 +315,18 @@ class EventController extends AbstractController
 					'id' => $event['location']['id'],
 					'city' => explode(' - ', $event['location']['name'])[0],
 				);
+			}
+
+			// add lecturers
+			if (isset($event['lecturers']) && is_array($event['lecturers'])) {
+				foreach ($event['lecturers'] as $lecturer) {
+					if (is_array($lecturer) && !isset($eventBases[$eventBaseId]['lecturers'][$lecturer['id']])) {
+						$eventBases[$eventBaseId]['lecturers'][$lecturer['id']] = array(
+							'name' => $lecturer['first_name'] . ' ' . $lecturer['last_name'],
+							'id' => $lecturer['id'],
+						);
+					}
+				}
 			}
 
 			// set first day and start dates

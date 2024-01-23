@@ -278,7 +278,7 @@ class EventController extends AbstractController
 
 		// only add events that have price information and that have not started yet
 		foreach ($events as $key => $event) {
-			if (strtotime($event['first_day']) > $today && !empty($event['prices'])) {
+			if (strtotime($event['first_day']) > $today && !empty($event['prices']) && empty($event['archived_at'])) {
 				$sanitizedEvents[] = $event;
 			}
 		}
@@ -492,7 +492,7 @@ class EventController extends AbstractController
 		}
 	}
 
-	protected function getEventsBasedOnSlug(array $settings, bool $showAll)
+	protected function getEventsBasedOnSlug(array $settings, bool $showAll, int $eventBaseType)
 	{
 		// Get 'eventBaseSlug' parameter from URL
 		$eventBaseSlug = $this->request->getArgument('eventBaseSlug');

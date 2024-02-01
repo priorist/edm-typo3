@@ -492,7 +492,7 @@ class EventController extends AbstractController
 		}
 	}
 
-	protected function getEventsBasedOnSlug(array $settings, bool $showAll, int $eventBaseType)
+	protected function getEventsBasedOnSlug(array $settings, bool $showAll)
 	{
 		// Get 'eventBaseSlug' parameter from URL
 		$eventBaseSlug = $this->request->getArgument('eventBaseSlug');

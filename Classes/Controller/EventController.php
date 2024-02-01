@@ -278,7 +278,7 @@ class EventController extends AbstractController
 
 		// only add events that have price information and that have not started yet
 		foreach ($events as $key => $event) {
-			if (strtotime($event['first_day']) > $today && !empty($event['prices']) && empty($event['archived_at'])) {
+			if (strtotime($event['first_day']) > $today && !empty($event['prices'])) {
 				$sanitizedEvents[] = $event;
 			}
 		}

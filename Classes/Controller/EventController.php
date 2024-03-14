@@ -394,7 +394,7 @@ class EventController extends AbstractController
 		return $eventBases;
 	}
 
-	protected function getListFilterForEventParams(array $filters, array $eventParams)
+	protected function getListFilterForEventParams(array $filters = NULL, array $eventParams)
 	{
 		$eventIds = $filters['eventIds'];
 		$eventBaseIds = $filters['eventBaseIds'];

@@ -63,41 +63,55 @@ class EventController extends AbstractController
 	 * List all upcoming events for search
 	 */
 	public function searchAction(): ResponseInterface
-	{
-		$limit = $this->settings['eventSearchLimit'] ?: '1000';
+  {
+    $limit = $this->settings['eventSearchLimit'] ?: '1000';
 
-		// Get filter settings from backend
-		$filters = $this->getPluginFilter();
+    // Get filter settings from backend
+    $filters = $this->getPluginFilter();
 
-		$eventParams = [
-			'page_size' => $limit,
-			'exclude_non_bookable_children' => 'true',
-			'serializer_format' => 'website_list'
-		];
+    $eventParams = [
+      'page_size' => $limit,
+      'exclude_non_bookable_children' => 'true',
+      'serializer_format' => 'website_list'
+    ];
 
-		$eventParams = $this->getListFilterForEventParams($filters, $eventParams);
+    $eventParams = $this->getListFilterForEventParams($filters, $eventParams);
 
-		try {
-			$events = $this->getClient()->event->findUpcoming($eventParams);
-		} catch (ClientException $e) {
-			if ($e->getCode() === 401) {
-				$this->resetAccessToken();
-				$this->view->assign('internalError', true);
-			}
-		} catch (Throwable $e) {
-			$this->view->assign('internalError', true);
-		}
+    try {
+      $events = $this->getClient()->event->findUpcoming($eventParams);
 
-		$sanitizedEvents = $this->sanitizeEvents($events);
-		$groupedEvents = $this->getEventsGroupedByEventBase($sanitizedEvents);
-		$categoryTree = $this->createCategoryTreeByEvents($groupedEvents);
+      // Get events without dates with specific event type
+      $eventParams['event_base__event_type'] = $this->settings['customConditions']['eventTypes']['showAllEvents'];
+      $ongoingEvents = $this->getClient()->getRestClient()->fetchCollection('events', $eventParams);
+    } catch (ClientException $e) {
+      if ($e->getCode() === 401) {
+        $this->resetAccessToken();
+        $this->view->assign('internalError', true);
+      }
+    } catch (Throwable $e) {
+      $this->view->assign('internalError', true);
+    }
 
-		$this->view->assign('filterData', $this->prepareFilterDataForEvents($sanitizedEvents, $categoryTree));
-		$this->view->assign('groupedEvents', $groupedEvents);
-		$this->view->assign('categoryTree', $categoryTree);
+    // Merge upcoming events with events without dates and specific event type
+    $events = $events->toArray();
+    $ongoingEvents = $ongoingEvents->toArray();
+    $events = array_merge($events['results'], $ongoingEvents['results']);
 
-		return $this->htmlResponse();
-	}
+    $sanitizedEvents = $this->sanitizeEvents($events);
+    $groupedEvents = $this->getEventsGroupedByEventBase($sanitizedEvents);
+    $categoryTree = $this->createCategoryTreeByEvents($groupedEvents);
+
+    // Sort grouped events by first day, placing events without date on top
+    usort($groupedEvents, function ($item1, $item2) {
+      return $item1['first_day'] <=> $item2['first_day'];
+    });
+
+    $this->view->assign('filterData', $this->prepareFilterDataForEvents($sanitizedEvents, $categoryTree));
+    $this->view->assign('groupedEvents', $groupedEvents);
+    $this->view->assign('categoryTree', $categoryTree);
+
+    return $this->htmlResponse();
+  }
 
 	/**
 	 * Detailed view of an event
@@ -278,7 +292,7 @@ class EventController extends AbstractController
 
 		// only add events that have price information and that have not started yet
 		foreach ($events as $key => $event) {
-			if (strtotime($event['first_day']) > $today && !empty($event['prices'])) {
+      if ((strtotime($event['first_day']) > $today || str_contains($this->settings['customConditions']['eventTypes']['showAllEvents'], $event['event_base']['event_type'])) && !empty($event['prices']) && empty($event['archived_at'])) {
 				$sanitizedEvents[] = $event;
 			}
 		}
@@ -493,45 +507,46 @@ class EventController extends AbstractController
 	}
 
 	protected function getEventsBasedOnSlug(array $settings, bool $showAll)
-	{
-		// Get 'eventBaseSlug' parameter from URL
-		$eventBaseSlug = $this->request->getArgument('eventBaseSlug');
+  {
+    // Get 'eventBaseSlug' parameter from URL
+    $eventBaseSlug = $this->request->getArgument('eventBaseSlug');
 
-		// Get event base from EDM and assign it to FE
-		$eventBase = $this->getEventBaseFromSlug($eventBaseSlug);
+    // Get event base from EDM and assign it to FE
+    $eventBase = $this->getEventBaseFromSlug($eventBaseSlug);
 
-		if ($eventBase !== NULL) {
-			$eventBaseId = $eventBase['id'];
+    if ($eventBase !== NULL) {
+      $eventBaseId = $eventBase['id'];
+      $eventBaseType = $eventBase['event_type']['id'];
 
-			// Get events from EDM, transform them to array and assign the results to FE
-			$events = $this->getEventsFromEventBase($eventBaseId, $showAll);
+      // Get events from EDM, transform them to array and assign the results to FE
+      $events = $this->getEventsFromEventBase($eventBaseId, $showAll, $eventBaseType);
 
-			$eventArray = $events->toArray();
-			$events = $eventArray['results'];
+      $eventArray = $events->toArray();
+      $events = $eventArray['results'];
 
-			if ($showAll === true) {
-				$sanitizedEvents = $events;
-			} else {
-				$sanitizedEvents = $this->sanitizeEvents($events);
-			}
+      if ($showAll === true) {
+        $sanitizedEvents = $events;
+      } else {
+        $sanitizedEvents = $this->sanitizeEvents($events);
+      }
 
-			$eventCities = $this->getLocationCities($events, true);
+      $eventCities = $this->getLocationCities($events, true);
 
-			foreach ($sanitizedEvents as &$event) {
-				$event = $this->prepareEventPriceData($event);
-			}
+      foreach ($sanitizedEvents as &$event) {
+        $event = $this->prepareEventPriceData($event);
+      }
 
-			if (count($sanitizedEvents) == 0) {
-				$this->view->assign('noEventAvailable', true);
-			}
+      if (count($sanitizedEvents) == 0) {
+        $this->view->assign('noEventAvailable', true);
+      }
 
-			$this->view->assign('cities', $eventCities);
-			$this->view->assign('events', $sanitizedEvents);
-			$this->view->assign('eventBase', $eventBase);
-		} else {
-			$this->redirectTo404($settings);
-		}
-	}
+      $this->view->assign('cities', $eventCities);
+      $this->view->assign('events', $sanitizedEvents);
+      $this->view->assign('eventBase', $eventBase);
+    } else {
+      $this->redirectTo404($settings);
+    }
+  }
 
 	protected function getEventBaseFromSlug(string $slug)
 	{
@@ -551,33 +566,33 @@ class EventController extends AbstractController
 		return $eventBase;
 	}
 
-	protected function getEventsFromEventBase(int $eventBaseId, bool $showAll)
-	{
-		$eventParams = [
-			'expand' => '~all,event_base.contact_person,event_base.group_children',
-			'event_base' => $eventBaseId
-		];
+	protected function getEventsFromEventBase(int $eventBaseId, bool $showAll, int $eventBaseType)
+  {
+    $eventParams = [
+      'expand' => '~all,event_base.contact_person,event_base.group_children',
+      'event_base' => $eventBaseId
+    ];
 
-		// Get events from EDM, transform them to array and assign the results to FE
-		try {
-			if ($showAll === true) {
-				$events = $this->getClient()->getRestClient()->fetchCollection('events', $eventParams); // TODO: Methode in AIS SDK für findAll
-			} else {
-				$events = $this->getClient()->event->findUpcoming($eventParams);
-			}
-		} catch (ClientException $e) {
-			if ($e->getCode() === 401) {
-				$this->resetAccessToken();
-				$this->view->assign('internalError', true);
-			}
-			return;
-		} catch (Throwable $e) {
-			$this->view->assign('internalError', true);
-			return;
-		}
+    // Get events from EDM, transform them to array and assign the results to FE
+    try {
+      if ($showAll === true || str_contains($this->settings['customConditions']['eventTypes']['showAllEvents'], $eventBaseType)) {
+        $events = $this->getClient()->getRestClient()->fetchCollection('events', $eventParams); // TODO: Methode in AIS SDK für findAll
+      } else {
+        $events = $this->getClient()->event->findUpcoming($eventParams);
+      }
+    } catch (ClientException $e) {
+      if ($e->getCode() === 401) {
+        $this->resetAccessToken();
+        $this->view->assign('internalError', true);
+      }
+      return;
+    } catch (Throwable $e) {
+      $this->view->assign('internalError', true);
+      return;
+    }
 
-		return $events;
-	}
+    return $events;
+  }
 
 	protected function prepareEventPriceData(array $event)
 	{

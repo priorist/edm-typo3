@@ -31,8 +31,9 @@ class ImageViewHelper extends AbstractViewHelper
 
         $imageFilename = $image['original_filename'];
         $imageUrl = $image['url'];
+        $imageViewHelper = new ImageViewHelper();
 
-        return self::saveImage($imageFilename, $imageUrl);
+        return $imageViewHelper->saveImage($imageFilename, $imageUrl);
     }
 
     protected function saveImage($name, $url)

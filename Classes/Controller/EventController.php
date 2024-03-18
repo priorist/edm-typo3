@@ -357,7 +357,7 @@ class EventController extends AbstractController
 			}
 
 			// set first day and start dates
-			if (!isset($eventBases[$eventBaseId]['first_day']) || strtotime($event['first_day']) < $eventBases[$eventBaseId]['first_day']) {
+			if (!isset($eventBases[$eventBaseId]['first_day']) || strtotime($event['first_day']) < strtotime($eventBases[$eventBaseId]['first_day'])) {
 				$eventBases[$eventBaseId]['first_day'] = $event['first_day'];
 			}
 			$eventBases[$eventBaseId]['start_dates'][] = $event['first_day'];

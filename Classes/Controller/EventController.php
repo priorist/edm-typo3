@@ -30,8 +30,8 @@ class EventController extends AbstractController
 
 		$eventParams = $this->getListFilterForEventParams($filters, $eventParams);
 
-		$limit = $filters['limit'] ?: '1000';
-		$showAll = $filters['showAll'];
+		$limit = $this->getFilterValue($filters, 'limit', '1000');
+		$showAll = $this->getFilterValue($filters, 'showAll', '0');
 
 		try {
 			if ($showAll === '1') {
@@ -382,7 +382,9 @@ class EventController extends AbstractController
 				$priceCountArray[$eventBaseId] += $priceCount;
 			}
 
-			sort($tempPriceArray[$eventBaseId]);
+			if ($tempPriceArray) {
+				sort($tempPriceArray[$eventBaseId]);
+			}
 		}
 
 		foreach ($eventBases as $key => &$eventBase) {
@@ -409,16 +411,16 @@ class EventController extends AbstractController
 
 	protected function getListFilterForEventParams(array $filters = NULL, array $eventParams)
 	{
-		$eventIds = $filters['eventIds'];
-		$eventBaseIds = $filters['eventBaseIds'];
-		$categoryIds = $filters['categoryIds'];
-		$eventTypeId = $filters['eventTypeId'];
-		$limit = $filters['limit'] ?: '1000';
-		$context = $filters['context'];
-		$location = $filters['location'];
-		$isBookable = $filters['isBookable'];
-		$dateFrom = $filters['dateFrom'];
-		$dateTo = $filters['dateTo'];
+		$eventIds = $this->getFilterValue($filters, 'eventIds');
+		$eventBaseIds = $this->getFilterValue($filters, 'eventBaseIds');
+		$categoryIds = $this->getFilterValue($filters, 'categoryIds');
+		$eventTypeId = $this->getFilterValue($filters, 'eventTypeId');
+		$limit = $this->getFilterValue($filters, 'limit', '1000');
+		$context = $this->getFilterValue($filters, 'context');
+		$location = $this->getFilterValue($filters, 'location');
+		$isBookable = $this->getFilterValue($filters, 'isBookable');
+		$dateFrom = $this->getFilterValue($filters, 'dateForm');
+		$dateTo = $this->getFilterValue($filters, 'dateTo');
 
 		// Apply filters if any are set
 		if ($filters) {
@@ -660,5 +662,9 @@ class EventController extends AbstractController
 		}
 
 		return $cities;
+	}
+
+	protected function getFilterValue(array $filters, string $filter, mixed $default = '') {
+		return array_key_exists($filter, $filters) ? $filters[$filter] : $default;
 	}
 }

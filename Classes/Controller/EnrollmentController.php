@@ -47,6 +47,7 @@ class EnrollmentController extends AbstractController
                $this->view->assign('internalError', true);
             }
          } catch (Throwable $e) {
+            $this->logger->critical($e->getMessage());
             $this->view->assign('internalError', true);
          }
 
@@ -54,6 +55,7 @@ class EnrollmentController extends AbstractController
          // $this->view->assign('participantToken', $this->session->get('participantToken'));
       } else {
          // no event id in URL, so no enrollment possible
+         $this->logger->error('No event id in URL. Enrollment not possible.');
          $this->view->assign('internalError', true);
       }
 

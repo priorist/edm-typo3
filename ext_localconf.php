@@ -62,7 +62,9 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\EnrollmentController::class => 'new',
 			],
 			// non-cacheable actions
-			[]
+			[
+				\Priorist\EdmTypo3\Controller\EnrollmentController::class => 'new',
+			]
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(

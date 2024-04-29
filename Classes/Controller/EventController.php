@@ -382,7 +382,7 @@ class EventController extends AbstractController
 				$priceCountArray[$eventBaseId] += $priceCount;
 			}
 
-			if ($tempPriceArray) {
+			if ($tempPriceArray && $tempPriceArray[$eventBaseId]) {
 				sort($tempPriceArray[$eventBaseId]);
 			}
 		}
@@ -664,7 +664,8 @@ class EventController extends AbstractController
 		return $cities;
 	}
 
-	protected function getFilterValue(array $filters, string $filter, mixed $default = '') {
+	protected function getFilterValue(array $filters, string $filter, mixed $default = '')
+	{
 		return array_key_exists($filter, $filters) ? $filters[$filter] : $default;
 	}
 }

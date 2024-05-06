@@ -16,15 +16,24 @@ class LocationController extends AbstractController
       try {
          // Get location IDs from Typo3 BE
          $locationIds = $this->settings['locationFilter']['locations'];
+         $locationIdsArray = explode(',', $locationIds);
+         $fetchAllLocations = $locationIds === '0';
 
-         if ($locationIds !== '0')
+         if (!$fetchAllLocations)
             $locationParams = [
-               'id' => explode(',', $locationIds)
+               'id' => $locationIdsArray
             ];
 
          // Retrieve locations from EDM
          $locations = $this->getClient()->getRestClient()->fetchCollection('event_locations', $locationParams ?? []);
          $preparedLocations = $this->prepareLocationData($locations->toArray()['results']);
+
+         // Make sure to use Typo3 BE order of locations
+         if (!$fetchAllLocations) {
+            uasort($preparedLocations, function ($a, $b) use ($locationIdsArray) {
+               return array_search($a['id'], $locationIdsArray) <=> array_search($b['id'], $locationIdsArray);
+            });
+         }
 
          // Assign locations from EDM to view
          $this->view->assign('locations', $preparedLocations);

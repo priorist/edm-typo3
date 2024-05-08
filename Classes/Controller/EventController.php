@@ -584,7 +584,7 @@ class EventController extends AbstractController
 	protected function getEventsFromEventBase(int $eventBaseId, bool $showAll, int $eventBaseType)
 	{
 		$eventParams = [
-			'expand' => '~all,event_base.contact_person,event_base.group_children',
+			'expand' => 'event_base.contact_person,event_base.group_children,dates.location,~all',
 			'event_base' => $eventBaseId
 		];
 

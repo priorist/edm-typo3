@@ -20,7 +20,7 @@ class EnrollmentController extends AbstractController
             $this->view->assign('accessToken', $this->getClient()->getAccessToken()->getToken());
 
             // set last day of event
-            if (!isset($event['last_day'])) {
+            if (isset($event['dates']) && !isset($event['last_day'])) {
                foreach ($event['dates'] as $key => $date) {
                   if ($key === array_key_last($event['dates'])) {
                      $event['last_day'] = $date['day'];

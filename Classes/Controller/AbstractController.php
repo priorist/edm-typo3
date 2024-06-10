@@ -106,48 +106,48 @@ class AbstractController extends ActionController
 	{
 		$filters = $this->settings['listFilter'];
 
-		if ($filters) {
-			if (!$filters['eventIds']) {
+		if (isset($filters)) {
+			if (!isset($filters['eventIds'])) {
 				unset($filters['eventIds']);
 			}
 
-			if (!$filters['eventBaseIds']) {
+			if (!isset($filters['eventBaseIds'])) {
 				unset($filters['eventBaseIds']);
 			}
 
-			if (!$filters['categoryIds']) {
+			if (!isset($filters['categoryIds'])) {
 				unset($filters['categoryIds']);
 			}
 
-			if (!$filters['eventTypeId']) {
+			if (!isset($filters['eventTypeId'])) {
 				unset($filters['eventTypeId']);
 			}
 
-			if (!$filters['limit']) {
+			if (!isset($filters['limit'])) {
 				unset($filters['limit']);
 			}
 
-			if (!$filters['context']) {
+			if (!isset($filters['context'])) {
 				unset($filters['context']);
 			}
 
-			if (!$filters['location']) {
+			if (!isset($filters['location'])) {
 				unset($filters['location']);
 			}
 
-			if (!$filters['isBookable']) {
+			if (!isset($filters['isBookable'])) {
 				unset($filters['isBookable']);
 			}
 
-			if (!$filters['dateFrom']) {
+			if (!isset($filters['dateFrom'])) {
 				unset($filters['dateFrom']);
 			}
 
-			if (!$filters['dateTo']) {
+			if (!isset($filters['dateTo'])) {
 				unset($filters['dateTo']);
 			}
 
-			if (!$filters['showAll']) {
+			if (!isset($filters['showAll'])) {
 				unset($filters['showAll']);
 			}
 		}

@@ -3,17 +3,14 @@
 	"description": "Provides a plugin to render events from EDM in TYPO3.",
 	"type": "typo3-cms-extension",
 	"config": {
-		"platform": {
-			"php": "7.4.1"
-		},
 		"allow-plugins": {
 			"typo3/class-alias-loader": true,
 			"typo3/cms-composer-installers": true
 		}
 	},
 	"require": {
-		"php": "^7.4 || ^8.0",
-		"priorist/edm-sdk": "^0.6.0",
+		"php": "^8.0",
+		"priorist/edm-sdk": "^1.0",
 		"typo3/cms-core": "^10.4 || ^11",
 		"typo3/cms-backend": "^10.4 || ^11"
 	},

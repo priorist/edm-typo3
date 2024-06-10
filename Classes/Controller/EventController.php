@@ -86,43 +86,41 @@ class EventController extends AbstractController
 				$eventParams['event_base__event_type'] = $this->settings['customConditions']['eventTypes']['showAllEvents'];
 				$ongoingEvents = $this->getClient()->getRestClient()->fetchCollection('events', $eventParams);
 			}
+
+			if (isset($events)) {
+				$events = $events->toArray();
+
+				if (!is_null($ongoingEvents)) {
+					// Merge upcoming events with events without dates and specific event type
+					$ongoingEvents = $ongoingEvents->toArray();
+					$events = array_merge($events['results'], $ongoingEvents['results']);
+				} else {
+					$events = $events['results'];
+				}
+
+				$sanitizedEvents = $this->sanitizeEvents($events);
+				$groupedEvents = $this->getEventsGroupedByEventBase($sanitizedEvents);
+				$categoryTree = $this->createCategoryTreeByEvents($groupedEvents);
+
+				// Sort grouped events by first day, placing events without date on top
+				usort($groupedEvents, function ($item1, $item2) {
+					return $item1['first_day'] <=> $item2['first_day'];
+				});
+
+				$this->view->assign('filterData', $this->prepareFilterDataForEvents($sanitizedEvents, $categoryTree));
+				$this->view->assign('groupedEvents', $groupedEvents);
+				$this->view->assign('categoryTree', $categoryTree);
+			}
 		} catch (ClientException $e) {
 			if ($e->getCode() === 401) {
 				$this->resetAccessToken();
 				$this->view->assign('internalError', true);
-
-				return $this->htmlResponse();
 			}
 		} catch (Throwable $e) {
 			$this->view->assign('internalError', true);
-
+		} finally {
 			return $this->htmlResponse();
 		}
-
-		$events = $events->toArray();
-
-		if (!is_null($ongoingEvents)) {
-			// Merge upcoming events with events without dates and specific event type
-			$ongoingEvents = $ongoingEvents->toArray();
-			$events = array_merge($events['results'], $ongoingEvents['results']);
-		} else {
-			$events = $events['results'];
-		}
-
-		$sanitizedEvents = $this->sanitizeEvents($events);
-		$groupedEvents = $this->getEventsGroupedByEventBase($sanitizedEvents);
-		$categoryTree = $this->createCategoryTreeByEvents($groupedEvents);
-
-		// Sort grouped events by first day, placing events without date on top
-		usort($groupedEvents, function ($item1, $item2) {
-			return $item1['first_day'] <=> $item2['first_day'];
-		});
-
-		$this->view->assign('filterData', $this->prepareFilterDataForEvents($sanitizedEvents, $categoryTree));
-		$this->view->assign('groupedEvents', $groupedEvents);
-		$this->view->assign('categoryTree', $categoryTree);
-
-		return $this->htmlResponse();
 	}
 
 	/**
@@ -130,10 +128,10 @@ class EventController extends AbstractController
 	 */
 	public function detailAction(): ResponseInterface
 	{
+		$showAll = false;
+
 		if ($_GET['showAll'] === 'true') {
 			$showAll = true;
-		} else {
-			$showAll = false;
 		}
 
 		$this->abstractDetailAction($showAll);
@@ -643,12 +641,15 @@ class EventController extends AbstractController
 	protected function prepareCitiesForFilterData($locationData = [], $locations = [])
 	{
 		$cities = [];
+
 		foreach ($locationData as $location) {
-			$cities[] = $location['address']['city'];
+			if (isset($location['address'])) {
+				$cities[] = $location['address']['city'];
+			}
 		}
 
 		// Sort cities alphabetically
-		asort($cities);
+		if (isset($cities)) asort($cities);
 
 		return $cities;
 	}

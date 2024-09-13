@@ -130,7 +130,7 @@ class EventController extends AbstractController
 	{
 		$showAll = false;
 
-		if ($_GET['showAll'] === 'true') {
+		if (isset($_GET['showAll']) && $_GET['showAll'] === 'true') {
 			$showAll = true;
 		}
 
@@ -223,7 +223,7 @@ class EventController extends AbstractController
 
 			// fill title & summary
 			$allTitles .= strip_tags($event['meta']['event_base_name']) . " ";
-			$allContents .= strip_tags($event['event_base']['summary']) . " ";
+			$allContents .= strip_tags($event['event_base']['summary']) . " " . strip_tags(implode(" ", $event['event_base']['tags'])) . " ";
 
 			// fill lecturers
 			foreach ($event['lecturers'] as $lecturer) {

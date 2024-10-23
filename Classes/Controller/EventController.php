@@ -112,11 +112,13 @@ class EventController extends AbstractController
 				$this->view->assign('categoryTree', $categoryTree);
 			}
 		} catch (ClientException $e) {
+			print($e->getMessage());
 			if ($e->getCode() === 401) {
 				$this->resetAccessToken();
 				$this->view->assign('internalError', true);
 			}
 		} catch (Throwable $e) {
+			print($e->getMessage());
 			$this->view->assign('internalError', true);
 		} finally {
 			return $this->htmlResponse();
@@ -436,17 +438,17 @@ class EventController extends AbstractController
 				// for event bases in 99.9% of cases without pulling all events
 				$eventParams['page_size'] = $limit + 15;
 			}
-			if ($eventTypeId && $eventTypeId !== 0) {
+			if ($eventTypeId && $eventTypeId != 0) {
 				$eventParams['event_base__event_type'] = explode(',', $eventTypeId);
 			}
-			if ($context && $context !== 0) {
+			if ($context && $context != 0) {
 				$eventParams['event_base__context'] = $context;
 			}
-			if ($location && $location !== 0) {
+			if ($location && $location != 0) {
 				$eventParams['location'] = explode(',', $location);
 			}
-			if ($isBookable) {
-				$eventParams['is_bookable'] = true;
+			if ($isBookable && $isBookable != 0) {
+				$eventParams['is_bookable'] = 'true';
 			}
 			if ($dateFrom) {
 				$eventParams['first_day__gte'] = $dateFrom;

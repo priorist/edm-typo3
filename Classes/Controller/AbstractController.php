@@ -107,55 +107,32 @@ class AbstractController extends ActionController
 		$filters = $this->settings['listFilter'];
 
 		if (isset($filters)) {
-			if ($this->hasNoFilterValue($filters['eventIds'])) {
-				unset($filters['eventIds']);
-			}
+			$filterKeys = [
+				'eventIds',
+				'eventBaseIds',
+				'categoryIds',
+				'eventTypeId',
+				'limit',
+				'context',
+				'location',
+				'isBookable',
+				'dateFrom',
+				'dateTo',
+				'showAll'
+			];
 
-			if ($this->hasNoFilterValue($filters['eventBaseIds'])) {
-				unset($filters['eventBaseIds']);
-			}
-
-			if ($this->hasNoFilterValue($filters['categoryIds'])) {
-				unset($filters['categoryIds']);
-			}
-
-			if ($this->hasNoFilterValue($filters['eventTypeId'])) {
-				unset($filters['eventTypeId']);
-			}
-
-			if ($this->hasNoFilterValue($filters['limit'])) {
-				unset($filters['limit']);
-			}
-
-			if ($this->hasNoFilterValue($filters['context'])) {
-				unset($filters['context']);
-			}
-
-			if ($this->hasNoFilterValue($filters['location'])) {
-				unset($filters['location']);
-			}
-
-			if ($this->hasNoFilterValue($filters['isBookable'])) {
-				unset($filters['isBookable']);
-			}
-
-			if ($this->hasNoFilterValue($filters['dateFrom'])) {
-				unset($filters['dateFrom']);
-			}
-
-			if ($this->hasNoFilterValue($filters['dateTo'])) {
-				unset($filters['dateTo']);
-			}
-
-			if ($this->hasNoFilterValue($filters['showAll'])) {
-				unset($filters['showAll']);
+			foreach ($filterKeys as $key) {
+				if (array_key_exists($key, $filters) && $this->hasNoFilterValue($filters[$key])) {
+					unset($filters[$key]);
+				}
 			}
 		}
 
 		return $filters;
 	}
 
-	protected function hasNoFilterValue($val) {
+	protected function hasNoFilterValue($val)
+	{
 		return $val === null || strlen($val) == 0;
 	}
 }

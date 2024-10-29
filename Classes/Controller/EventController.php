@@ -661,8 +661,13 @@ class EventController extends AbstractController
 		$cities = [];
 
 		foreach ($events as $event) {
-			$cities[] = $event['location']['address']['city'];
+			if (isset($event['location']['address']['city'])) {
+				$cities[] = $event['location']['address']['city'];
+			}
 		}
+
+		// Sort cities alphabetically
+		if (isset($cities)) asort($cities);
 
 		return $cities;
 	}

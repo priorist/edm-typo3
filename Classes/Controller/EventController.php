@@ -415,6 +415,7 @@ class EventController extends AbstractController
 		$eventBaseIds = $this->getFilterValue($filters, 'eventBaseIds');
 		$categoryIds = $this->getFilterValue($filters, 'categoryIds');
 		$eventTypeId = $this->getFilterValue($filters, 'eventTypeId');
+		$eventFormat = $this->getFilterValue($filters, 'eventFormat');
 		$limit = $this->getFilterValue($filters, 'limit', '1000');
 		$context = $this->getFilterValue($filters, 'context');
 		$location = $this->getFilterValue($filters, 'location');
@@ -437,6 +438,9 @@ class EventController extends AbstractController
 				// Increase limit manually to pull enough events to fulfill limit requirements
 				// for event bases in 99.9% of cases without pulling all events
 				$eventParams['page_size'] = $limit + 15;
+			}
+			if ($eventFormat && $eventFormat != 0) {
+				$eventParams['event_format'] = $eventFormat;
 			}
 			if ($eventTypeId && $eventTypeId != 0) {
 				$eventParams['event_base__event_type'] = explode(',', $eventTypeId);

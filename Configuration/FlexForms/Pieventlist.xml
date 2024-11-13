@@ -139,6 +139,35 @@
               </config>
             </TCEforms>
           </settings.listFilter.eventTypeId>
+          <settings.listFilter.eventFormat>
+            <TCEforms>
+              <label>Veranstaltungsformat</label>
+              <config>
+                <type>select</type>
+                <renderType>selectSingle</renderType>
+                <default>0</default>
+                <items type="array">
+                  <numIndex index="0">
+                    <numIndex index="0">alle</numIndex>
+                    <numIndex index="1">0</numIndex>
+                  </numIndex>
+                  <numIndex index="1">
+                    <numIndex index="0">Präsenz</numIndex>
+                    <numIndex index="1">ONSITE</numIndex>
+                  </numIndex>
+                  <numIndex index="2">
+                    <numIndex index="0">Online</numIndex>
+                    <numIndex index="1">ONLINE</numIndex>
+                  </numIndex>
+                  <numIndex index="3">
+                    <numIndex index="0">Hybrid</numIndex>
+                    <numIndex index="1">HYBRID</numIndex>
+                  </numIndex>
+                </items>
+                <maxitems>1</maxitems>
+              </config>
+            </TCEforms>
+          </settings.listFilter.eventFormat>
           <settings.listFilter.context>
             <TCEforms>
               <label>Umgebung</label>

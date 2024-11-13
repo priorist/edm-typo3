@@ -112,6 +112,7 @@ class AbstractController extends ActionController
 				'eventBaseIds',
 				'categoryIds',
 				'eventTypeId',
+				'eventFormat',
 				'limit',
 				'context',
 				'location',

@@ -259,7 +259,7 @@ class EventController extends AbstractController
 				'labelPlural' => 'Themen',
 				'data' => array_values($categoryData),
 			),
-			'format' => array(
+			'type' => array(
 				'labelSingular' => 'Format',
 				'labelPlural' => 'Formate',
 				'data' => array_values($formatData),
@@ -334,6 +334,11 @@ class EventController extends AbstractController
 			unset($event['event_base']);
 
 			$eventBases[$eventBaseId]['events'][] = $event;
+
+			// add format
+			if (!isset($eventBases[$eventBaseId]['format'])) {
+				$eventBases[$eventBaseId]['format'] = $event['format'];
+			}
 
 			// add locations
 			if (!isset($eventBases[$eventBaseId]['locations'][$event['location']['id']])) {

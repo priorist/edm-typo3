@@ -53,6 +53,9 @@ class EnrollmentController extends AbstractController
 
          // Get participantToken from Typo3 session
          // $this->view->assign('participantToken', $this->session->get('participantToken'));
+      } else if (isset($_GET['code']) && isset($_GET['state'])) {
+         // OAuth redirect from EDM
+         $this->view->assign('oAuthRedirect', true);
       } else {
          // no event id in URL, so no enrollment possible
          $this->logger->error('No event id in URL. Enrollment not possible.');

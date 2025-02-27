@@ -83,7 +83,11 @@ class EventController extends AbstractController
 
 			// Get events without dates with specific event type
 			if ($showAllEvents) {
-				$eventParams['event_base__event_type'] = $this->settings['customConditions']['eventTypes']['showAllEvents'];
+				$eventParams = array_merge($eventParams, [
+					'event_base__event_type' => $this->settings['customConditions']['eventTypes']['showAllEvents'],
+					'status' => ['OFFERED', 'TAKES_PLACE'],
+					'is_public' => 'true'
+				]);
 				$ongoingEvents = $this->getClient()->getRestClient()->fetchCollection('events', $eventParams);
 			}
 

@@ -654,7 +654,7 @@ class EventController extends AbstractController
 				$validFrom = isset($price['valid_from']) ? strtotime($price['valid_from']) : null;
 				$validUntil = isset($price['valid_until']) ? strtotime($price['valid_until']) : null;
 
-				if (($validFrom && $currentTimestamp < $validFrom) || ($validUntil && $currentTimestamp > $validUntil)) {
+				if (($validFrom && $currentTimestamp <= $validFrom) || ($validUntil && $currentTimestamp >= $validUntil)) {
 					continue; // Skip invalid prices
 				}
 

@@ -314,6 +314,10 @@ class EventController extends AbstractController
 			}
 		}
 
+		if (!empty($sanitizedEvents)) {
+			$sanitizedEvents = $this->verifyEventPrices($sanitizedEvents);
+		}
+
 		return $sanitizedEvents;
 	}
 
@@ -632,14 +636,40 @@ class EventController extends AbstractController
 				return $item1['amount'] <=> $item2['amount'];
 			});
 
-			// add lowest price to event object
-			$event['lowest_price'] = $event['prices'][0]['amount'];
 			$priceCount = count($event['prices']);
 		}
 
 		$event['price_count'] = $priceCount;
 
 		return $event;
+	}
+
+	protected function verifyEventPrices(array $events)
+	{
+		foreach ($events as $key => &$event) {
+			$tempPriceArray = [];
+			$currentTimestamp = time();
+
+			foreach ($event['prices'] as $price) {
+				$validFrom = isset($price['valid_from']) ? strtotime($price['valid_from']) : null;
+				$validUntil = isset($price['valid_until']) ? strtotime($price['valid_until']) : null;
+
+				if (($validFrom && $currentTimestamp < $validFrom) || ($validUntil && $currentTimestamp > $validUntil)) {
+					continue; // Skip invalid prices
+				}
+
+				$tempPriceArray[] = $price;
+
+				// Update lowest price
+				if (!isset($event['lowest_price']) || $event['lowest_price'] > $price['amount']) {
+					$event['lowest_price'] = $price['amount'];
+				}
+			}
+
+			$event['prices'] = $tempPriceArray;
+		}
+
+		return $events;
 	}
 
 	protected function redirectTo404($settings)

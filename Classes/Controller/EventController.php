@@ -602,7 +602,8 @@ class EventController extends AbstractController
 	{
 		$eventParams = [
 			'expand' => 'event_base.contact_person,event_base.group_children,dates.location,~all',
-			'event_base' => $eventBaseId
+			'event_base' => $eventBaseId,
+			'is_public' => 'true'
 		];
 
 		// Get events from EDM, transform them to array and assign the results to FE

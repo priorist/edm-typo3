@@ -5,8 +5,12 @@ if (!defined('TYPO3')) {
 
 call_user_func(
 	function () {
+		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+			'@import "EXT:edm-typo3/Configuration/TSConfig/Page/Page.tsconfig"'
+		);
+		
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
+			'EdmTypo3',
 			'Eventlist',
 			[
 				\Priorist\EdmTypo3\Controller\EventController::class => 'list',
@@ -16,7 +20,7 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
+			'EdmTypo3',
 			'Eventdetail',
 			[
 				\Priorist\EdmTypo3\Controller\EventController::class => 'detail',
@@ -26,7 +30,7 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
+			'EdmTypo3',
 			'Eventsearch',
 			[
 				\Priorist\EdmTypo3\Controller\EventController::class => 'search',
@@ -36,7 +40,7 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
+			'EdmTypo3',
 			'Locationlist',
 			[
 				\Priorist\EdmTypo3\Controller\LocationController::class => 'list',
@@ -46,7 +50,7 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
+			'EdmTypo3',
 			'Locationdetail',
 			[
 				\Priorist\EdmTypo3\Controller\LocationController::class => 'detail',
@@ -56,7 +60,7 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
+			'EdmTypo3',
 			'Enrollmentnew',
 			[
 				\Priorist\EdmTypo3\Controller\EnrollmentController::class => 'new',
@@ -68,7 +72,7 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
+			'EdmTypo3',
 			'Staffdetail',
 			[
 				\Priorist\EdmTypo3\Controller\StaffController::class => 'detail',
@@ -78,7 +82,7 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
+			'EdmTypo3',
 			'Lecturerlist',
 			[
 				\Priorist\EdmTypo3\Controller\LecturerController::class => 'list',
@@ -88,7 +92,7 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
+			'EdmTypo3',
 			'Lecturerdetail',
 			[
 				\Priorist\EdmTypo3\Controller\LecturerController::class => 'detail',
@@ -98,7 +102,7 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
+			'EdmTypo3',
 			'Formerrorsenderrormessage',
 			[
 				\Priorist\EdmTypo3\Controller\FormErrorController::class => 'sendErrorMessage',

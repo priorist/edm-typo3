@@ -1,100 +1,100 @@
 mod.wizards.newContentElement.wizardItems {
-  edm {
+  edmtypo3 {
     header = EDM
     after = common
     elements {
-      edm_eventlist {
+      edmtypo3_eventlist {
         iconIdentifier = edm
         title = Veranstaltungen: Liste
         description = Filterbare Veranstaltungsliste.
         tt_content_defValues {
           CType = list
-          list_type = edm_eventlist
+          list_type = edmtypo3_eventlist
         }
       }
-      edm_eventsearch {
+      edmtypo3_eventsearch {
         iconIdentifier = edm
         title = Veranstaltungen: Suche
         description = Veranstaltungsliste, die zusätzlich Filterdaten bereitstellt.
         tt_content_defValues {
           CType = list
-          list_type = edm_eventsearch
+          list_type = edmtypo3_eventsearch
         }
       }
-      edm_eventdetail {
+      edmtypo3_eventdetail {
         iconIdentifier = edm
         title = Veranstaltungen: Detailseite
         description = Detailseite von Veranstaltungen.
         tt_content_defValues {
           CType = list
-          list_type = edm_eventdetail
+          list_type = edmtypo3_eventdetail
         }
       }
-      edm_enrollmentnew {
+      edmtypo3_enrollmentnew {
         iconIdentifier = edm
         title = Veranstaltungen: Anmeldung
         description = Anmeldeseite von Veranstaltungen.
         tt_content_defValues {
           CType = list
-          list_type = edm_enrollmentnew
+          list_type = edmtypo3_enrollmentnew
         }
       }
-      edm_locationlist {
+      edmtypo3_locationlist {
         iconIdentifier = edm
         title = Veranstaltungsorte: Liste
         description = Filterbare Liste von Veranstaltungsorten.
         tt_content_defValues {
           CType = list
-          list_type = edm_locationlist
+          list_type = edmtypo3_locationlist
         }
       }
-      edm_locationdetail {
+      edmtypo3_locationdetail {
         iconIdentifier = edm
         title = Veranstaltungsorte: Detailseite
         description = Detailseite von Veranstaltungsorten.
         tt_content_defValues {
           CType = list
-          list_type = edm_locationdetail
+          list_type = edmtypo3_locationdetail
         }
       }
-      edm_lecturerlist {
+      edmtypo3_lecturerlist {
         iconIdentifier = edm
         title = Dozierende: Liste
         description = Filterbare Liste von Dozierenden.
         tt_content_defValues {
           CType = list
-          list_type = edm_lecturerlist
+          list_type = edmtypo3_lecturerlist
         }
       }
-      edm_lecturerdetail {
+      edmtypo3_lecturerdetail {
         iconIdentifier = edm
         title = Dozierende: Detailseite
         description = Detailseite von Dozierenden.
         tt_content_defValues {
           CType = list
-          list_type = edm_lecturerdetail
+          list_type = edmtypo3_lecturerdetail
         }
       }
-      edm_staffdetail {
+      edmtypo3_staffdetail {
         iconIdentifier = edm
         title = Kontaktperson: Detailseite
         description = Detailansicht einer Kontaktperson.
         tt_content_defValues {
           CType = list
-          list_type = edm_staffdetail
+          list_type = edmtypo3_staffdetail
         }
       }
-      edm_formerrorsenderrormessage {
+      edmtypo3_formerrorsenderrormessage {
         iconIdentifier = edm
         title = EDM: Anmelde-Fehler
         description = Wird genutzt um per E-Mail über einen Anmeldefehler zu informieren.
         tt_content_defValues {
           CType = list
-          list_type = edm_formerrorsenderrormessage
+          list_type = edmtypo3_formerrorsenderrormessage
         }
       }
     }
 
-    show := addToList(edm_eventlist,edm_eventsearch,edm_eventdetail,edm_enrollmentnew,edm_locationlist,edm_locationdetail,edm_lecturerlist,edm_lecturerdetail,edm_formerrorsenderrormessage)
+    show := addToList(edmtypo3_eventlist,edmtypo3_eventsearch,edmtypo3_eventdetail,edmtypo3_enrollmentnew,edmtypo3_locationlist,edmtypo3_locationdetail,edmtypo3_lecturerlist,edmtypo3_lecturerdetail,edmtypo3_formerrorsenderrormessage)
   }
 }

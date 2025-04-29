@@ -1,7 +1,7 @@
 <?php
 defined('TYPO3') or die();
 
-$extensionKey = 'Edm';
+$extensionKey = 'EdmTypo3';
 $extensionIcon = 'edm';
 $pluginGroup = 'Education Manager (EDM)';
 
@@ -88,9 +88,9 @@ $pluginGroup = 'Education Manager (EDM)';
 
 // Add FlexForm to Plugin
 foreach (['eventlist', 'eventdetail', 'eventsearch', 'staffdetail', 'locationlist'] as $plugin) {
-    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['edm_' . $plugin] = 'pi_flexform';
+    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['edmtypo3_' . $plugin] = 'pi_flexform';
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
-        'edm_' . $plugin,
-        'FILE:EXT:edm/Configuration/FlexForms/' . ucfirst($plugin) . '.xml'
+        'edmtypo3_' . $plugin,
+        'FILE:EXT:edm-typo3/Configuration/FlexForms/' . ucfirst($plugin) . '.xml'
     );
 }

@@ -1,78 +1,76 @@
 # Plugins
-plugin.tx_edm {
+plugin.tx_edmtypo3 {
     mvc {
         callDefaultActionIfActionCantBeResolved = 1
     }
 
     view {
 		templateRootPaths {
-			0 = EXT:edm/Resources/Private/Templates/
-			10 = {$plugin.tx_edm.view.templateRootPath}
+			0 = EXT:edm-typo3/Resources/Private/Templates/
+			10 = {$plugin.tx_edmtypo3.view.templateRootPath}
 		}
 
 		partialRootPaths {
-			0 = EXT:edm/Resources/Private/Partials/
-			10 = {$plugin.tx_edm.view.partialRootPath}
+			0 = EXT:edm-typo3/Resources/Private/Partials/
+			10 = {$plugin.tx_edmtypo3.view.partialRootPath}
 		}
 
 		layoutRootPaths {
-			0 = EXT:edm/Resources/Private/Layouts/
-			10 = {$plugin.tx_edm.view.layoutRootPath}
+			0 = EXT:edm-typo3/Resources/Private/Layouts/
+			10 = {$plugin.tx_edmtypo3.view.layoutRootPath}
 		}
 	}
 
     settings {
         edm {
-            url = {$plugin.tx_edm.edm.url}
+            url = {$plugin.tx_edmtypo3.edm.url}
             auth {
                 anonymous { 
-                    clientId = {$plugin.tx_edm.edm.auth.anonymous.clientId}
-                    clientSecret = {$plugin.tx_edm.edm.auth.anonymous.clientSecret}
+                    clientId = {$plugin.tx_edmtypo3.edm.auth.anonymous.clientId}
+                    clientSecret = {$plugin.tx_edmtypo3.edm.auth.anonymous.clientSecret}
                 }
 
                 password {
-                    clientId = {$plugin.tx_edm.edm.auth.password.clientId}
-                    clientSecret = {$plugin.tx_edm.edm.auth.password.clientSecret}
+                    clientId = {$plugin.tx_edmtypo3.edm.auth.password.clientId}
+                    clientSecret = {$plugin.tx_edmtypo3.edm.auth.password.clientSecret}
                 }
             }
 
             slugs {
-                eventDescription = {$plugin.tx_edm.edm.slugs.eventDescription}
+                eventDescription = {$plugin.tx_edmtypo3.edm.slugs.eventDescription}
             }
         }
 
         versions {
-            form = {$plugin.tx_edm.versions.form}
-            config = {$plugin.tx_edm.versions.config}
-            login = {$plugin.tx_edm.versions.login}
+            form = {$plugin.tx_edmtypo3.versions.form}
+            config = {$plugin.tx_edmtypo3.versions.config}
+            login = {$plugin.tx_edmtypo3.versions.login}
         }
 
         errors {
             enrollment {
-                mailFrom = {$plugin.tx_edm.errors.enrollment.mailFrom}
-                mailTo = {$plugin.tx_edm.errors.enrollment.mailTo}
-                mailSubject = {$plugin.tx_edm.errors.enrollment.mailSubject}
+                mailFrom = {$plugin.tx_edmtypo3.errors.enrollment.mailFrom}
+                mailTo = {$plugin.tx_edmtypo3.errors.enrollment.mailTo}
+                mailSubject = {$plugin.tx_edmtypo3.errors.enrollment.mailSubject}
             }
         }
 
         pageuids {
-            home = {$plugin.tx_edm.pageuids.home}
-            eventSearch = {$plugin.tx_edm.pageuids.eventSearch}
-            eventDetail = {$plugin.tx_edm.pageuids.eventDetail}
-            eventEnrollment = {$plugin.tx_edm.pageuids.eventEnrollment}
-            login = {$plugin.tx_edm.pageuids.login}
-            logout = {$plugin.tx_edm.pageuids.logout}
-            privacy = {$plugin.tx_edm.pageuids.privacy}
-            locationDetail = {$plugin.tx_edm.pageuids.locationDetail}
-            lecturerDetail = {$plugin.tx_edm.pageuids.lecturerDetail}
-            404 = {$plugin.tx_edm.pageuids.404}
+            home = {$plugin.tx_edmtypo3.pageuids.home}
+            eventSearch = {$plugin.tx_edmtypo3.pageuids.eventSearch}
+            eventDetail = {$plugin.tx_edmtypo3.pageuids.eventDetail}
+            eventEnrollment = {$plugin.tx_edmtypo3.pageuids.eventEnrollment}
+            login = {$plugin.tx_edmtypo3.pageuids.login}
+            logout = {$plugin.tx_edmtypo3.pageuids.logout}
+            privacy = {$plugin.tx_edmtypo3.pageuids.privacy}
+            locationDetail = {$plugin.tx_edmtypo3.pageuids.locationDetail}
+            lecturerDetail = {$plugin.tx_edmtypo3.pageuids.lecturerDetail}
+            404 = {$plugin.tx_edmtypo3.pageuids.404}
         }
 
         pages {
-            detail = {$plugin.tx_edm.pages.detail}
-            enrollment = {$plugin.tx_edm.pages.enrollment}
+            detail = {$plugin.tx_edmtypo3.pages.detail}
+            enrollment = {$plugin.tx_edmtypo3.pages.enrollment}
         }
-
-        feUsername = {$plugin.tx_edm.settings.feUsername}
     }
 }

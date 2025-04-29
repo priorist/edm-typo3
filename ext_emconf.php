@@ -11,14 +11,17 @@ $EM_CONF[$_EXTKEY] = array(
 	'uploadfolder' => '0',
 	'createDirs' => '',
 	'clearCacheOnLoad' => 1,
-	'version' => '1.2.3',
-	'constraints' => array(
-		'depends' => array(
-			'typo3' => '9.5.0-0.0.0',
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		)
-	)
+	'version' => '2.0.0',
+	'constraints' => [
+		'depends' => [
+			'typo3' => '12.4.0-12.4.99',
+			'extbase' => '12.4.0-12.4.99',
+			'fluid' => '12.4.0-12.4.99',
+		],
+	],
+	'autoload' => [
+		'psr-4' => [
+			'Priorist\\EdmTypo3\\' => 'Classes',
+		],
+	],
 );

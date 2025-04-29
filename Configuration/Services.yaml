@@ -1,0 +1,26 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Priorist\EdmTypo3\:
+    resource: '../Classes/*'
+
+  Priorist\EdmTypo3\Controller\EventController:
+    public: true
+
+  Priorist\EdmTypo3\Controller\EnrollmentController:
+    public: true
+
+  Priorist\EdmTypo3\Controller\FormErrorController:
+    public: true 
+
+  Priorist\EdmTypo3\Controller\LecturerController:
+    public: true
+  
+  Priorist\EdmTypo3\Controller\LocationController:
+    public: true
+  
+  Priorist\EdmTypo3\Controller\StaffController:
+    public: true

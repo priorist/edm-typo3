@@ -70,7 +70,7 @@ class ImageViewHelper extends AbstractViewHelper
     {
         $configurationManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
         $fullTypoScript = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-        $settings = $fullTypoScript['plugin.']['tx_edm.']['settings.'];
+        $settings = $fullTypoScript['plugin.']['tx_edmtypo3.']['settings.'];
         $url = $settings['edm.']['url'];
 
         return $url;

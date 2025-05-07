@@ -95,6 +95,6 @@ mod.wizards.newContentElement.wizardItems {
       }
     }
 
-    show := addToList(edmtypo3_eventlist,edmtypo3_eventsearch,edmtypo3_eventdetail,edmtypo3_enrollmentnew,edmtypo3_locationlist,edmtypo3_locationdetail,edmtypo3_lecturerlist,edmtypo3_lecturerdetail,edmtypo3_formerrorsenderrormessage)
+    show := addToList(edmtypo3_eventlist,edmtypo3_eventsearch,edmtypo3_eventdetail,edmtypo3_enrollmentnew,edmtypo3_staffdetail,edmtypo3_locationlist,edmtypo3_locationdetail,edmtypo3_lecturerlist,edmtypo3_lecturerdetail,edmtypo3_formerrorsenderrormessage)
   }
 }

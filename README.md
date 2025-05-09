@@ -5,6 +5,7 @@ A Typo3 extension that interacts with Education Manager (EDM).
 ## Table of contents
 
 [[_TOC_]]
+
 ## Necessary Typo3 Setup
 
 In order for the extension to work properly, there are some things to configure within your Typo3 instance.
@@ -14,42 +15,59 @@ In order for the extension to work properly, there are some things to configure 
 Firstly, you should create a root template that defines the following TypoScript constants:
 
 ```typoscript
-plugin.tx_edm {
+plugin.tx_edmtypo3 {
     edm {
         url = <URL of your EDM instance>
 
         auth {
             anonymous {
-                clientId = <Client ID of anonymous OAuth app (used to display data)>
-                clientSecret = <Client Secret of anonymous OAuth app (used to display data)>
+                clientId = <Client ID for general authentication>
+                clientSecret = <Client Secret for general authentication>
             }
-
-            password {
-                clientId = <Client ID of logged-in OAuth app (used to provide a logged-in area for participants)>
-                clientSecret = <Client Secret of logged-in OAuth app (used to provide a logged-in area for participants)>
+      
+            profile {
+                clientId = <Client ID if EDM Login Portal is activated>
+                redirectUri = <Redirect URI after successful login>
             }
-        }
-
-        slugs {
-            eventDescription = <Slug of your description type you want to display as the main descriptor of an event>
         }
     }
 
-    // Pageuids can be used to link to specific pages
+    versions {
+        form = <Version number of the registration form, i.e 2.0.3>
+        config = <Version number of the registration form config, i.e 1.3.1>
+        profile-snippet = <Version number of the EDM profile snippet, i.e 1.0.0>
+    }
+
+    errors {
+        enrollment {
+            mailFrom = <Sender of the error mail>
+            mailTo = <Recipient of the error mail>
+            mailSubject = <Subject of the error mail>
+        }
+    }
+
+    // Page UIDs that are used to properly link from TYPO3 templates
     pageuids {
-        eventSearch = <pageUid of your event search page>
-        eventDetail = <pageUid of your event detail page>
-        eventEnrollment = <pageUid of your event enrollment page>
-        404 = <pageUid of your generic 404 page. Used if no event is found on a detail page>
+        home = 1
+        eventSearch = 2
+        eventDetail = 3
+        eventEnrollment = 4
+        locationDetail = 6
+        lecturerDetail = 8
+        footer = 66
+        privacy = 70
+        newsletter = 119
+        404 = 35
+    }
+
+    customConditions {
+        // Used in EventController to specify EDM event types for which all events should be shown, regardless of dates or price
+        eventTypes {
+            showAllEvents = 5
+        }
     }
 }
 ```
-
-### Create User & User Group
-
-- In order for the login feature to work properly, an user and user group have to be created.
-- **User Group:** create an user group called `Seminar-Teilnehmer`
-- **User:** create an user called `api-teilnehmer` and assign it to the user group `Seminar-Teilnehmer`
 
 ## Extend Extension
 

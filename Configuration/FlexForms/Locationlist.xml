@@ -6,24 +6,20 @@
     <!-- Sheet: Settings -->
     <sDEF>
       <ROOT>
-        <TCEforms>
-          <sheetTitle>Einstellungen</sheetTitle>
-        </TCEforms>
+        <sheetTitle>Einstellungen</sheetTitle>
         <type>array</type>
         <el>
           <settings.locationFilter.locations>
-            <TCEforms>
-              <label>Veranstaltungsort</label>
-              <config>
-                <type>select</type>
-                <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getLocations</itemsProcFunc>
-                <renderType>selectMultipleSideBySide</renderType>
-                <items>
-                  <!-- empty by default -->
-                </items>
-                <minitems>1</minitems>
-              </config>
-            </TCEforms>
+            <label>Veranstaltungsort</label>
+            <config>
+              <type>select</type>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getLocations</itemsProcFunc>
+              <renderType>selectMultipleSideBySide</renderType>
+              <items>
+                <!-- empty by default -->
+              </items>
+              <minitems>1</minitems>
+            </config>
           </settings.locationFilter.locations>
         </el>
       </ROOT>

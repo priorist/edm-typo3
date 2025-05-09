@@ -6,69 +6,55 @@
     <!-- Sheet: Settings -->
     <sDEF>
       <ROOT>
-        <TCEforms>
-          <sheetTitle>Einstellungen</sheetTitle>
-        </TCEforms>
+        <sheetTitle>Einstellungen</sheetTitle>
         <type>array</type>
         <el>
           <settings.detailOnExternalWebsite>
-            <TCEforms>
-              <label>Veranstaltungen auf externe Website verlinken?</label>
-              <onChange>reload</onChange>
-              <config>
-                <type>check</type>
-              </config>
-            </TCEforms>
+            <label>Veranstaltungen auf externe Website verlinken?</label>
+            <onChange>reload</onChange>
+            <config>
+              <type>check</type>
+            </config>
           </settings.detailOnExternalWebsite>
           <settings.detailUrl>
-            <TCEforms>
-              <label>URL der externen Website (z.B https://academy.priorist.com/veranstaltung/)</label>
-              <displayCond>FIELD:settings.detailOnExternalWebsite:REQ:true</displayCond>
-              <config>
-                <type>input</type>
-                <eval>required</eval>
-              </config>
-            </TCEforms>
+            <label>URL der externen Website (z.B https://academy.priorist.com/veranstaltung/)</label>
+            <displayCond>FIELD:settings.detailOnExternalWebsite:REQ:true</displayCond>
+            <config>
+              <type>input</type>
+              <eval>required</eval>
+            </config>
           </settings.detailUrl>
           <settings.view.showPrice>
-            <TCEforms>
-              <label>Preis anzeigen?</label>
-              <config>
-                <type>check</type>
-              </config>
-            </TCEforms>
+            <label>Preis anzeigen?</label>
+            <config>
+              <type>check</type>
+            </config>
           </settings.view.showPrice>
           <settings.view.layout>
-            <TCEforms>
-              <label>Layout</label>
-              <config>
-                <type>select</type>
-                <renderType>selectSingle</renderType>
-                <items type="array">
-                  <numIndex index="0" type="array">
-                    <numIndex index="0">Standard</numIndex>
-                    <numIndex index="1">default</numIndex>
-                  </numIndex>
-                </items>
-                <maxitems>1</maxitems>
-              </config>
-            </TCEforms>
+            <label>Layout</label>
+            <config>
+              <type>select</type>
+              <renderType>selectSingle</renderType>
+              <items type="array">
+                <numIndex index="0" type="array">
+                  <numIndex index="0">Standard</numIndex>
+                  <numIndex index="1">default</numIndex>
+                </numIndex>
+              </items>
+              <maxitems>1</maxitems>
+            </config>
           </settings.view.layout>
           <settings.view.showImage>
-            <TCEforms>
-              <label>Bild anzeigen?</label>
-              <config>
-                <type>check</type>
-              </config>
-            </TCEforms>
+            <label>Bild anzeigen?</label>
+            <config>
+              <type>check</type>
+            </config>
           </settings.view.showImage>
           <settings.view.showPartners>
-            <TCEforms>
-              <label>Kooperationspartner anzeigen?</label>
-              <config>
-                <type>check</type>
-              </config>
-            </TCEforms>
+            <label>Kooperationspartner anzeigen?</label>
+            <config>
+              <type>check</type>
+            </config>
           </settings.view.showPartners>
         </el>
       </ROOT>
@@ -76,155 +62,129 @@
     <!-- Sheet: Filter for event list view -->
     <listFilter>
       <ROOT>
-        <TCEforms>
-          <sheetTitle>Filter</sheetTitle>
-        </TCEforms>
+        <sheetTitle>Filter</sheetTitle>
         <type>array</type>
         <el>
           <settings.listFilter.showAll>
-            <TCEforms>
-              <label>Alle Veranstaltungen anzeigen? (auch bereits stattgefundene oder ohne Termine)</label>
-              <config>
-                <type>check</type>
-              </config>
-            </TCEforms>
+            <label>Alle Veranstaltungen anzeigen? (auch bereits stattgefundene oder ohne Termine)</label>
+            <config>
+              <type>check</type>
+            </config>
           </settings.listFilter.showAll>
           <settings.listFilter.isBookable>
-            <TCEforms>
-              <label>Nur buchbare Events anzeigen?</label>
-              <config>
-                <type>check</type>
-              </config>
-            </TCEforms>
+            <label>Nur buchbare Events anzeigen?</label>
+            <config>
+              <type>check</type>
+            </config>
           </settings.listFilter.isBookable>
           <settings.listFilter.eventIds>
-            <TCEforms>
-              <label>Veranstaltungs-IDs (kommagetrennt)</label>
-              <config>
-                <type>input</type>
-              </config>
-            </TCEforms>
+            <label>Veranstaltungs-IDs (kommagetrennt)</label>
+            <config>
+              <type>input</type>
+            </config>
           </settings.listFilter.eventIds>
           <settings.listFilter.eventBaseIds>
-            <TCEforms>
-              <label>Veranstaltungsbasis-IDs (kommagetrennt)</label>
-              <config>
-                <type>input</type>
-              </config>
-            </TCEforms>
+            <label>Veranstaltungsbasis-IDs (kommagetrennt)</label>
+            <config>
+              <type>input</type>
+            </config>
           </settings.listFilter.eventBaseIds>
           <settings.listFilter.categoryIds>
-            <TCEforms>
-              <label>Kategorien</label>
-              <config>
-                <type>select</type>
-                <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getCategories</itemsProcFunc>
-                <renderType>selectMultipleSideBySide</renderType>
-                <items>
-                  <!-- empty by default -->
-                </items>
-              </config>
-            </TCEforms>
+            <label>Kategorien</label>
+            <config>
+              <type>select</type>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getCategories</itemsProcFunc>
+              <renderType>selectMultipleSideBySide</renderType>
+              <items>
+                <!-- empty by default -->
+              </items>
+            </config>
           </settings.listFilter.categoryIds>
           <settings.listFilter.eventTypeId>
-            <TCEforms>
-              <label>Veranstaltungstyp</label>
-              <config>
-                <type>select</type>
-                <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getEventTypes</itemsProcFunc>
-                <renderType>selectSingle</renderType>
-                <items>
-                  <!-- empty by default -->
-                </items>
-              </config>
-            </TCEforms>
+            <label>Veranstaltungstyp</label>
+            <config>
+              <type>select</type>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getEventTypes</itemsProcFunc>
+              <renderType>selectSingle</renderType>
+              <items>
+                <!-- empty by default -->
+              </items>
+            </config>
           </settings.listFilter.eventTypeId>
           <settings.listFilter.eventFormat>
-            <TCEforms>
-              <label>Veranstaltungsformat</label>
-              <config>
-                <type>select</type>
-                <renderType>selectSingle</renderType>
-                <default>0</default>
-                <items type="array">
-                  <numIndex index="0">
-                    <numIndex index="0">alle</numIndex>
-                    <numIndex index="1">0</numIndex>
-                  </numIndex>
-                  <numIndex index="1">
-                    <numIndex index="0">Präsenz</numIndex>
-                    <numIndex index="1">ONSITE</numIndex>
-                  </numIndex>
-                  <numIndex index="2">
-                    <numIndex index="0">Online</numIndex>
-                    <numIndex index="1">ONLINE</numIndex>
-                  </numIndex>
-                  <numIndex index="3">
-                    <numIndex index="0">Hybrid</numIndex>
-                    <numIndex index="1">HYBRID</numIndex>
-                  </numIndex>
-                </items>
-                <maxitems>1</maxitems>
-              </config>
-            </TCEforms>
+            <label>Veranstaltungsformat</label>
+            <config>
+              <type>select</type>
+              <renderType>selectSingle</renderType>
+              <default>0</default>
+              <items type="array">
+                <numIndex index="0">
+                  <numIndex index="0">alle</numIndex>
+                  <numIndex index="1">0</numIndex>
+                </numIndex>
+                <numIndex index="1">
+                  <numIndex index="0">Präsenz</numIndex>
+                  <numIndex index="1">ONSITE</numIndex>
+                </numIndex>
+                <numIndex index="2">
+                  <numIndex index="0">Online</numIndex>
+                  <numIndex index="1">ONLINE</numIndex>
+                </numIndex>
+                <numIndex index="3">
+                  <numIndex index="0">Hybrid</numIndex>
+                  <numIndex index="1">HYBRID</numIndex>
+                </numIndex>
+              </items>
+              <maxitems>1</maxitems>
+            </config>
           </settings.listFilter.eventFormat>
           <settings.listFilter.context>
-            <TCEforms>
-              <label>Umgebung</label>
-              <config>
-                <type>select</type>
-                <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getContexts</itemsProcFunc>
-                <renderType>selectSingle</renderType>
-                <items>
-                  <!-- empty by default -->
-                </items>
-              </config>
-            </TCEforms>
+            <label>Umgebung</label>
+            <config>
+              <type>select</type>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getContexts</itemsProcFunc>
+              <renderType>selectSingle</renderType>
+              <items>
+                <!-- empty by default -->
+              </items>
+            </config>
           </settings.listFilter.context>
           <settings.listFilter.location>
-            <TCEforms>
-              <label>Veranstaltungsort</label>
-              <config>
-                <type>select</type>
-                <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getLocations</itemsProcFunc>
-                <renderType>selectSingle</renderType>
-                <items>
-                  <!-- empty by default -->
-                </items>
-              </config>
-            </TCEforms>
+            <label>Veranstaltungsort</label>
+            <config>
+              <type>select</type>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getLocations</itemsProcFunc>
+              <renderType>selectSingle</renderType>
+              <items>
+                <!-- empty by default -->
+              </items>
+            </config>
           </settings.listFilter.location>
           <settings.listFilter.limit>
-            <TCEforms>
-              <label>Limit</label>
-              <config>
-                <type>input</type>
-              </config>
-            </TCEforms>
+            <label>Limit</label>
+            <config>
+              <type>input</type>
+            </config>
           </settings.listFilter.limit>
           <settings.listFilter.dateFrom>
-            <TCEforms>
-              <label>Datum von</label>
-              <config>
-                <type>input</type>
-                <renderType>inputDateTime</renderType>
-                <size>8</size>
-                <eval>date</eval>
-                <dbType>date</dbType>
-              </config>
-            </TCEforms>
+            <label>Datum von</label>
+            <config>
+              <type>input</type>
+              <renderType>inputDateTime</renderType>
+              <size>8</size>
+              <eval>date</eval>
+              <dbType>date</dbType>
+            </config>
           </settings.listFilter.dateFrom>
           <settings.listFilter.dateTo>
-            <TCEforms>
-              <label>Datum bis</label>
-              <config>
-                <type>input</type>
-                <renderType>inputDateTime</renderType>
-                <size>8</size>
-                <eval>date</eval>
-                <dbType>date</dbType>
-              </config>
-            </TCEforms>
+            <label>Datum bis</label>
+            <config>
+              <type>input</type>
+              <renderType>inputDateTime</renderType>
+              <size>8</size>
+              <eval>date</eval>
+              <dbType>date</dbType>
+            </config>
           </settings.listFilter.dateTo>
         </el>
       </ROOT>

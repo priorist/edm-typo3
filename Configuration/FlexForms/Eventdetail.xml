@@ -3,40 +3,31 @@
     <langDisable>1</langDisable>
   </meta>
   <sheets>
-    <!-- Sheet: Settings -->
     <sDEF>
       <ROOT>
-        <TCEforms>
-          <sheetTitle>Einstellungen</sheetTitle>
-        </TCEforms>
+        <sheetTitle>Einstellungen</sheetTitle>
         <type>array</type>
         <el>
           <settings.view.showPrice>
-            <TCEforms>
-              <label>Preis anzeigen?</label>
-              <config>
-                <type>check</type>
-              </config>
-            </TCEforms>
+            <label>Preis anzeigen?</label>
+            <config>
+              <type>check</type>
+            </config>
           </settings.view.showPrice>
           <settings.enrollmentOnExternalWebsite>
-            <TCEforms>
-              <label>Anmeldung auf externer Website?</label>
-              <onChange>reload</onChange>
-              <config>
-                <type>check</type>
-              </config>
-            </TCEforms>
+            <label>Anmeldung auf externer Website?</label>
+            <onChange>reload</onChange>
+            <config>
+              <type>check</type>
+            </config>
           </settings.enrollmentOnExternalWebsite>
           <settings.enrollmentUrl>
-            <TCEforms>
-              <label>URL der externen Website (z.B https://academy.priorist.com/anmeldung/)</label>
-              <displayCond>FIELD:settings.enrollmentOnExternalWebsite:REQ:true</displayCond>
-              <config>
-                <type>input</type>
-                <eval>required</eval>
-              </config>
-            </TCEforms>
+            <label>URL der externen Website (z.B https://academy.priorist.com/anmeldung/)</label>
+            <displayCond>FIELD:settings.enrollmentOnExternalWebsite:REQ:true</displayCond>
+            <config>
+              <type>input</type>
+              <eval>required</eval>
+            </config>
           </settings.enrollmentUrl>
         </el>
       </ROOT>

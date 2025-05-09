@@ -11,7 +11,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class AbstractController extends ActionController
 {
-	const REGISTRY_NAMESPACE = 'tx_edm';
+	const REGISTRY_NAMESPACE = 'tx_edmtypo3';
 	const REGISTRY_KEY = 'cache_access-token';
 	const REGISTRY_EXPIRATION = 12; // expiration in hours
 	const LOG_MESSAGE_401 = 'EDM-Authentifizierung fehlgeschlagen. Access Token wird neu angefordert.';

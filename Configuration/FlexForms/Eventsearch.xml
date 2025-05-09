@@ -1,0 +1,61 @@
+<T3DataStructure>
+  <meta type="array">
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <sheetTitle>Ansichten</sheetTitle>
+        <type>array</type>
+        <el>
+          <settings.detailOnExternalWebsite>
+            <label>Veranstaltungen auf externe Website verlinken?</label>
+            <onChange>reload</onChange>
+            <config>
+              <type>check</type>
+            </config>
+          </settings.detailOnExternalWebsite>
+          <settings.detailUrl>
+            <label>URL der externen Website (z.B https://academy.priorist.com/veranstaltung/)</label>
+            <displayCond>FIELD:settings.detailOnExternalWebsite:REQ:true</displayCond>
+            <config>
+              <type>input</type>
+              <eval>required</eval>
+            </config>
+          </settings.detailUrl>
+          <settings.view.showPrice>
+            <label>Preis anzeigen?</label>
+            <config>
+              <type>check</type>
+            </config>
+          </settings.view.showPrice>
+          <settings.eventSearchLimit>
+            <label>Anzahl der Ergebnisse</label>
+            <config>
+              <type>input</type>
+            </config>
+          </settings.eventSearchLimit>
+        </el>
+      </ROOT>
+    </sDEF>
+    <listFilter>
+      <ROOT>
+        <sheetTitle>Filter</sheetTitle>
+        <type>array</type>
+        <el>
+          <settings.listFilter.context>
+            <label>Umgebung</label>
+            <config>
+              <type>select</type>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getContexts</itemsProcFunc>
+              <renderType>selectSingle</renderType>
+              <items>
+                <!-- empty by default -->
+              </items>
+            </config>
+          </settings.listFilter.context>
+        </el>
+      </ROOT>
+    </listFilter>
+  </sheets>
+</T3DataStructure>

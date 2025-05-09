@@ -1,0 +1,28 @@
+<T3DataStructure>
+  <meta type="array">
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <!-- Sheet: Settings -->
+    <sDEF>
+      <ROOT>
+        <sheetTitle>Einstellungen</sheetTitle>
+        <type>array</type>
+        <el>
+          <settings.locationFilter.locations>
+            <label>Veranstaltungsort</label>
+            <config>
+              <type>select</type>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getLocations</itemsProcFunc>
+              <renderType>selectMultipleSideBySide</renderType>
+              <items>
+                <!-- empty by default -->
+              </items>
+              <minitems>1</minitems>
+            </config>
+          </settings.locationFilter.locations>
+        </el>
+      </ROOT>
+    </sDEF>
+  </sheets>
+</T3DataStructure>

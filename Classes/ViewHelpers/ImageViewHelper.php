@@ -4,7 +4,6 @@ namespace Priorist\EdmTypo3\ViewHelpers;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Resource\StorageRepository;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -38,40 +37,40 @@ class ImageViewHelper extends AbstractViewHelper
 
     protected function saveImage($name, $url)
     {
-        $edmUrl = self::getEdmBaseUrl();
-        $externalFile = file_get_contents($edmUrl . $url);
+        $edmUrl = $this->getEdmBaseUrl();
+        $externalFile = @file_get_contents($edmUrl . $url);
+        if ($externalFile === false) {
+            return null;
+        }
+
         $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $storage = $storageRepository->getDefaultStorage();
+        $destinationFolder = self::DESTINATION_DIRECTORY;
 
-        if (!$storage->hasFolder(self::DESTINATION_DIRECTORY)) {
-            $storage->createFolder(self::DESTINATION_DIRECTORY);
+        if (!$storage->hasFolder($destinationFolder)) {
+            $storage->createFolder($destinationFolder);
         }
 
-        // check if file was already downloaded
-        if ($externalFile) {
-            $publicPath = Environment::getPublicPath();
-            $filename = crc32($externalFile) . '-' . urlencode($name);
+        $filename = crc32($externalFile) . '-' . urlencode($name);
+        $tempFile = GeneralUtility::tempnam('edm_image');
+        file_put_contents($tempFile, $externalFile);
 
-            $fileadminPath = '/fileadmin/' . self::DESTINATION_DIRECTORY;
+        $file = $storage->addFile(
+            $tempFile,
+            $storage->getFolder($destinationFolder),
+            $filename
+        );
 
-            $relativePath = $fileadminPath . '/' . $filename;
-            $imageFolder = $publicPath . $fileadminPath;
-            $fullPath = $imageFolder . '/' . $filename;
+        GeneralUtility::unlink_tempfile($tempFile);
 
-            if (file_put_contents($fullPath, $externalFile)) {
-                return $relativePath;
-            }
-        }
-
-        return null;
+        return $file->getPublicUrl();
     }
 
     protected function getEdmBaseUrl()
     {
-        $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
+        $configurationManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
         $fullTypoScript = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-        $settings = $fullTypoScript['plugin.']['tx_edm.']['settings.'];
+        $settings = $fullTypoScript['plugin.']['tx_edmtypo3.']['settings.'];
         $url = $settings['edm.']['url'];
 
         return $url;

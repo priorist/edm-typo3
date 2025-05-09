@@ -2,17 +2,9 @@
 	"name": "priorist/edm-typo3",
 	"description": "Provides a plugin to render events from EDM in TYPO3.",
 	"type": "typo3-cms-extension",
-	"config": {
-		"allow-plugins": {
-			"typo3/class-alias-loader": true,
-			"typo3/cms-composer-installers": true
-		}
-	},
+	"version": "2.0.0",
 	"require": {
-		"php": "^8.0",
-		"priorist/edm-sdk": "^1.0",
-		"typo3/cms-core": "^11 || ^12",
-		"typo3/cms-backend": "^11 || ^12"
+		"priorist/edm-sdk": "^1.0"
 	},
 	"license": "GPL-2.0-or-later",
 	"authors": [
@@ -27,17 +19,11 @@
 		}
 	},
 	"replace": {
-		"priorist/edm": "self.version"
+		"priorist/edm-typo3": "self.version"
 	},
 	"extra": {
 		"typo3/cms": {
-			"extension-key": "edm"
+			"extension-key": "edm-typo3"
 		}
-	},
-	"repositories": [
-		{
-			"type": "composer",
-			"url": "https://composer.typo3.org/"
-		}
-	]
+	}
 }

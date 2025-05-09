@@ -1,14 +1,14 @@
 <?php
-defined('TYPO3_MODE') or die();
+defined('TYPO3') or die();
 
-$extensionKey = 'Edm';
-$extensionIcon = 'EXT:edm/ext_icon.svg';
+$extensionKey = 'EdmTypo3';
+$extensionIcon = 'edm';
 $pluginGroup = 'Education Manager (EDM)';
 
 // Register Plugins in Backend
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     $extensionKey,
-    'Pieventlist',
+    'Eventlist',
     'Veranstaltungen: Liste',
     $extensionIcon,
     $pluginGroup
@@ -16,7 +16,7 @@ $pluginGroup = 'Education Manager (EDM)';
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     $extensionKey,
-    'Pieventdetail',
+    'Eventdetail',
     'Veranstaltungen: Detailseite',
     $extensionIcon,
     $pluginGroup
@@ -24,7 +24,7 @@ $pluginGroup = 'Education Manager (EDM)';
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     $extensionKey,
-    'Pieventsearch',
+    'Eventsearch',
     'Veranstaltungen: Suche',
     $extensionIcon,
     $pluginGroup
@@ -32,7 +32,7 @@ $pluginGroup = 'Education Manager (EDM)';
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     $extensionKey,
-    'Pilocationlist',
+    'Locationlist',
     'Veranstaltungsorte: Liste',
     $extensionIcon,
     $pluginGroup
@@ -40,7 +40,7 @@ $pluginGroup = 'Education Manager (EDM)';
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     $extensionKey,
-    'Pilocationdetail',
+    'Locationdetail',
     'Veranstaltungsorte: Detailseite',
     $extensionIcon,
     $pluginGroup
@@ -48,7 +48,7 @@ $pluginGroup = 'Education Manager (EDM)';
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     $extensionKey,
-    'Pienrollmentnew',
+    'Enrollmentnew',
     'Veranstaltungen: Anmeldung',
     $extensionIcon,
     $pluginGroup
@@ -56,15 +56,7 @@ $pluginGroup = 'Education Manager (EDM)';
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     $extensionKey,
-    'Piparticipantloginlogout',
-    'Teilnehmer-Login',
-    $extensionIcon,
-    $pluginGroup
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $extensionKey,
-    'Pistaffdetail',
+    'Staffdetail',
     'Kontaktperson: Detailseite',
     $extensionIcon,
     $pluginGroup
@@ -72,7 +64,7 @@ $pluginGroup = 'Education Manager (EDM)';
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     $extensionKey,
-    'Pilecturerlist',
+    'Lecturerlist',
     'Dozierende: Liste',
     $extensionIcon,
     $pluginGroup
@@ -80,7 +72,7 @@ $pluginGroup = 'Education Manager (EDM)';
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     $extensionKey,
-    'Pilecturerdetail',
+    'Lecturerdetail',
     'Dozierende: Detailseite',
     $extensionIcon,
     $pluginGroup
@@ -88,17 +80,17 @@ $pluginGroup = 'Education Manager (EDM)';
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     $extensionKey,
-    'Piformerrorsenderrormessage',
+    'Formerrorsenderrormessage',
     'EDM: Anmelde-Fehler',
     $extensionIcon,
     $pluginGroup
 );
 
 // Add FlexForm to Plugin
-foreach (['pieventlist', 'pieventdetail', 'pieventsearch', 'pistaffdetail', 'pilocationlist'] as $plugin) {
-    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['edm_' . $plugin] = 'pi_flexform';
+foreach (['eventlist', 'eventdetail', 'eventsearch', 'staffdetail', 'locationlist'] as $plugin) {
+    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['edmtypo3_' . $plugin] = 'pi_flexform';
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
-        'edm_' . $plugin,
-        'FILE:EXT:edm/Configuration/FlexForms/' . ucfirst($plugin) . '.xml'
+        'edmtypo3_' . $plugin,
+        'FILE:EXT:edm-typo3/Configuration/FlexForms/' . ucfirst($plugin) . '.xml'
     );
 }

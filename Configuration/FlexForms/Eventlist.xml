@@ -1,0 +1,193 @@
+<T3DataStructure>
+  <meta type="array">
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <!-- Sheet: Settings -->
+    <sDEF>
+      <ROOT>
+        <sheetTitle>Einstellungen</sheetTitle>
+        <type>array</type>
+        <el>
+          <settings.detailOnExternalWebsite>
+            <label>Veranstaltungen auf externe Website verlinken?</label>
+            <onChange>reload</onChange>
+            <config>
+              <type>check</type>
+            </config>
+          </settings.detailOnExternalWebsite>
+          <settings.detailUrl>
+            <label>URL der externen Website (z.B https://academy.priorist.com/veranstaltung/)</label>
+            <displayCond>FIELD:settings.detailOnExternalWebsite:REQ:true</displayCond>
+            <config>
+              <type>input</type>
+              <eval>required</eval>
+            </config>
+          </settings.detailUrl>
+          <settings.view.showPrice>
+            <label>Preis anzeigen?</label>
+            <config>
+              <type>check</type>
+            </config>
+          </settings.view.showPrice>
+          <settings.view.layout>
+            <label>Layout</label>
+            <config>
+              <type>select</type>
+              <renderType>selectSingle</renderType>
+              <items type="array">
+                <numIndex index="0" type="array">
+                  <numIndex index="0">Standard</numIndex>
+                  <numIndex index="1">default</numIndex>
+                </numIndex>
+              </items>
+              <maxitems>1</maxitems>
+            </config>
+          </settings.view.layout>
+          <settings.view.showImage>
+            <label>Bild anzeigen?</label>
+            <config>
+              <type>check</type>
+            </config>
+          </settings.view.showImage>
+          <settings.view.showPartners>
+            <label>Kooperationspartner anzeigen?</label>
+            <config>
+              <type>check</type>
+            </config>
+          </settings.view.showPartners>
+        </el>
+      </ROOT>
+    </sDEF>
+    <!-- Sheet: Filter for event list view -->
+    <listFilter>
+      <ROOT>
+        <sheetTitle>Filter</sheetTitle>
+        <type>array</type>
+        <el>
+          <settings.listFilter.showAll>
+            <label>Alle Veranstaltungen anzeigen? (auch bereits stattgefundene oder ohne Termine)</label>
+            <config>
+              <type>check</type>
+            </config>
+          </settings.listFilter.showAll>
+          <settings.listFilter.isBookable>
+            <label>Nur buchbare Events anzeigen?</label>
+            <config>
+              <type>check</type>
+            </config>
+          </settings.listFilter.isBookable>
+          <settings.listFilter.eventIds>
+            <label>Veranstaltungs-IDs (kommagetrennt)</label>
+            <config>
+              <type>input</type>
+            </config>
+          </settings.listFilter.eventIds>
+          <settings.listFilter.eventBaseIds>
+            <label>Veranstaltungsbasis-IDs (kommagetrennt)</label>
+            <config>
+              <type>input</type>
+            </config>
+          </settings.listFilter.eventBaseIds>
+          <settings.listFilter.categoryIds>
+            <label>Kategorien</label>
+            <config>
+              <type>select</type>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getCategories</itemsProcFunc>
+              <renderType>selectMultipleSideBySide</renderType>
+              <items>
+                <!-- empty by default -->
+              </items>
+            </config>
+          </settings.listFilter.categoryIds>
+          <settings.listFilter.eventTypeId>
+            <label>Veranstaltungstyp</label>
+            <config>
+              <type>select</type>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getEventTypes</itemsProcFunc>
+              <renderType>selectSingle</renderType>
+              <items>
+                <!-- empty by default -->
+              </items>
+            </config>
+          </settings.listFilter.eventTypeId>
+          <settings.listFilter.eventFormat>
+            <label>Veranstaltungsformat</label>
+            <config>
+              <type>select</type>
+              <renderType>selectSingle</renderType>
+              <default>0</default>
+              <items type="array">
+                <numIndex index="0">
+                  <numIndex index="0">alle</numIndex>
+                  <numIndex index="1">0</numIndex>
+                </numIndex>
+                <numIndex index="1">
+                  <numIndex index="0">Präsenz</numIndex>
+                  <numIndex index="1">ONSITE</numIndex>
+                </numIndex>
+                <numIndex index="2">
+                  <numIndex index="0">Online</numIndex>
+                  <numIndex index="1">ONLINE</numIndex>
+                </numIndex>
+                <numIndex index="3">
+                  <numIndex index="0">Hybrid</numIndex>
+                  <numIndex index="1">HYBRID</numIndex>
+                </numIndex>
+              </items>
+              <maxitems>1</maxitems>
+            </config>
+          </settings.listFilter.eventFormat>
+          <settings.listFilter.context>
+            <label>Umgebung</label>
+            <config>
+              <type>select</type>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getContexts</itemsProcFunc>
+              <renderType>selectSingle</renderType>
+              <items>
+                <!-- empty by default -->
+              </items>
+            </config>
+          </settings.listFilter.context>
+          <settings.listFilter.location>
+            <label>Veranstaltungsort</label>
+            <config>
+              <type>select</type>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getLocations</itemsProcFunc>
+              <renderType>selectSingle</renderType>
+              <items>
+                <!-- empty by default -->
+              </items>
+            </config>
+          </settings.listFilter.location>
+          <settings.listFilter.limit>
+            <label>Limit</label>
+            <config>
+              <type>input</type>
+            </config>
+          </settings.listFilter.limit>
+          <settings.listFilter.dateFrom>
+            <label>Datum von</label>
+            <config>
+              <type>input</type>
+              <renderType>inputDateTime</renderType>
+              <size>8</size>
+              <eval>date</eval>
+              <dbType>date</dbType>
+            </config>
+          </settings.listFilter.dateFrom>
+          <settings.listFilter.dateTo>
+            <label>Datum bis</label>
+            <config>
+              <type>input</type>
+              <renderType>inputDateTime</renderType>
+              <size>8</size>
+              <eval>date</eval>
+              <dbType>date</dbType>
+            </config>
+          </settings.listFilter.dateTo>
+        </el>
+      </ROOT>
+    </listFilter>
+  </sheets>
+</T3DataStructure>

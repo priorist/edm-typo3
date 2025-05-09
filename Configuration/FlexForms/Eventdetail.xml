@@ -1,0 +1,36 @@
+<T3DataStructure>
+  <meta type="array">
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <sDEF>
+      <ROOT>
+        <sheetTitle>Einstellungen</sheetTitle>
+        <type>array</type>
+        <el>
+          <settings.view.showPrice>
+            <label>Preis anzeigen?</label>
+            <config>
+              <type>check</type>
+            </config>
+          </settings.view.showPrice>
+          <settings.enrollmentOnExternalWebsite>
+            <label>Anmeldung auf externer Website?</label>
+            <onChange>reload</onChange>
+            <config>
+              <type>check</type>
+            </config>
+          </settings.enrollmentOnExternalWebsite>
+          <settings.enrollmentUrl>
+            <label>URL der externen Website (z.B https://academy.priorist.com/anmeldung/)</label>
+            <displayCond>FIELD:settings.enrollmentOnExternalWebsite:REQ:true</displayCond>
+            <config>
+              <type>input</type>
+              <eval>required</eval>
+            </config>
+          </settings.enrollmentUrl>
+        </el>
+      </ROOT>
+    </sDEF>
+  </sheets>
+</T3DataStructure>

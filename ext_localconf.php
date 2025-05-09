@@ -5,9 +5,13 @@ if (!defined('TYPO3')) {
 
 call_user_func(
 	function () {
+		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+			'@import "EXT:edm-typo3/Configuration/TSConfig/Page/Page.tsconfig"'
+		);
+		
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Pieventlist',
+			'EdmTypo3',
+			'Eventlist',
 			[
 				\Priorist\EdmTypo3\Controller\EventController::class => 'list',
 			],
@@ -16,8 +20,8 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Pieventdetail',
+			'EdmTypo3',
+			'Eventdetail',
 			[
 				\Priorist\EdmTypo3\Controller\EventController::class => 'detail',
 			],
@@ -26,8 +30,8 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Pieventsearch',
+			'EdmTypo3',
+			'Eventsearch',
 			[
 				\Priorist\EdmTypo3\Controller\EventController::class => 'search',
 			],
@@ -36,8 +40,8 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Pilocationlist',
+			'EdmTypo3',
+			'Locationlist',
 			[
 				\Priorist\EdmTypo3\Controller\LocationController::class => 'list',
 			],
@@ -46,8 +50,8 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Pilocationdetail',
+			'EdmTypo3',
+			'Locationdetail',
 			[
 				\Priorist\EdmTypo3\Controller\LocationController::class => 'detail',
 			],
@@ -56,8 +60,8 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Pienrollmentnew',
+			'EdmTypo3',
+			'Enrollmentnew',
 			[
 				\Priorist\EdmTypo3\Controller\EnrollmentController::class => 'new',
 			],
@@ -68,28 +72,8 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Piparticipantloginlogout',
-			[
-				\Priorist\EdmTypo3\Controller\ParticipantController::class => 'login, logout',
-			],
-			// non-cacheable actions
-			[]
-		);
-
-		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Piparticipantstatus',
-			[
-				\Priorist\EdmTypo3\Controller\ParticipantController::class => 'status',
-			],
-			// non-cacheable actions
-			[]
-		);
-
-		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Pistaffdetail',
+			'EdmTypo3',
+			'Staffdetail',
 			[
 				\Priorist\EdmTypo3\Controller\StaffController::class => 'detail',
 			],
@@ -98,8 +82,8 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Pilecturerlist',
+			'EdmTypo3',
+			'Lecturerlist',
 			[
 				\Priorist\EdmTypo3\Controller\LecturerController::class => 'list',
 			],
@@ -108,8 +92,8 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Pilecturerdetail',
+			'EdmTypo3',
+			'Lecturerdetail',
 			[
 				\Priorist\EdmTypo3\Controller\LecturerController::class => 'detail',
 			],
@@ -118,8 +102,8 @@ call_user_func(
 		);
 
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'Priorist.Edm',
-			'Piformerrorsenderrormessage',
+			'EdmTypo3',
+			'Formerrorsenderrormessage',
 			[
 				\Priorist\EdmTypo3\Controller\FormErrorController::class => 'sendErrorMessage',
 			],
@@ -127,12 +111,4 @@ call_user_func(
 			[]
 		);
 	}
-);
-
-$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-
-$iconRegistry->registerIcon(
-	'edm',
-	\TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-	['source' => 'EXT:edm/ext_icon.svg']
 );

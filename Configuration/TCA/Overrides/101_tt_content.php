@@ -1,96 +1,59 @@
 <?php
 defined('TYPO3') or die();
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
 $extensionKey = 'EdmTypo3';
 $extensionIcon = 'edm';
 $pluginGroup = 'Education Manager (EDM)';
 
-// Register Plugins in Backend
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $extensionKey,
-    'Eventlist',
-    'Veranstaltungen: Liste',
-    $extensionIcon,
-    $pluginGroup
-);
+/**
+ * List of plugin configurations for TYPO3 tt_content overrides.
+ *
+ * Each plugin is represented as an array with the following structure:
+ * [
+ *     string $identifier,           // Unique plugin identifier
+ *     string $label,                // Human-readable label (German)
+ *     bool   $registerFlexForm      // Whether the plugin needs to register a FlexForm
+ * ]
+ */
+$plugins = [
+    ['Eventlist', 'Veranstaltungen: Liste', 'Filterbare Veranstaltungsliste.', true],
+    ['Eventdetail', 'Veranstaltungen: Detailseite', 'Detailseite einer Veranstaltung.', true],
+    ['Eventsearch', 'Veranstaltungen: Suche', 'Veranstaltungsliste, die zusätzlich Filterdaten bereitstellt.', true],
+    ['Enrollmentnew', 'Veranstaltungen: Anmeldung', 'Anmeldeseite von Veranstaltungen.', false],
+    ['Locationlist', 'Veranstaltungsorte: Liste', 'Filterbare Liste von Veranstaltungsorten.', true],
+    ['Locationdetail', 'Veranstaltungsorte: Detailseite', 'Detailseite eines Veranstaltungsortes.', false],
+    ['Staffdetail', 'Kontaktperson: Detailseite', 'Detailansicht einer Kontaktperson.', true],
+    ['Lecturerlist', 'Dozierende: Liste', 'Filterbare Liste von Dozierenden.', false],
+    ['Lecturerdetail', 'Dozierende: Detailseite', 'Detailseite eines Dozierenden.', false],
+    ['Formerrorsenderrormessage', 'EDM: Anmelde-Fehler', 'Wird genutzt um per E-Mail über einen Anmeldefehler zu informieren.', false],
+];
 
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $extensionKey,
-    'Eventdetail',
-    'Veranstaltungen: Detailseite',
-    $extensionIcon,
-    $pluginGroup
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $extensionKey,
-    'Eventsearch',
-    'Veranstaltungen: Suche',
-    $extensionIcon,
-    $pluginGroup
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $extensionKey,
-    'Locationlist',
-    'Veranstaltungsorte: Liste',
-    $extensionIcon,
-    $pluginGroup
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $extensionKey,
-    'Locationdetail',
-    'Veranstaltungsorte: Detailseite',
-    $extensionIcon,
-    $pluginGroup
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $extensionKey,
-    'Enrollmentnew',
-    'Veranstaltungen: Anmeldung',
-    $extensionIcon,
-    $pluginGroup
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $extensionKey,
-    'Staffdetail',
-    'Kontaktperson: Detailseite',
-    $extensionIcon,
-    $pluginGroup
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $extensionKey,
-    'Lecturerlist',
-    'Dozierende: Liste',
-    $extensionIcon,
-    $pluginGroup
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $extensionKey,
-    'Lecturerdetail',
-    'Dozierende: Detailseite',
-    $extensionIcon,
-    $pluginGroup
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    $extensionKey,
-    'Formerrorsenderrormessage',
-    'EDM: Anmelde-Fehler',
-    $extensionIcon,
-    $pluginGroup
-);
-
-// Add FlexForm to Plugin
-foreach (['eventlist', 'eventdetail', 'eventsearch', 'staffdetail', 'locationlist'] as $plugin) {
-    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['edmtypo3_' . $plugin] = 'pi_flexform';
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
-        'edmtypo3_' . $plugin,
-        'FILE:EXT:edm-typo3/Configuration/FlexForms/' . ucfirst($plugin) . '.xml'
+foreach ($plugins as [$name, $label, $description, $registerFlexForm]) {
+    // Register the plugin with TYPO3
+    $pluginSignature = ExtensionUtility::registerPlugin(
+        $extensionKey,
+        $name,
+        $label,
+        $extensionIcon,
+        $pluginGroup,
+        $description,
     );
+
+    // Register flexform configuration if needed
+    if ($registerFlexForm === true) {
+        ExtensionManagementUtility::addToAllTCAtypes(
+            'tt_content',
+            '--div--;Configuration,pi_flexform,',
+            $pluginSignature,
+            'after:subheader',
+        );
+        ExtensionManagementUtility::addPiFlexFormValue(
+            '*',
+            'FILE:EXT:edm-typo3/Configuration/FlexForms/' . $name . '.xml',
+            $pluginSignature
+        );
+    }
 }

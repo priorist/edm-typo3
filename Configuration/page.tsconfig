@@ -1,6 +1,6 @@
 mod.wizards.newContentElement.wizardItems {
-  edmtypo3 {
-    header = EDM
+  edm {
+    header = Education Manager (EDM)
     after = common
     elements {
       edmtypo3_eventlist {
@@ -8,8 +8,7 @@ mod.wizards.newContentElement.wizardItems {
         title = Veranstaltungen: Liste
         description = Filterbare Veranstaltungsliste.
         tt_content_defValues {
-          CType = list
-          list_type = edmtypo3_eventlist
+          CType = edmtypo3_eventlist
         }
       }
       edmtypo3_eventsearch {
@@ -17,8 +16,7 @@ mod.wizards.newContentElement.wizardItems {
         title = Veranstaltungen: Suche
         description = Veranstaltungsliste, die zusätzlich Filterdaten bereitstellt.
         tt_content_defValues {
-          CType = list
-          list_type = edmtypo3_eventsearch
+          CType = edmtypo3_eventsearch
         }
       }
       edmtypo3_eventdetail {
@@ -26,8 +24,7 @@ mod.wizards.newContentElement.wizardItems {
         title = Veranstaltungen: Detailseite
         description = Detailseite von Veranstaltungen.
         tt_content_defValues {
-          CType = list
-          list_type = edmtypo3_eventdetail
+          CType = edmtypo3_eventdetail
         }
       }
       edmtypo3_enrollmentnew {
@@ -35,8 +32,7 @@ mod.wizards.newContentElement.wizardItems {
         title = Veranstaltungen: Anmeldung
         description = Anmeldeseite von Veranstaltungen.
         tt_content_defValues {
-          CType = list
-          list_type = edmtypo3_enrollmentnew
+          CType = edmtypo3_enrollmentnew
         }
       }
       edmtypo3_locationlist {
@@ -44,8 +40,7 @@ mod.wizards.newContentElement.wizardItems {
         title = Veranstaltungsorte: Liste
         description = Filterbare Liste von Veranstaltungsorten.
         tt_content_defValues {
-          CType = list
-          list_type = edmtypo3_locationlist
+          CType = edmtypo3_locationlist
         }
       }
       edmtypo3_locationdetail {
@@ -53,8 +48,7 @@ mod.wizards.newContentElement.wizardItems {
         title = Veranstaltungsorte: Detailseite
         description = Detailseite von Veranstaltungsorten.
         tt_content_defValues {
-          CType = list
-          list_type = edmtypo3_locationdetail
+          CType = edmtypo3_locationdetail
         }
       }
       edmtypo3_lecturerlist {
@@ -62,8 +56,7 @@ mod.wizards.newContentElement.wizardItems {
         title = Dozierende: Liste
         description = Filterbare Liste von Dozierenden.
         tt_content_defValues {
-          CType = list
-          list_type = edmtypo3_lecturerlist
+          CType = edmtypo3_lecturerlist
         }
       }
       edmtypo3_lecturerdetail {
@@ -71,8 +64,7 @@ mod.wizards.newContentElement.wizardItems {
         title = Dozierende: Detailseite
         description = Detailseite von Dozierenden.
         tt_content_defValues {
-          CType = list
-          list_type = edmtypo3_lecturerdetail
+          CType = edmtypo3_lecturerdetail
         }
       }
       edmtypo3_staffdetail {
@@ -80,8 +72,7 @@ mod.wizards.newContentElement.wizardItems {
         title = Kontaktperson: Detailseite
         description = Detailansicht einer Kontaktperson.
         tt_content_defValues {
-          CType = list
-          list_type = edmtypo3_staffdetail
+          CType = edmtypo3_staffdetail
         }
       }
       edmtypo3_formerrorsenderrormessage {
@@ -89,12 +80,11 @@ mod.wizards.newContentElement.wizardItems {
         title = EDM: Anmelde-Fehler
         description = Wird genutzt um per E-Mail über einen Anmeldefehler zu informieren.
         tt_content_defValues {
-          CType = list
-          list_type = edmtypo3_formerrorsenderrormessage
+          CType = edmtypo3_formerrorsenderrormessage
         }
       }
     }
 
-    show := addToList(edmtypo3_eventlist,edmtypo3_eventsearch,edmtypo3_eventdetail,edmtypo3_enrollmentnew,edmtypo3_staffdetail,edmtypo3_locationlist,edmtypo3_locationdetail,edmtypo3_lecturerlist,edmtypo3_lecturerdetail,edmtypo3_formerrorsenderrormessage)
+    show := addToList(edmtypo3_eventlist,edmtypo3_eventsearch,edmtypo3_eventdetail,edmtypo3_enrollmentnew,edmtypo3_locationlist,edmtypo3_locationdetail,edmtypo3_lecturerlist,edmtypo3_lecturerdetail,edmtypo3_formerrorsenderrormessage)
   }
 }

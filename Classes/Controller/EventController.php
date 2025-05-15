@@ -18,7 +18,7 @@ class EventController extends AbstractController
 		$this->view->assign('settings', $settings);
 
 		// Assign content object to view
-		$this->view->assign('data', $this->configurationManager->getContentObject()->data);
+		$this->view->assign('data', $this->request->getAttribute('currentContentObject')->data);
 
 		// Get filter settings from backend
 		$filters = $this->getPluginFilter();
@@ -65,7 +65,7 @@ class EventController extends AbstractController
 	public function searchAction(): ResponseInterface
 	{
 		$limit = $this->settings['eventSearchLimit'] ?: '1000';
-		$showAllEvents = $this->settings['customConditions']['eventTypes']['showAllEvents'] !== '{$plugin.tx_edm.customConditions.eventTypes.showAllEvents}';
+		$showAllEvents = $this->settings['customConditions']['eventTypes']['showAllEvents'] !== '{$plugin.tx_edmtypo3.customConditions.eventTypes.showAllEvents}';
 
 		// Get filter settings from backend
 		$filters = $this->getPluginFilter();
@@ -148,7 +148,7 @@ class EventController extends AbstractController
 	protected function abstractDetailAction(bool $showAll)
 	{
 		$settings = $this->settings;
-		$this->view->assign('data', $this->configurationManager->getContentObject()->data);
+		$this->view->assign('data', $this->request->getAttribute('currentContentObject')->data);
 
 		if (isset($_GET['eventId']) && $this->request->hasArgument('eventBaseSlug')) {
 			$this->getEventsBasedOnId($settings, $showAll);

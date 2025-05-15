@@ -72,5 +72,11 @@ plugin.tx_edmtypo3 {
             detail = {$plugin.tx_edmtypo3.pages.detail}
             enrollment = {$plugin.tx_edmtypo3.pages.enrollment}
         }
+
+        customConditions {
+            eventTypes {
+                showAllEvents = {$plugin.tx_edmtypo3.customConditions.eventTypes.showAllEvents}
+            }
+        }
     }
 }

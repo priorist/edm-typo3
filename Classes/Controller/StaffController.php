@@ -17,7 +17,7 @@ class StaffController extends AbstractController
         $staffId = $this->settings['staffId'];
 
         // Assign content object to view
-        $this->view->assign('data', $this->configurationManager->getContentObject()->data);
+        $this->view->assign('data', $this->request->getAttribute('currentContentObject')->data);
 
         $staffParams = [];
 

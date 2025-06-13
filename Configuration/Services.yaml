@@ -5,7 +5,7 @@ services:
     public: false
 
   Priorist\EdmTypo3\:
-    resource: '../Classes/*'
+    resource: "../Classes/*"
 
   Priorist\EdmTypo3\Controller\EventController:
     public: true
@@ -14,13 +14,18 @@ services:
     public: true
 
   Priorist\EdmTypo3\Controller\FormErrorController:
-    public: true 
+    public: true
 
   Priorist\EdmTypo3\Controller\LecturerController:
     public: true
-  
+
   Priorist\EdmTypo3\Controller\LocationController:
     public: true
-  
+
   Priorist\EdmTypo3\Controller\StaffController:
     public: true
+
+  Priorist\EdmTypo3\ViewHelpers\ImageViewHelper:
+    arguments:
+      $resourceFactory: '@TYPO3\CMS\Core\Resource\ResourceFactory'
+      $imageService: '@TYPO3\CMS\Extbase\Service\ImageService'

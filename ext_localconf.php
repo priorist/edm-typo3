@@ -26,7 +26,9 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\EventController::class => 'detail',
 			],
 			// non-cacheable actions
-			[],
+			[
+				\Priorist\EdmTypo3\Controller\EventController::class => 'detail'
+			],
 			ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 		);
 

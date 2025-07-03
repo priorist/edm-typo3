@@ -4,9 +4,16 @@ if (!defined('TYPO3')) {
 }
 
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use Priorist\EdmTypo3\Routing\Aspect\EventSlugMapper;
+use Priorist\EdmTypo3\Routing\Aspect\EventIdMapper;
 
 call_user_func(
 	function () {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['eventSlug'] =
+			EventSlugMapper::class;
+
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['eventId'] =
+			EventIdMapper::class;
 
 		ExtensionUtility::configurePlugin(
 			'EdmTypo3',
@@ -26,9 +33,7 @@ call_user_func(
 				\Priorist\EdmTypo3\Controller\EventController::class => 'detail',
 			],
 			// non-cacheable actions
-			[
-				\Priorist\EdmTypo3\Controller\EventController::class => 'detail'
-			],
+			[],
 			ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 		);
 

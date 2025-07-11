@@ -1,18 +1,6 @@
 <f:layout name="Default" />
 
 <f:section name="content">
-  <f:if condition="{participantToken}">
-    <f:then>
-      <script type="text/javascript">
-        var __isLoggedIn = true;
-      </script>
-    </f:then>
-    <f:else>
-      <script type="text/javascript">
-        var __isLoggedIn = false;
-      </script>
-    </f:else>
-  </f:if>
   <div id="edm-registration-form"></div>
   <script type="text/javascript">
     var __authToken = "<f:format.raw>{accessToken}</f:format.raw>";

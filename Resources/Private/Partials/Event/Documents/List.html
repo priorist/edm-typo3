@@ -1,0 +1,47 @@
+<f:if condition="{file.tags}">
+  <f:then>
+    <f:for each="{file.tags}" as="tag">
+      <f:if condition="{documentType} == 'participant'">
+        <f:then>
+          <f:if condition="{tag} == 'Teilnehmerdokument'">
+            <li class="event-document">
+              <a
+                href="{settings.edm.url}{file.url}"
+                target="_blank"
+                title="Download: {file.original_filename}"
+              >
+                {file.original_filename}
+              </a>
+            </li>
+          </f:if>
+        </f:then>
+        <f:else>
+          <f:if
+            condition="{tag} != 'Teilnehmerdokument' && {tag} != 'Titelbild' && {tag} != 'Anmeldung'"
+          >
+            <li class="event-document">
+              <a
+                href="{settings.edm.url}{file.url}"
+                target="_blank"
+                title="Download: {file.original_filename}"
+              >
+                {file.original_filename}
+              </a>
+            </li>
+          </f:if>
+        </f:else>
+      </f:if>
+    </f:for>
+  </f:then>
+  <f:else>
+    <li class="event-document">
+      <a
+        href="{settings.edm.url}{file.url}"
+        target="_blank"
+        title="Download: {file.original_filename}"
+      >
+        {file.original_filename}
+      </a>
+    </li>
+  </f:else>
+</f:if>

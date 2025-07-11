@@ -14,13 +14,6 @@
       </div>
     </f:then>
     <f:else>
-      <script type="text/javascript">
-        var __events = <f:format.stripTags><f:format.json>{events}</f:format.json></f:format.stripTags>;
-        var __cities = <f:format.htmlentitiesDecode><f:format.json>{cities}</f:format.json></f:format.htmlentitiesDecode>;
-        var __enrollmentPage = <f:format.htmlentitiesDecode><f:format.json>{settings.pages.enrollment}</f:format.json></f:format.htmlentitiesDecode>;
-      </script>
-
-      <f:variable name="city" value="{cities.0}" />
       <div class="edm-event-detail">
         <f:if condition="{eventBase}">
           <f:then>

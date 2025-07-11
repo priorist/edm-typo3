@@ -24,8 +24,8 @@
     <f:if condition="{DocumentsExist} == 'true'">
       <h3 class="mt-0">Weiteres Informationsmaterial</h3>
       <f:render
-        partial="EventBase/EventBaseDocuments"
-        arguments="{eventBaseFiles: eventBase.files}"
+        partial="Event/EventDocuments"
+        arguments="{eventFiles: event.files, eventBaseFiles: eventBase.files}"
       />
     </f:if>
     <f:if condition="{eventBase.descriptions}">
@@ -42,7 +42,7 @@
       <p>Diese Veranstaltung wird durchgeführt in Kooperation mit:</p>
       <div class="edm-event-detail__content__summary-partners">
         <f:render
-          partial="EventBase/EventBasePartner"
+          partial="Event/EventPartner"
           arguments="{partners: eventBase.partners}"
         />
       </div>

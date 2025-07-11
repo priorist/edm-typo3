@@ -1,0 +1,7 @@
+<ul class="event-documents">
+    <f:if condition="{eventBaseFiles}">
+        <f:for each="{eventBaseFiles}" as="file" iteration="iterator">
+            <f:render partial="Event/Documents/List" arguments="{file: file, documentType: documentType}"/>
+        </f:for>
+    </f:if>
+</ul>

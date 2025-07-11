@@ -2,10 +2,6 @@
 
 A Typo3 extension that interacts with Education Manager (EDM).
 
-## Table of contents
-
-[[_TOC_]]
-
 ## Necessary Typo3 Setup
 
 In order for the extension to work properly, there are some things to configure within your Typo3 instance.

@@ -1,3 +1,5 @@
+{namespace edm=Priorist\EdmTypo3\ViewHelpers}
+
 <f:layout name="Default" />
 
 <f:section name="content">
@@ -8,7 +10,12 @@
     </h1>
     <f:if condition="{lecturer.image}">
       <div class="edm-lecturer__image">
-        <img src="{settings.edm.url}{lecturer.image.url}" />
+        <edm:image
+          filename="{lecturer.image.original_filename}"
+          class="event-contact-person__image"
+          src="{lecturer.image.url}"
+          alt="{lecturer.first_name} {lecturer.last_name}"
+        />
       </div>
     </f:if>
     <f:if condition="{events}">
@@ -24,13 +31,9 @@
               arguments="{eventBaseSlug: event.event_base.slug, id: event.id}"
               section="{event.id}"
             >
-              {event.meta.event_base_name} | {event.first_day} |
-              {f:if(condition: '{event.prices -> f:count()} > 1', then: 'ab ',
-              else: '')}
-              <f:format.number
-                decimalSeparator=","
-                thousandsSeparator="."
-                decimals="2"
+              {event.meta.event_base_name} | {event.first_day} | {f:if(condition: '{event.prices ->
+              f:count()} > 1', then: 'ab ', else: '')}
+              <f:format.number decimalSeparator="," thousandsSeparator="." decimals="2"
                 >{event.prices.0.amount}</f:format.number
               >€
             </f:link.action>

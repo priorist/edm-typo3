@@ -1,8 +1,16 @@
+{namespace edm=Priorist\EdmTypo3\ViewHelpers}
+
 <f:if condition="{event.image}">
   <f:if condition="{fullWidth}">
     <f:then>
       <div class="edm-event__image-full-width">
-        <f:image src="{settings.edm.url}{event.image.url}" width="1260" height="540" />
+        <edm:image
+          filename="{event.image.original_filename}"
+          src="{event.image.url}"
+          width="1260c"
+          height="540c"
+          alt="{event.meta.event_base_name}"
+        />
       </div>
     </f:then>
     <f:else>
@@ -12,7 +20,11 @@
           action="detail"
           arguments="{eventBaseSlug: event.slug}"
         >
-          <img src="{settings.edm.url}{event.image.url}" />
+          <edm:image
+            filename="{event.image.original_filename}"
+            src="{event.image.url}"
+            alt="{event.meta.event_base_name}"
+          />
         </f:link.action>
       </div>
     </f:else>

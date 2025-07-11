@@ -1,3 +1,5 @@
+{namespace edm=Priorist\EdmTypo3\ViewHelpers}
+
 <f:layout name="Default" />
 
 <f:section name="content">
@@ -11,7 +13,12 @@
     </f:if>
     <f:if condition="{location.image}">
       <div class="edm-location__image">
-        <img src="{settings.edm.url}{location.image.url}" />
+        <edm:image
+          filename="{location.image.original_filename}"
+          class="event-contact-person__image"
+          src="{location.image.url}"
+          alt="{location.name}"
+        />
       </div>
     </f:if>
   </div>

@@ -1,7 +1,14 @@
+{namespace edm=Priorist\EdmTypo3\ViewHelpers}
+
 <f:for each="{lecturers}" as="lecturer">
   <div class="d-flex flex-lg-row flex-column">
     <f:if condition="{lecturer.image}">
-      <img class="lecturer-image" src="{settings.edm.url}{lecturer.image.url}" />
+      <edm:image
+        filename="{lecturer.image.original_filename}"
+        class="event-contact-person__image"
+        src="{lecturer.image.url}"
+        alt="{lecturer.first_name} {lecturer.last_name}"
+      />
     </f:if>
     <div class="d-flex flex-column" style="max-width: 304px">
       <h4>
@@ -14,11 +21,7 @@
             <f:format.raw>{lecturer.description}</f:format.raw>
           </f:then>
           <f:else>
-            <f:for
-              each="{lecturer.qualifications}"
-              as="qualification"
-              iteration="iterator"
-            >
+            <f:for each="{lecturer.qualifications}" as="qualification" iteration="iterator">
               <f:if condition="{iterator.isLast}">
                 <f:then> {qualification} </f:then>
                 <f:else> {qualification}, </f:else>

@@ -1,10 +1,17 @@
+{namespace edm=Priorist\EdmTypo3\ViewHelpers}
+
 <li class="edm-event__details-list__partner">
   in Kooperation mit
   <f:for each="{partners}" as="partner">
     <f:link.external uri="{partner.url}" target="_blank">
       <f:if condition="{partner.logo}">
         <f:then>
-          <img class="partner-image" src="{settings.edm.url}{partner.logo.url}" />
+          <edm:image
+            filename="{partner.logo.original_filename}"
+            src="{partner.logo.url}"
+            width="220c"
+            alt="{partner.name}"
+          />
         </f:then>
         <f:else>
           <h4>{partner.name}</h4>

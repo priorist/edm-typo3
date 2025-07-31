@@ -309,7 +309,7 @@ class EventController extends AbstractController
 
 		// only add events that have price information and that have not started yet
 		foreach ($events as $key => $event) {
-			if ((strtotime($event['first_day']) > $today) && !empty($event['prices']) && empty($event['archived_at']) || (in_array(strval($event['event_base']['event_type']), $showAllEventsArray))) {
+			if ((strtotime($event['first_day']) >= $today) && !empty($event['prices']) && empty($event['archived_at']) || (in_array(strval($event['event_base']['event_type']), $showAllEventsArray))) {
 				$sanitizedEvents[] = $event;
 			}
 		}
@@ -422,7 +422,7 @@ class EventController extends AbstractController
 		return $eventBases;
 	}
 
-	protected function getListFilterForEventParams(array $filters = NULL, array $eventParams)
+	protected function getListFilterForEventParams(?array $filters = NULL, array $eventParams)
 	{
 		$eventIds = $this->getFilterValue($filters, 'eventIds');
 		$eventBaseIds = $this->getFilterValue($filters, 'eventBaseIds');

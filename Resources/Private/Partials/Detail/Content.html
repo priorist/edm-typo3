@@ -12,7 +12,7 @@
       <f:if condition="{file.tags}">
         <f:for each="{file.tags}" as="tag">
           <f:if
-            condition="{tag} !== 'Teilnehmerdokument' && {tag} !== 'Titelbild' && {tag} !== 'Anmeldung'"
+            condition="{tag} !== 'Teilnehmerdokument' && {tag} !== '__image__' && {tag} !== 'Anmeldung'"
           >
             <f:variable name="DocumentsExist" value="true" />
           </f:if>

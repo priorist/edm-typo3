@@ -497,6 +497,7 @@ class EventController extends AbstractController
 
 		if ($eventBase !== NULL) {
 			$eventBaseId = $eventBase['id'];
+			$eventBaseType = $eventBase['event_type']['id'];
 			$eventParams = [
 				'expand' => '~all,event_base.contact_person,event_base.group_children',
 			];
@@ -514,7 +515,7 @@ class EventController extends AbstractController
 				return;
 			}
 
-			$events = $this->getEventsFromEventBase($eventBaseId, $showAll);
+			$events = $this->getEventsFromEventBase($eventBaseId, $showAll, $eventBaseType);
 
 			$eventCities = $this->getLocationCities($currentEvent, true);
 			if ($showAll === true) {

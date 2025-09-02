@@ -1,0 +1,46 @@
+<div class="filter-controls-container">
+  <div class="filter-controls">
+    <div class="filter-controls-row">
+      <div class="filter-controls-item">
+        <div class="filter-inner-container">
+          <input class="filter-autocomplete" value="" placeholder="Suchbegriff" />
+          <ul class="filter-result"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="filter-controls-row">
+      <div class="filter-controls-item">
+        <div class="event-date-picker" aria-label="Zeitraum">
+          <button class="filter-button" type="button">Alle Termine</button>
+        </div>
+        <div class="event-date-picker mobile" aria-label="Zeitraum">
+          <button class="filter-button" type="button">Alle Termine</button>
+        </div>
+      </div>
+      <f:render
+        partial="Search/FilterDropdown"
+        arguments="{data: categoryTree, type: 'category', multiselect: 'true', placeholder: 'Alle Themen', label: 'Thema'}"
+      />
+    </div>
+    <div class="filter-controls-row">
+      <f:render
+        partial="Search/FilterDropdown"
+        arguments="{data: filterData.location.data, type: 'location', multiselect: 'true', placeholder: 'Alle Orte', label: 'Ort'}"
+      />
+      <f:render
+        partial="Search/FilterDropdown"
+        arguments="{data: filterData.type.data, type: 'type', multiselect: 'true', placeholder: 'Alle Formate', label: 'Format'}"
+      />
+      <f:render
+        partial="Search/FilterDropdown"
+        arguments="{data: filterData.lecturer.data, type: 'lecturer', multiselect: 'true', placeholder: 'Alle Dozierenden', label: 'Dozierender'}"
+      />
+    </div>
+    <div class="filter-controls-row">
+      <div class="active-filters" style="display: none">
+        <span class="remove-filters">Alle Filter zurücksetzen</span>
+        <ul></ul>
+      </div>
+    </div>
+  </div>
+</div>

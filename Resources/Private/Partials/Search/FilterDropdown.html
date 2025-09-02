@@ -1,0 +1,65 @@
+<div
+  class="filter-controls-dropdown filter-controls-item {f:if(condition: '{type} === \'childcategory\'', then: 'child-category-filter-container', else: '{type}-filter')}"
+>
+  <button
+    class="dropdown-toggle {f:if(condition: '{type} === \'childcategory\'', then: 'disabled', else: '')}"
+    data-toggle="dropdown"
+    type="button"
+    id="{type}Dropdown"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    {placeholder}
+  </button>
+  <div
+    class="dropdown-menu {f:if(condition: '{type} === \'category\'', then: 'category-filter', else: '')}"
+    onclick="event.stopPropagation()"
+    aria-label="{label}"
+  >
+    <f:if condition="{type} === 'category'">
+      <f:then>
+        <f:for each="{data}" as="item" key="id">
+          <a
+            class="main-filter-category filter-entry dropdown-item"
+            data-filter="{item.name}"
+            data-id="{id}"
+            data-type="{type}"
+            data-multiselect="{multiselect}"
+          >
+            {item.name}
+          </a>
+          <f:if condition="{item.categories}">
+            <ul>
+              <f:for each="{item.categories}" as="childCategory" key="id">
+                <li>
+                  <a
+                    class="filter-entry dropdown-item"
+                    data-id="{id}"
+                    data-filter="{childCategory}"
+                    data-type="{type}"
+                    data-multiselect="{multiselect}"
+                  >
+                    {childCategory}
+                  </a>
+                </li>
+              </f:for>
+            </ul>
+          </f:if>
+        </f:for>
+      </f:then>
+      <f:else>
+        <f:for each="{data}" as="item">
+          <a
+            class="filter-entry dropdown-item"
+            data-filter="{item.name}"
+            data-id="{item.id}"
+            data-type="{type}"
+            data-multiselect="{multiselect}"
+          >
+            {item.name}
+          </a>
+        </f:for>
+      </f:else>
+    </f:if>
+  </div>
+</div>

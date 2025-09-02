@@ -1,4 +1,13 @@
-<div class="edm-event">
+<div
+  class="edm-event"
+  data-category="{f:if(condition: i.isLast, then: '{category.id}', else: '{category.id},')  -> f:for(each: event.categories, as: 'category', iteration: 'i')}{f:if(condition: category.parent_category, then: ',{category.parent_category}')  -> f:for(each: event.categories, as: 'category')}"
+  data-type="{event.event_type}"
+  data-date="{f:if(condition: i.isLast, then: '{start_date}', else: '{start_date},')  -> f:for(each: event.start_dates, as: 'start_date', iteration: 'i')}"
+  data-location="{f:if(condition: i.isLast, then: '{location.id}', else: '{location.id},')  -> f:for(each: event.locations, as: 'location', iteration: 'i')}"
+  data-lecturer="{f:if(condition: i.isLast, then: '{lecturer.id}', else: '{lecturer.id},')  -> f:for(each: event.lecturers, as: 'lecturer', iteration: 'i')}"
+  data-tags="{f:if(condition: i.isLast, then: '{tag}', else: '{tag},')  -> f:for(each: event.tags, as: 'tag', iteration: 'i')}"
+  data-format="{event.format}"
+>
   <f:if condition="{settings.view.showImage} == '1'">
     <f:render partial="Event/EventImage" arguments="{event: event}" />
   </f:if>
@@ -10,9 +19,7 @@
     />
     <div class="edm-event__details">
       <div class="edm-event__details-summary">
-        <f:format.stripTags allowedTags="<p><ul><li>">
-          {event.summary}
-        </f:format.stripTags>
+        <f:format.stripTags allowedTags="<p><ul><li>"> {event.summary} </f:format.stripTags>
       </div>
       <ul class="edm-event__details-list">
         <f:if condition="{settings.view.showPrice} == '1'">
@@ -21,10 +28,7 @@
             arguments="{lowest_price: event.lowest_price, price_count: event.price_count}"
           />
         </f:if>
-        <f:render
-          partial="Event/EventLocation"
-          arguments="{locations: event.locations}"
-        />
+        <f:render partial="Event/EventLocation" arguments="{locations: event.locations}" />
         <f:render
           partial="Event/EventStartDate"
           arguments="{events: event.events, first_day: event.first_day}"
@@ -33,10 +37,7 @@
       <f:if condition="{settings.view.showPartners} == '1' && {event.partners}">
         <div class="edm-event__details-partners">
           <span>in Kooperation mit</span>
-          <f:render
-            partial="Event/EventPartner"
-            arguments="{partners: event.partners}"
-          />
+          <f:render partial="Event/EventPartner" arguments="{partners: event.partners}" />
         </div>
       </f:if>
     </div>

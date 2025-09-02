@@ -1,27 +1,60 @@
 <f:layout name="Default" />
 
 <f:section name="content">
+  <script
+    src="<f:format.raw>{f:uri.resource(path:'EXT:edm-typo3/Resources/Public/js/daterangepicker.js')}</f:format.raw>"
+  ></script>
+  <script
+    src="<f:format.raw>{f:uri.resource(path:'EXT:edm-typo3/Resources/Public/js/moment.min.js')}</f:format.raw>"
+  ></script>
+  <script
+    src="<f:format.raw>{f:uri.resource(path:'EXT:edm-typo3/Resources/Public/js/jquery.autocomplete.min.js')}</f:format.raw>"
+  ></script>
+  <script
+    src="<f:format.raw>{f:uri.resource(path:'EXT:edm-typo3/Resources/Public/js/filterPlugin.jQuery.js')}</f:format.raw>"
+  ></script>
   <div class="edm-event-search">
     <f:if condition="{internalError}">
       <f:then>
         <f:render partial="InternalError" />
       </f:then>
       <f:else>
+        <f:variable name="countedEvents" value="{groupedEvents -> f:count()}" />
         <script>
           var __filterData = {filterData -> f:format.json() -> f:format.htmlentitiesDecode()}
+          var __groupedEvents = {groupedEvents -> f:format.json() -> f:format.htmlentitiesDecode()}
+          var __categoryTree = {categoryTree -> f:format.json() -> f:format.htmlentitiesDecode()}
         </script>
+
         <div class="edm-event-search__header">
           <h1>Unsere Angebote für Sie</h1>
           <h2 class="edm-event-search__header__event-count">
-            Es werden Ihnen {groupedEvents -> f:count()} von {groupedEvents ->
-            f:count()} Angeboten angezeigt.
+            Es werden Ihnen {countedEvents} von {countedEvents} Angeboten angezeigt.
           </h2>
         </div>
         <div class="edm-event-search__container">
-          <div class="edm-event-search__event-list">
-            <f:for each="{groupedEvents}" as="event">
-              <f:render partial="Event" arguments="{event: event}" />
-            </f:for>
+          <f:render
+            partial="Search/FilterControls"
+            arguments="{filterData: filterData, categoryTree: categoryTree}"
+          />
+          <div class="event-container">
+            <div class="event-list-container">
+              <div class="event-list">
+                <div class="no-results" style="display: none">
+                  <h3>Leider haben wir zu dieser Filterkombination keine Angebote gefunden.</h3>
+                  <p>Vorschläge:</p>
+                  <ul class="active-filter-list">
+                    <li>
+                      <a class="remove-filters">Alle Filter zurücksetzen</a>
+                      ({countedEvents} Ergebnisse)
+                    </li>
+                  </ul>
+                </div>
+                <f:for each="{groupedEvents}" as="event">
+                  <f:render partial="Event" arguments="{event: event, parentPage: 'search'}" />
+                </f:for>
+              </div>
+            </div>
           </div>
         </div>
       </f:else>

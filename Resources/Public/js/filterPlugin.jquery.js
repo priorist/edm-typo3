@@ -31,7 +31,6 @@
         datePickerButton: ".filter-button",
         datePickerMobile: ".event-date-picker.mobile",
         datePickerReset: ".filter-controls-reset[data-reset=date]",
-        noCategoryAlert: ".alert-no-category",
       },
       texts: {
         noFilterSuggestionFound:
@@ -91,14 +90,11 @@
         },
       ],
       minInputLength: 1,
-      filterData: __filterData,
-      categoryTree: __categoryTree,
+      filterData: __filterData, // provided by Search action of Event Controller
+      categoryTree: __categoryTree, // provided by Search action of Event Controller
       hasDateFilter: true,
       dateFilterLabel: "Alle Termine",
       dateFilterLabelActive: "Zeitraum",
-      noCategoryAlert:
-        '<div class="alert alert-info alert-no-category"><strong>Für die von Ihnen gewählte Kategorie bieten wir aktuell keine Veranstaltungen an, daher werden Ihnen alle Ergebnisse angezeigt.</strong></div>',
-      ongoingEventType: 16,
     };
 
     const settings = $.extend({}, defaultSettings, options);
@@ -608,7 +604,6 @@
       let $filteredEvents = $(selectors.item);
 
       $(selectors.noResults).hide();
-      $(selectors.noCategoryAlert).hide();
       $filteredEvents.each(function () {
         $(this).removeClass("filtered");
       });
@@ -719,21 +714,16 @@
         var eventStartDates = $(this).data("date").split(",");
         var startDateIsIncluded = false;
 
-        if ($(this).data("format") === settings.ongoingEventType) {
-          // Exclude events with event type "ongoing event" from date filtering
-          startDateIsIncluded = true;
-        } else {
-          eventStartDates.forEach(function (startDate) {
-            var eventStartDate = moment(startDate, "YYYY.MM.DD");
+        eventStartDates.forEach(function (startDate) {
+          var eventStartDate = moment(startDate, "YYYY.MM.DD");
 
-            if (
-              filterDateStart.isSameOrBefore(eventStartDate) &&
-              filterDateEnd.isSameOrAfter(eventStartDate)
-            ) {
-              startDateIsIncluded = true;
-            }
-          });
-        }
+          if (
+            filterDateStart.isSameOrBefore(eventStartDate) &&
+            filterDateEnd.isSameOrAfter(eventStartDate)
+          ) {
+            startDateIsIncluded = true;
+          }
+        });
 
         return startDateIsIncluded;
       });

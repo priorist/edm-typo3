@@ -94,7 +94,7 @@ EdmForm.init(
 );
 ```
 
-### Search for Events
+### Filter for Events
 
 This extension provides a basic jQuery filter plugin and template to use the data provided by the `Eventsearch` plugin. It requires jQuery to be available on the website.
 

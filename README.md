@@ -94,6 +94,26 @@ EdmForm.init(
 );
 ```
 
+### Search for Events
+
+This extension provides a basic jQuery filter plugin and template to use the data provided by the `Eventsearch` plugin. It requires jQuery to be available on the website.
+
+The Search template also includes the following Javascript libraries that are leveraged by the filter plugin:
+
+- [Daterangepicker](https://www.daterangepicker.com/)
+- [Moment](https://momentjs.com/)
+- [jQuery Autocomplete](https://jqueryui.com/autocomplete/)
+
+The filter plugin is initialised within the Search template like so:
+
+```html
+<script>
+    $(".edm-event-search").eventFilterPlugin();
+</script>
+```
+
+Optionally you can pass an `options` objects to override any configurable settings of the filter plugin, e.g. selectors, texts or filter definitions.
+
 ## Extend Extension
 
 It is possible to further extend the extension for your needs. This can be done either through hooks or by adding to already existing controller actions.

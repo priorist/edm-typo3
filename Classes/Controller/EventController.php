@@ -150,7 +150,7 @@ class EventController extends AbstractController
 		$settings = $this->settings;
 		$this->view->assign('data', $this->request->getAttribute('currentContentObject')->data);
 
-		if (isset($_GET['eventId']) && $this->request->hasArgument('eventBaseSlug')) {
+		if ($this->request->hasArgument('eventId') && $this->request->hasArgument('eventBaseSlug')) {
 			$this->getEventsBasedOnId($settings, $showAll);
 		} else if ($this->request->hasArgument('eventBaseSlug')) {
 			$this->getEventsBasedOnSlug($settings, $showAll);
@@ -225,6 +225,8 @@ class EventController extends AbstractController
 			if (!isset($locationData[$event['location']['id']])) {
 				$locationData[$event['location']['id']]['name'] = $event['location']['name'];
 				$locationData[$event['location']['id']]['id'] = $event['location']['id'];
+				$locationData[$event['location']['id']]['address']['postcode'] = $event['location']['address']['postcode'];
+				$locationData[$event['location']['id']]['address']['country'] = $event['location']['address']['country'];
 			}
 
 			// fill title & summary
@@ -480,7 +482,7 @@ class EventController extends AbstractController
 
 	protected function getEventsBasedOnId(array $settings, bool $showAll)
 	{
-		$eventId = $_GET['eventId'];
+		$eventId = $this->request->getArgument('eventId');
 		$eventBaseSlug = $this->request->getArgument('eventBaseSlug');
 
 		try {

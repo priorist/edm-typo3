@@ -47,6 +47,7 @@ class ImageViewHelper extends AbstractTagBasedViewHelper
         $this->registerUniversalTagAttributes();
         $this->registerTagAttribute('alt', 'string', 'Specifies an alternate text for an image', false);
         $this->registerArgument('filename', 'string', 'Override filename for local file.', false, '');
+        $this->registerArgument('fileid', 'string', 'ID to be included in the filename for uniqueness.', false, '');
         $this->registerArgument('src', 'string', 'a path to a file, a combined FAL identifier or an uid (int). If $treatIdAsReference is set, the integer is considered the uid of the sys_file_reference record. If you already got a FAL object, consider using the $image parameter instead', true, '');
         $this->registerArgument('width', 'string', 'width of the image. This can be a numeric value representing the fixed width of the image in pixels. But you can also perform simple calculations by adding "m" or "c" to the value. See imgResource.width for possible options.');
         $this->registerArgument('height', 'string', 'height of the image. This can be a numeric value representing the fixed height of the image in pixels. But you can also perform simple calculations by adding "m" or "c" to the value. See imgResource.width for possible options.');
@@ -69,6 +70,7 @@ class ImageViewHelper extends AbstractTagBasedViewHelper
     {
         $src = (string)$this->arguments['src'];
         $filename = (string)$this->arguments['filename'];
+        $fileid = (string)$this->arguments['fileid'];
 
         if ($src === '') {
             throw new Exception('You must either specify a string src', 1382284106);
@@ -129,12 +131,17 @@ class ImageViewHelper extends AbstractTagBasedViewHelper
                 if ($filename !== '') {
                     // Use provided filename, but remove any existing extension
                     $filenameBase = preg_replace('/\.[^.]+$/', '', $filename);
-                    $newFileName = $filenameBase . $fileExtension;
                 } else {
                     // Use URL basename, but replace extension with correct one
                     $basename = $pathInfo['basename'] ?? basename($decodedUrl);
-                    $basenameWithoutExtension = preg_replace('/\.[^.]+$/', '', $basename);
-                    $newFileName = $basenameWithoutExtension . $fileExtension;
+                    $filenameBase = preg_replace('/\.[^.]+$/', '', $basename);
+                }
+
+                // Add ID to filename if provided
+                if ($fileid !== '') {
+                    $newFileName = $filenameBase . '_' . $fileid . $fileExtension;
+                } else {
+                    $newFileName = $filenameBase . $fileExtension;
                 }
 
                 // Sanitize filename to avoid invalid characters

@@ -41,7 +41,7 @@
                 </f:if>
                 <f:render
                   partial="Detail/Contact"
-                  arguments="{contactPerson: eventBase.contact_person}"
+                  arguments="{contactPersons: eventBase.contact_persons}"
                 />
               </f:then>
               <f:else if="{noEventAvailable} == true">
@@ -55,7 +55,7 @@
                 />
                 <f:render
                   partial="Detail/Contact"
-                  arguments="{contactPerson: eventBase.contact_person}"
+                  arguments="{contactPersons: eventBase.contact_persons}"
                 />
               </f:else>
             </f:if>
@@ -71,7 +71,7 @@
             />
             <f:render
               partial="Detail/Contact"
-              arguments="{contactPerson: parentEvent.event_base.contact_person}"
+              arguments="{contactPersons: parentEvent.event_base.contact_persons}"
             />
           </f:else>
           <f:else>

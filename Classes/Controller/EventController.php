@@ -501,7 +501,7 @@ class EventController extends AbstractController
 			$eventBaseId = $eventBase['id'];
 			$eventBaseType = $eventBase['event_type']['id'];
 			$eventParams = [
-				'expand' => '~all,event_base.contact_person,event_base.group_children',
+				'expand' => '~all,event_base.contact_persons,event_base.group_children',
 			];
 
 			// Get events from EDM, transform them to array and assign the results to FE
@@ -604,7 +604,7 @@ class EventController extends AbstractController
 	protected function getEventsFromEventBase(int $eventBaseId, bool $showAll, int $eventBaseType)
 	{
 		$eventParams = [
-			'expand' => 'event_base.contact_person,event_base.group_children,dates.location,~all',
+			'expand' => 'event_base.contact_persons,event_base.group_children,dates.location,~all',
 			'event_base' => $eventBaseId,
 			'is_public' => 'true'
 		];

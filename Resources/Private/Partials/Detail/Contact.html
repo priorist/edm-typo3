@@ -8,22 +8,12 @@
           <f:if condition="{subheader}">
             <h3>{subheader}</h3>
           </f:if>
-          <f:if condition="{contactPerson}">
-            <f:then>
-              <f:render
-                partial="PersonDetail"
-                arguments="{contactPerson: contactPerson, settings: settings}"
-              />
-            </f:then>
-            <f:else if="{contactPersons}">
-              <f:for each="{contactPersons}" as="contactPerson">
-                <f:render
-                  partial="PersonDetail"
-                  arguments="{contactPerson: contactPerson, settings: settings}"
-                />
-              </f:for>
-            </f:else>
-          </f:if>
+          <f:for each="{contactPersons}" as="contactPerson">
+            <f:render
+              partial="PersonDetail"
+              arguments="{contactPerson: contactPerson, settings: settings}"
+            />
+          </f:for>
         </div>
       </div>
     </f:else>

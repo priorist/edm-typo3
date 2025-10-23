@@ -106,10 +106,16 @@ class EventController extends AbstractController
 				$groupedEvents = $this->getEventsGroupedByEventBase($sanitizedEvents);
 				$categoryTree = $this->createCategoryTreeByEvents($groupedEvents);
 
-				// Sort grouped events by first day, placing events without date on top
-				usort($groupedEvents, function ($item1, $item2) {
-					return $item1['first_day'] <=> $item2['first_day'];
-				});
+				// Sort grouped events by first day, placing events without date on top or bottom of event list
+				if ($this->settings['showAllEvents']['searchSorting'] === "bottom") {
+					usort($groupedEvents, function ($item1, $item2) {
+						return ($item1['first_day'] ?? PHP_INT_MAX) <=> ($item2['first_day'] ?? PHP_INT_MAX);
+					});
+				} else if ($this->settings['showAllEvents']['searchSorting'] === "top") {
+					usort($groupedEvents, function ($item1, $item2) {
+						return $item1['first_day'] <=> $item2['first_day'];
+					});
+				}
 
 				$this->view->assign('filterData', $this->prepareFilterDataForEvents($sanitizedEvents, $categoryTree));
 				$this->view->assign('groupedEvents', $groupedEvents);

@@ -83,8 +83,10 @@ class EventController extends AbstractController
 
 			// Get events without dates with specific event type
 			if ($showAllEvents) {
+				$eventTypes = array_map('trim', explode(',', $this->settings['customConditions']['eventTypes']['showAllEvents']));
+
 				$eventParams = array_merge($eventParams, [
-					'event_base__event_type' => $this->settings['customConditions']['eventTypes']['showAllEvents'],
+					'event_base__event_type' => $eventTypes,
 					'status' => ['OFFERED', 'TAKES_PLACE'],
 					'is_public' => 'true'
 				]);
@@ -231,6 +233,7 @@ class EventController extends AbstractController
 			if (!isset($locationData[$event['location']['id']])) {
 				$locationData[$event['location']['id']]['name'] = $event['location']['name'];
 				$locationData[$event['location']['id']]['id'] = $event['location']['id'];
+				$locationData[$event['location']['id']]['address']['city'] = $event['location']['address']['city'];
 				$locationData[$event['location']['id']]['address']['postcode'] = $event['location']['address']['postcode'];
 				$locationData[$event['location']['id']]['address']['country'] = $event['location']['address']['country'];
 			}
@@ -263,7 +266,7 @@ class EventController extends AbstractController
 		// Sort formats alphabetically
 		asort($formatData);
 
-		$cities = $this->prepareCitiesForFilterData($locationData, $locations);
+		$cities = $this->prepareCitiesForFilterData($locationData);
 
 		$filterData = array(
 			'category' => array(
@@ -693,7 +696,7 @@ class EventController extends AbstractController
 		$this->redirectToUri($uri, 0, 404);
 	}
 
-	protected function prepareCitiesForFilterData($locationData = [], $locations = [])
+	protected function prepareCitiesForFilterData($locationData = [])
 	{
 		$cities = [];
 

@@ -25,6 +25,9 @@ services:
   Priorist\EdmTypo3\Controller\StaffController:
     public: true
 
+  Priorist\EdmTypo3\Controller\UserListController:
+    public: true
+
   Priorist\EdmTypo3\ViewHelpers\ImageViewHelper:
     arguments:
       $resourceFactory: '@TYPO3\CMS\Core\Resource\ResourceFactory'

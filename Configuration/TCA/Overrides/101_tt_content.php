@@ -29,6 +29,7 @@ $plugins = [
     ['Lecturerlist', 'Dozierende: Liste', 'Filterbare Liste von Dozierenden.', false],
     ['Lecturerdetail', 'Dozierende: Detailseite', 'Detailseite eines Dozierenden.', false],
     ['Formerrorsenderrormessage', 'EDM: Anmelde-Fehler', 'Wird genutzt um per E-Mail über einen Anmeldefehler zu informieren.', false],
+    ['Userlistshowform', 'Listen: Anmeldung', 'Anmeldung zu einer oder mehrere EDM-Listen', true]
 ];
 
 foreach ($plugins as [$name, $label, $description, $registerFlexForm]) {

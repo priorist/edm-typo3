@@ -8,18 +8,18 @@
         <sheetTitle>Einstellungen</sheetTitle>
         <type>array</type>
         <el>
-          <settings.staffId>
-            <label>Mitarbeiter</label>
+          <settings.lists>
+            <label>Listen-ID(s)</label>
             <config>
               <type>select</type>
-              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getStaffMembers</itemsProcFunc>
-              <renderType>selectSingle</renderType>
+              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getUserLists</itemsProcFunc>
+              <renderType>selectMultipleSideBySide</renderType>
               <items>
                 <!-- empty by default -->
               </items>
-              <eval>required</eval>
+              <minitems>1</minitems>
             </config>
-          </settings.staffId>
+          </settings.lists>
         </el>
       </ROOT>
     </sDEF>

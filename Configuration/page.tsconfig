@@ -83,8 +83,16 @@ mod.wizards.newContentElement.wizardItems {
           CType = edmtypo3_formerrorsenderrormessage
         }
       }
+      edmtypo3_userlistshowform {
+        iconIdentifier = edm
+        title = Listen: Anmeldung
+        description = Anmeldung zu einer oder mehrere EDM-Listen.
+        tt_content_defValues {
+          CType = edmtypo3_userlistshowform
+        }
+      }
     }
 
-    show := addToList(edmtypo3_eventlist,edmtypo3_eventsearch,edmtypo3_eventdetail,edmtypo3_enrollmentnew,edmtypo3_locationlist,edmtypo3_locationdetail,edmtypo3_lecturerlist,edmtypo3_lecturerdetail,edmtypo3_formerrorsenderrormessage)
+    show := addToList(edmtypo3_eventlist,edmtypo3_eventsearch,edmtypo3_eventdetail,edmtypo3_enrollmentnew,edmtypo3_locationlist,edmtypo3_locationdetail,edmtypo3_lecturerlist,edmtypo3_lecturerdetail,edmtypo3_userlistshowform,edmtypo3_formerrorsenderrormessage)
   }
 }

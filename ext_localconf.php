@@ -126,5 +126,16 @@ call_user_func(
 			[],
 			ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 		);
+
+		ExtensionUtility::configurePlugin(
+			'EdmTypo3',
+			'Userlistshowform',
+			[
+				\Priorist\EdmTypo3\Controller\UserListController::class => 'showForm',
+			],
+			// non-cacheable actions
+			[],
+			ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+		);
 	}
 );

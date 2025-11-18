@@ -1,0 +1,23 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+  <div id="edm-registration-form"></div>
+  <script type="text/javascript">
+    var __authToken = "<f:format.raw>{accessToken}</f:format.raw>";
+    var __event = <f:format.htmlentitiesDecode><f:format.json>{event}</f:format.json></f:format.htmlentitiesDecode>;
+  </script>
+  <script
+    src="/typo3conf/ext/edm-typo3/Resources/Public/js/edm-registration-form.3.2.0.js"
+  ></script>
+  <script
+    src="/typo3conf/ext/edm-typo3/Resources/Public/js/edm-registration-config.1.5.0.js"
+  ></script>
+  <script type="text/javascript">
+    EdmForm.init({
+      config: EdmForm.config,
+      event: __event,
+      formType: "list",
+      element: document.getElementById("edm-registration-form"),
+    });
+  </script>
+</f:section>

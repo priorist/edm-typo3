@@ -110,6 +110,14 @@ class ItemsProcFunc
         $this->getAndFormatData($config, 'event_locations');
     }
 
+    /**
+     * Get EDM User lists
+     */
+    public function getUserLists(array $config)
+    {
+        $this->getAndFormatData($config, 'user_lists');
+    }
+
     private function getAndFormatData(array $config, String $apiPath)
     {
         $query = $this->getClient()->getRestClient()->fetchCollection($apiPath, [

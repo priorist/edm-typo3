@@ -6,28 +6,26 @@
   </f:if>
 </f:for>
 
-<div class="edm-event-detail__content">
-  <f:if condition="{eventBase.files}">
-    <f:for each="{eventBase.files}" as="file" iteration="iterator">
-      <f:if condition="{file.tags}">
-        <f:for each="{file.tags}" as="tag">
-          <f:if
-            condition="{tag} !== 'Teilnehmerdokument' && {tag} !== '__image__' && {tag} !== 'Anmeldung'"
-          >
-            <f:variable name="DocumentsExist" value="true" />
-          </f:if>
-        </f:for>
-      </f:if>
-    </f:for>
-  </f:if>
-  <div class="edm-event-detail__content__description">
-    <f:if condition="{DocumentsExist} == 'true'">
-      <h3 class="mt-0">Weiteres Informationsmaterial</h3>
-      <f:render
-        partial="Event/EventDocuments"
-        arguments="{eventFiles: event.files, eventBaseFiles: eventBase.files}"
-      />
+<f:comment> Filter files that don't have the __image__ tag </f:comment>
+<f:variable name="validEventFiles">
+  <f:for each="{event.files}" as="file">
+    <f:if condition="{file.tags} != '__image__'">
+      <f:variable name="hasValidFile">1</f:variable>
     </f:if>
+  </f:for>
+  <f:if condition="{hasValidFile}">1</f:if>
+</f:variable>
+<f:variable name="validEventBaseFiles">
+  <f:for each="{eventBase.files}" as="file">
+    <f:if condition="{file.tags} != '__image__'">
+      <f:variable name="hasValidBaseFile">1</f:variable>
+    </f:if>
+  </f:for>
+  <f:if condition="{hasValidBaseFile}">1</f:if>
+</f:variable>
+
+<div class="edm-event-detail__content">
+  <div class="edm-event-detail__content__description">
     <f:if condition="{eventBase.descriptions}">
       <f:for each="{eventBase.descriptions}" as="description">
         <f:if condition="{description.slug} == {settings.edm.slugs.eventDescription}">
@@ -41,9 +39,15 @@
       <h4>Kooperationspartner</h4>
       <p>Diese Veranstaltung wird durchgeführt in Kooperation mit:</p>
       <div class="edm-event-detail__content__summary-partners">
+        <f:render partial="Event/EventPartner" arguments="{partners: eventBase.partners}" />
+      </div>
+    </f:if>
+    <f:if condition="{validEventFiles} || {validEventBaseFiles}">
+      <div class="edm-event-detail__content__summary-files">
+        <h4>Weiteres Informationsmaterial</h4>
         <f:render
-          partial="Event/EventPartner"
-          arguments="{partners: eventBase.partners}"
+          partial="Event/EventDocuments"
+          arguments="{eventFiles: event.files, eventBaseFiles: eventBase.files}"
         />
       </div>
     </f:if>
@@ -51,10 +55,7 @@
       <f:if condition="{event.lecturers}">
         <div class="edm-event-detail__content__summary-lecturers">
           <h4>Dozent*in</h4>
-          <f:render
-            partial="Event/EventLecturers"
-            arguments="{lecturers: event.lecturers}"
-          />
+          <f:render partial="Event/EventLecturers" arguments="{lecturers: event.lecturers}" />
         </div>
       </f:if>
       <f:if condition="{event.dates}">

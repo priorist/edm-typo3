@@ -81,17 +81,18 @@ To enable enrollments in EDM through the website, the following has to be ensure
 - The `edm-registration-form` is initialised like so:
 
 ```javascript
-EdmForm.init(
-    EdmForm.config, // DO NOT CHANGE
-    __event, // The Javascript variable the `event` from the controller is stored into
-    "event", // DO NOT CHANGE
-    document.getElementById("edm-registration-form"), // CSS selector of an HTML element the form is attached to
-    680, // Max width of the form application; defaults to "none"
-    16, // Padding that should be applied to the form application; defaults to 0
-    "", // Only relevant for "newsletter" variant, not for "event"
-    "", // Only relevant for "newsletter" variant, not for "event"
-    "de" // Language the form should render in, currently works with "de", "en", "fr" and "es"; defaults to "de"
-);
+EdmForm.init({
+    config: EdmForm.config, // DO NOT CHANGE
+    event: __event, // The Javascript variable the `event` from the controller is stored into
+    formType: "event", // DO NOT CHANGE
+    formTypeName: "" // Only relevent for type "list", additional identifier to select correct form type from config
+    element: document.getElementById("edm-registration-form"), // CSS selector of an HTML element the form is attached to
+    maxWidth: 680, // Max width of the form application; defaults to "none"
+    padding: 16, // Padding that should be applied to the form application; defaults to 0
+    listId: "", // Only relevant for "newsletter" variant, not for "event"
+    doiTemplateId: "", // Only relevant for "newsletter" variant, not for "event"
+    language: "de" // Language the form should render in, currently works with "de", "en", "fr" and "es"; defaults to "de"
+});
 ```
 
 ### Filter for Events

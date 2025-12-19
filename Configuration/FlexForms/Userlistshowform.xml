@@ -8,18 +8,13 @@
         <sheetTitle>Einstellungen</sheetTitle>
         <type>array</type>
         <el>
-          <settings.lists>
-            <label>Listen-ID(s)</label>
+          <settings.formTypeName>
+            <label>Listen-Name</label>
+            <description>Muss auch in der Anmeldeformular-Konfiguration existieren!</description>
             <config>
-              <type>select</type>
-              <itemsProcFunc>Priorist\EdmTypo3\Backend\ItemsProcFunc->getUserLists</itemsProcFunc>
-              <renderType>selectMultipleSideBySide</renderType>
-              <items>
-                <!-- empty by default -->
-              </items>
-              <minitems>1</minitems>
+              <type>input</type>
             </config>
-          </settings.lists>
+          </settings.formTypeName>
         </el>
       </ROOT>
     </sDEF>

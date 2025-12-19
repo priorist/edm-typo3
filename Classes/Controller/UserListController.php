@@ -12,6 +12,9 @@ class UserListController extends AbstractController
         // Assign content object to view
         $this->view->assign('data', $this->request->getAttribute('currentContentObject')->data);
 
+        // Assign EDM access token to view
+        $this->view->assign('accessToken', $this->getClient()->getAccessToken()->getToken());
+
         return $this->htmlResponse();
     }
 }

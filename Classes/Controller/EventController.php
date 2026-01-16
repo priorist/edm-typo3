@@ -274,7 +274,7 @@ class EventController extends AbstractController
 				'labelPlural' => 'Themen',
 				'data' => array_values($categoryData),
 			),
-			'type' => array(
+			'format' => array(
 				'labelSingular' => 'Format',
 				'labelPlural' => 'Formate',
 				'data' => array_values($formatData),

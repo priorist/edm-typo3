@@ -100,7 +100,7 @@ window.EdmForm.config = {
   formTypes: [
     {
       name: "default",
-      disableEdmLogin: false,
+      disableEdmLogin: true,
       allowMultipleAttendees: true,
       stepsForLoggedInUsers: [
         {

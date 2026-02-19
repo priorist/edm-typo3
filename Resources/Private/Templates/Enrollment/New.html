@@ -6,14 +6,18 @@
     var __authToken = "<f:format.raw>{accessToken}</f:format.raw>";
     var __event = <f:format.htmlentitiesDecode><f:format.json>{event}</f:format.json></f:format.htmlentitiesDecode>;
   </script>
-  <script src="/typo3conf/ext/edm-typo3/Resources/Public/js/edm-registration-form.3.0.0.js"></script>
-  <script src="/typo3conf/ext/edm-typo3/Resources/Public/js/edm-registration-config.1.4.0.js"></script>
+  <script
+    src="<f:format.raw>{f:uri.resource(path:'EXT:edm-typo3/Resources/Public/js/edm-registration-form.{settings.versions.form}.js')}</f:format.raw>"
+  ></script>
+  <script
+    src="<f:format.raw>{f:uri.resource(path:'EXT:edm-typo3/Resources/Public/js/edm-registration-config.{settings.versions.config}.js')}</f:format.raw>"
+  ></script>
   <script type="text/javascript">
-    EdmForm.init(
-      EdmForm.config,
-      __event,
-      "event",
-      document.getElementById("edm-registration-form"),
-    );
+    EdmForm.init({
+      config: EdmForm.config,
+      event: __event,
+      formType: "event",
+      element: document.getElementById("edm-registration-form"),
+    });
   </script>
 </f:section>

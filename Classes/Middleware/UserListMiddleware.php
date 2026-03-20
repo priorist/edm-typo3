@@ -10,17 +10,19 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class UserListMiddleware implements MiddlewareInterface, LoggerAwareInterface
+final class UserListMiddleware implements MiddlewareInterface
 {
-  use LoggerAwareTrait;
+  private \Psr\Log\LoggerInterface $logger;
 
   public function __construct(
     private readonly ResponseFactoryInterface $responseFactory,
     private readonly EdmClientService $edmClientService,
-  ) {}
+  ) {
+    $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+  }
 
   public function process(
     ServerRequestInterface $request,

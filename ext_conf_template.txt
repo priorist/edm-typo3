@@ -1,0 +1,8 @@
+# cat=EDM API; type=string; label=EDM URL
+edm.url =
+
+# cat=EDM API; type=string; label=Client ID
+edm.auth.anonymous.clientId =
+
+# cat=EDM API; type=string; label=Client Secret
+edm.auth.anonymous.clientSecret =

@@ -10,28 +10,18 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use TYPO3\CMS\Core\Log\LogManager;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class UserListMiddleware implements MiddlewareInterface
 {
-  private \Psr\Log\LoggerInterface $logger;
-
   public function __construct(
     private readonly ResponseFactoryInterface $responseFactory,
     private readonly EdmClientService $edmClientService,
-  ) {
-    $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
-  }
+  ) {}
 
   public function process(
     ServerRequestInterface $request,
     RequestHandlerInterface $handler
   ): ResponseInterface {
-    $this->logger->debug('Process called', [
-      'method' => $request->getMethod(),
-      'path' => $request->getUri()->getPath(),
-    ]);
 
     try {
       if ($request->getUri()->getPath() !== '/edm/add-to-user-list') {
@@ -48,12 +38,9 @@ final class UserListMiddleware implements MiddlewareInterface
         return $this->jsonResponse(['error' => 'Invalid JSON payload'], 400);
       }
 
-      $this->logger->debug('Payload received', ['body' => $body]);
-
       try {
         $success = $this->handlePayload($body);
       } catch (\Throwable $e) {
-        $this->logger->error('Process error', ['message' => $e->getMessage()]);
         return $this->jsonResponse(['error' => $e->getMessage()], 500);
       }
 
@@ -63,21 +50,17 @@ final class UserListMiddleware implements MiddlewareInterface
 
       return $this->jsonResponse(['error' => 'Request failed, check logs for details'], 500);
     } catch (\Throwable $e) {
-      $this->logger->error('UserListMiddleware fatal error', [
-        'message' => $e->getMessage(),
-        'trace' => $e->getTraceAsString(),
-      ]);
       return $this->jsonResponse(['error' => $e->getMessage()], 500);
     }
   }
 
   private function handlePayload(array $body): bool
   {
-    $this->logger->debug('handlePayload called');
-
     try {
       $user = $body['user'] ?? null;
       $lists = $body['lists'] ?? null;
+      $website = $body['website'] ?? null;
+      $formLoadedAt = $body['form_loaded_at'] ?? null;
       $userId = null;
 
       $client = $this->edmClientService->getClient();
@@ -86,15 +69,12 @@ final class UserListMiddleware implements MiddlewareInterface
         $userId = $user;
       } else if (is_array($user)) {
         $response = $client->user->create($user);
-        $this->logger->debug('Create user response', ['response' => $response]);
         $userId = $response['id'] ?? null;
       } else {
-        $this->logger->debug('Invalid user type', ['type' => gettype($user)]);
         return false;
       }
 
       if ($userId === null) {
-        $this->logger->debug('No user ID after create', ['response' => $response ?? null]);
         return false;
       }
 
@@ -108,18 +88,17 @@ final class UserListMiddleware implements MiddlewareInterface
               ];
             }, $lists),
             'consent_method' => 'trigger_confirmation',
+            'website' => $website,
+            'form_loaded_at' => $formLoadedAt,
           ],
         ];
         $response = $client->userList->bulkCreate($userListData);
-        $this->logger->debug('Bulk create list response', ['response' => $response]);
       } else {
-        $this->logger->debug('Invalid lists type', ['type' => gettype($lists)]);
         return false;
       }
 
       return true;
     } catch (\Throwable $e) {
-      $this->logger->error('handlePayload error', ['message' => $e->getMessage()]);
       return false;
     }
   }

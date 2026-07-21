@@ -23,35 +23,69 @@ final class UserListMiddleware implements MiddlewareInterface
     RequestHandlerInterface $handler
   ): ResponseInterface {
 
+    $path = $request->getUri()->getPath();
+
     try {
-      if ($request->getUri()->getPath() !== '/edm/add-to-user-list') {
-        return $handler->handle($request);
+      if ($path === '/edm/add-to-user-list') {
+        return $this->handleAddToUserList($request);
       }
 
-      if ($request->getMethod() !== 'POST') {
-        return $this->jsonResponse(['error' => 'Method not allowed'], 405);
+      if ($path === '/edm/fetch-user-lists') {
+        return $this->handleFetchUserLists($request);
       }
 
-      $body = json_decode((string)$request->getBody(), true);
-
-      if (!is_array($body)) {
-        return $this->jsonResponse(['error' => 'Invalid JSON payload'], 400);
-      }
-
-      try {
-        $success = $this->handlePayload($body);
-      } catch (\Throwable $e) {
-        return $this->jsonResponse(['error' => $e->getMessage()], 500);
-      }
-
-      if ($success) {
-        return $this->jsonResponse(['status' => 'ok']);
-      }
-
-      return $this->jsonResponse(['error' => 'Request failed, check logs for details'], 500);
+      return $handler->handle($request);
     } catch (\Throwable $e) {
       return $this->jsonResponse(['error' => $e->getMessage()], 500);
     }
+  }
+
+  private function handleAddToUserList(ServerRequestInterface $request): ResponseInterface
+  {
+    if ($request->getMethod() !== 'POST') {
+      return $this->jsonResponse(['error' => 'Method not allowed'], 405);
+    }
+
+    $body = json_decode((string)$request->getBody(), true);
+
+    if (!is_array($body)) {
+      return $this->jsonResponse(['error' => 'Invalid JSON payload'], 400);
+    }
+
+    try {
+      $success = $this->handlePayload($body);
+    } catch (\Throwable $e) {
+      return $this->jsonResponse(['error' => $e->getMessage()], 500);
+    }
+
+    if ($success) {
+      return $this->jsonResponse(['status' => 'ok']);
+    }
+
+    return $this->jsonResponse(['error' => 'Request failed, check logs for details'], 500);
+  }
+
+  private function handleFetchUserLists(ServerRequestInterface $request): ResponseInterface
+  {
+    if ($request->getMethod() !== 'GET') {
+      return $this->jsonResponse(['error' => 'Method not allowed'], 405);
+    }
+
+    $queryParams = $request->getQueryParams();
+    $listIds = array_filter(array_map('intval', explode(',', $queryParams['list_ids'] ?? '')));
+
+    if (empty($listIds)) {
+      return $this->jsonResponse(['error' => 'list_ids is required'], 400);
+    }
+
+    try {
+      $client = $this->edmClientService->getClient();
+      $userLists = $client->userLists->findByIds($listIds);
+    } catch (\Throwable $e) {
+      return $this->jsonResponse(['error' => $e->getMessage()], 500);
+    }
+
+    return $this->jsonResponse($userLists->toArray());
   }
 
   private function handlePayload(array $body): bool

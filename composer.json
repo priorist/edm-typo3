@@ -9,7 +9,7 @@
 		}
 	},
 	"require": {
-		"priorist/edm-sdk": "^1.0",
+		"priorist/edm-sdk": "^1.2",
 		"typo3/cms-core": "^12.4 || ^13.4",
 		"typo3/cms-backend": "^12.4 || ^13.4"
 	},

@@ -507,6 +507,8 @@ class EventController extends AbstractController
 		}
 
 		if ($eventBase !== NULL) {
+			$this->applyRobotsNoIndex($eventBase);
+
 			$eventBaseId = $eventBase['id'];
 			$eventBaseType = $eventBase['event_type']['id'];
 			$eventParams = [
@@ -559,6 +561,8 @@ class EventController extends AbstractController
 		$eventBase = $this->getEventBaseFromSlug($eventBaseSlug);
 
 		if ($eventBase !== NULL) {
+			$this->applyRobotsNoIndex($eventBase);
+
 			$eventBaseId = $eventBase['id'];
 			$eventBaseType = $eventBase['event_type']['id'];
 

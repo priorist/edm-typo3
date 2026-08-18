@@ -4,4 +4,12 @@ plugin.tx_edmtypo3 {
 		partialRootPath = EXT:edm-typo3/Resources/Private/Partials/
 		layoutRootPath = EXT:edm-typo3/Resources/Private/Layouts/
 	}
+
+	customConditions {
+		context {
+			# Comma-separated list of EDM context IDs whose event detail pages
+			# must not be indexed by search engines
+			noIndex =
+		}
+	}
 }

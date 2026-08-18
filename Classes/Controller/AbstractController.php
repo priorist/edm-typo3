@@ -4,6 +4,7 @@ namespace Priorist\EdmTypo3\Controller;
 
 use Exception;
 use Priorist\EDM\Client\Client;
+use TYPO3\CMS\Core\MetaTag\MetaTagManagerRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Log\LogManager;
@@ -135,5 +136,34 @@ class AbstractController extends ActionController
 	protected function hasNoFilterValue($val)
 	{
 		return $val === null || strlen($val) == 0;
+	}
+
+	/**
+	 * Prevent search engines from indexing pages of event bases
+	 * belonging to one of the configured EDM contexts
+	 */
+	protected function applyRobotsNoIndex(?array $eventBase): void
+	{
+		$configuredContexts = array_filter(array_map(
+			'trim',
+			explode(',', (string)($this->settings['customConditions']['context']['noIndex'] ?? ''))
+		), 'strlen');
+
+		if ($configuredContexts === []) {
+			return;
+		}
+
+		foreach (($eventBase['contexts'] ?? []) as $context) {
+			// EDM serializers deliver contexts either expanded (['id' => 1]) or as bare IDs
+			$contextId = is_array($context) ? ($context['id'] ?? null) : $context;
+
+			if ($contextId !== null && in_array((string)$contextId, $configuredContexts, true)) {
+				GeneralUtility::makeInstance(MetaTagManagerRegistry::class)
+					->getManagerForProperty('robots')
+					->addProperty('robots', 'noindex, nofollow', [], true);
+
+				return;
+			}
+		}
 	}
 }

@@ -40,6 +40,8 @@ class EnrollmentController extends AbstractController
                $event['price_count'] = $priceCount;
             }
 
+            $this->applyRobotsNoIndex($event['event_base'] ?? null);
+
             $this->view->assign('event', $event);
          } catch (ClientException $e) {
             if ($e->getCode() === 401) {

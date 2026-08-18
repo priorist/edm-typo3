@@ -77,6 +77,10 @@ plugin.tx_edmtypo3 {
             eventTypes {
                 showAllEvents = {$plugin.tx_edmtypo3.customConditions.eventTypes.showAllEvents}
             }
+
+            context {
+                noIndex = {$plugin.tx_edmtypo3.customConditions.context.noIndex}
+            }
         }
 
         showAllEvents {

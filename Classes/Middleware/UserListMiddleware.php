@@ -10,9 +10,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class UserListMiddleware implements MiddlewareInterface
 {
+  private const MIN_ELAPSED_SECONDS = 2.0;
+
   public function __construct(
     private readonly ResponseFactoryInterface $responseFactory,
     private readonly EdmClientService $edmClientService,
@@ -52,6 +56,19 @@ final class UserListMiddleware implements MiddlewareInterface
       return $this->jsonResponse(['error' => 'Invalid JSON payload'], 400);
     }
 
+    /*
+     * EDM bot-checks user_list_data/bulk_create but not users, so the check has to be repeated
+     * here - otherwise a bot submission creates the user and only loses the list. Answer like a
+     * success so the caller learns nothing.
+     */
+    if ($this->isBotSubmission($body['website'] ?? null, $body['form_loaded_at'] ?? null)) {
+      return $this->jsonResponse(['status' => 'ok']);
+    }
+
+    if (!is_array($body['lists'] ?? null) || empty($body['lists'])) {
+      return $this->jsonResponse(['error' => 'lists must be a non-empty array'], 400);
+    }
+
     try {
       $success = $this->handlePayload($body);
     } catch (\Throwable $e) {
@@ -88,14 +105,28 @@ final class UserListMiddleware implements MiddlewareInterface
     return $this->jsonResponse($userLists->toArray());
   }
 
+  private function isBotSubmission(mixed $honeypotValue, mixed $formLoadedAt): bool
+  {
+    if (!empty($honeypotValue)) {
+      return true;
+    }
+
+    if (!is_numeric($formLoadedAt)) {
+      return true;
+    }
+
+    return (microtime(true) - (float)$formLoadedAt) < self::MIN_ELAPSED_SECONDS;
+  }
+
   private function handlePayload(array $body): bool
   {
+    $userId = null;
+
     try {
       $user = $body['user'] ?? null;
       $lists = $body['lists'] ?? null;
       $website = $body['website'] ?? null;
       $formLoadedAt = $body['form_loaded_at'] ?? null;
-      $userId = null;
 
       $client = $this->edmClientService->getClient();
 
@@ -112,7 +143,7 @@ final class UserListMiddleware implements MiddlewareInterface
         return false;
       }
 
-      if (is_array($lists)) {
+      if (is_array($lists) && !empty($lists)) {
         $userListData = [
           'data' => [
             'list_data' => array_map(function ($listId) use ($userId) {
@@ -133,6 +164,14 @@ final class UserListMiddleware implements MiddlewareInterface
 
       return true;
     } catch (\Throwable $e) {
+      GeneralUtility::makeInstance(LogManager::class)
+        ->getLogger(__CLASS__)
+        ->error(sprintf(
+          'UserListMiddleware::handlePayload failed (user %s): %s',
+          $userId ?? 'not created',
+          $e->getMessage()
+        ));
+
       return false;
     }
   }

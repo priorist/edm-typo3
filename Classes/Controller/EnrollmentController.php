@@ -28,17 +28,7 @@ class EnrollmentController extends AbstractController
                }
             }
 
-            if (isset($event['prices'])) {
-               $priceCount = count($event['prices']);
-
-               // sort prices ascending from lowest to highest amount
-               usort($event['prices'], function ($item1, $item2) {
-                  return $item1['amount'] <=> $item2['amount'];
-               });
-
-               $event['lowest_price'] = $event['prices'][0]['amount'];
-               $event['price_count'] = $priceCount;
-            }
+            $event = $this->prepareEventPriceData($event);
 
             $this->applyRobotsNoIndex($event['event_base'] ?? null);
 

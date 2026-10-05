@@ -53,10 +53,7 @@ class LecturerController extends AbstractController
 
         foreach ($events as $key => &$event) {
           $event['id'] = $lecturer['events'][$key];
-
-          usort($event['prices'], function ($item1, $item2) {
-            return $item1['amount'] <=> $item2['amount'];
-          });
+          $event = $this->prepareEventPriceData($event);
         }
 
         // Assign lecturer and events from EDM to view

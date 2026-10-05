@@ -139,6 +139,43 @@ class AbstractController extends ActionController
 	}
 
 	/**
+	 * Drop prices outside their validity period, sort the remaining ones ascending
+	 * and derive lowest price and price count from them
+	 */
+	protected function prepareEventPriceData(array $event): array
+	{
+		$now = time();
+
+		$prices = array_filter($event['prices'] ?? [], function ($price) use ($now) {
+			$validFrom = !empty($price['valid_from']) ? strtotime($price['valid_from']) : null;
+			$validUntil = !empty($price['valid_until']) ? strtotime($price['valid_until']) : null;
+
+			return ($validFrom === null || $validFrom <= $now) && ($validUntil === null || $validUntil >= $now);
+		});
+
+		usort($prices, function ($item1, $item2) {
+			return $item1['amount'] <=> $item2['amount'];
+		});
+
+		$event['prices'] = $prices;
+		$event['price_count'] = count($prices);
+		$event['lowest_price'] = $prices[0]['amount'] ?? null;
+
+		return $event;
+	}
+
+	protected function prepareEventsPriceData(?iterable $events): array
+	{
+		$preparedEvents = [];
+
+		foreach ($events ?? [] as $event) {
+			$preparedEvents[] = $this->prepareEventPriceData($event);
+		}
+
+		return $preparedEvents;
+	}
+
+	/**
 	 * Prevent search engines from indexing pages of event bases
 	 * belonging to one of the configured EDM contexts
 	 */

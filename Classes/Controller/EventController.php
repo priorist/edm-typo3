@@ -37,7 +37,7 @@ class EventController extends AbstractController
 			if ($showAll === '1') {
 				$events = $this->getClient()->getRestClient()->fetchCollection('events', $eventParams); // TODO: Methode in AIS SDK für findAll
 				$eventsArray = $events->toArray();
-				$events = $eventsArray['results'];
+				$events = $this->prepareEventsPriceData($eventsArray['results']);
 			} else {
 				$events = $this->getClient()->event->findUpcoming($eventParams);
 				$events = $this->sanitizeEvents($events);
@@ -318,15 +318,13 @@ class EventController extends AbstractController
 		$today = strtotime(date('Y-m-d'));
 		$showAllEventsArray = explode(',', $this->settings['customConditions']['eventTypes']['showAllEvents']);
 
-		// only add events that have price information and that have not started yet
-		foreach ($events as $key => $event) {
+		// only add events that have currently valid price information and that have not started yet
+		foreach ($events as $event) {
+			$event = $this->prepareEventPriceData($event);
+
 			if ((strtotime($event['first_day']) >= $today) && !empty($event['prices']) && empty($event['archived_at']) || (in_array(strval($event['event_base']['event_type']), $showAllEventsArray))) {
 				$sanitizedEvents[] = $event;
 			}
-		}
-
-		if (!empty($sanitizedEvents)) {
-			$sanitizedEvents = $this->verifyEventPrices($sanitizedEvents);
 		}
 
 		return $sanitizedEvents;
@@ -406,7 +404,7 @@ class EventController extends AbstractController
 				$priceCountArray[$eventBaseId] += $priceCount;
 			}
 
-			if ($tempPriceArray && $tempPriceArray[$eventBaseId]) {
+			if (!empty($tempPriceArray[$eventBaseId])) {
 				sort($tempPriceArray[$eventBaseId]);
 			}
 		}
@@ -421,7 +419,7 @@ class EventController extends AbstractController
 
 			// set lowest price
 			if (!isset($eventBase['lowest_price'])) {
-				$eventBase['lowest_price'] = $tempPriceArray[$key][0];
+				$eventBase['lowest_price'] = $tempPriceArray[$key][0] ?? null;
 			}
 
 			// set price count
@@ -532,7 +530,7 @@ class EventController extends AbstractController
 
 			$eventCities = $this->getLocationCities($currentEvent, true);
 			if ($showAll === true) {
-				$sanitizedEvents = $events;
+				$sanitizedEvents = $this->prepareEventsPriceData($events);
 			} else {
 				$sanitizedEvents = $this->sanitizeEvents($events);
 			}
@@ -573,16 +571,12 @@ class EventController extends AbstractController
 			$events = $eventArray['results'];
 
 			if ($showAll === true) {
-				$sanitizedEvents = $events;
+				$sanitizedEvents = $this->prepareEventsPriceData($events);
 			} else {
 				$sanitizedEvents = $this->sanitizeEvents($events);
 			}
 
 			$eventCities = $this->getLocationCities($events, true);
-
-			foreach ($sanitizedEvents as &$event) {
-				$event = $this->prepareEventPriceData($event);
-			}
 
 			if (count($sanitizedEvents) == 0) {
 				$this->view->assign('noEventAvailable', true);
@@ -638,52 +632,6 @@ class EventController extends AbstractController
 		} catch (Throwable $e) {
 			$this->view->assign('internalError', true);
 			return;
-		}
-
-		return $events;
-	}
-
-	protected function prepareEventPriceData(array $event)
-	{
-		$priceCount = 0;
-
-		if (isset($event['prices'])) {
-			// sort prices ascending from lowest to highest amount
-			usort($event['prices'], function ($item1, $item2) {
-				return $item1['amount'] <=> $item2['amount'];
-			});
-
-			$priceCount = count($event['prices']);
-		}
-
-		$event['price_count'] = $priceCount;
-
-		return $event;
-	}
-
-	protected function verifyEventPrices(array $events)
-	{
-		foreach ($events as $key => &$event) {
-			$tempPriceArray = [];
-			$currentTimestamp = time();
-
-			foreach ($event['prices'] as $price) {
-				$validFrom = isset($price['valid_from']) ? strtotime($price['valid_from']) : null;
-				$validUntil = isset($price['valid_until']) ? strtotime($price['valid_until']) : null;
-
-				if (($validFrom && $currentTimestamp <= $validFrom) || ($validUntil && $currentTimestamp >= $validUntil)) {
-					continue; // Skip invalid prices
-				}
-
-				$tempPriceArray[] = $price;
-
-				// Update lowest price
-				if (!isset($event['lowest_price']) || $event['lowest_price'] > $price['amount']) {
-					$event['lowest_price'] = $price['amount'];
-				}
-			}
-
-			$event['prices'] = $tempPriceArray;
 		}
 
 		return $events;

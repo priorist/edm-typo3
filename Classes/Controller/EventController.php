@@ -7,6 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Throwable;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\PropagateResponseException;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\ErrorController;
 
 class EventController extends AbstractController
 {
@@ -642,7 +644,15 @@ class EventController extends AbstractController
 	protected function redirectTo404($settings): never
 	{
 		// redirect to 404 error page if no event in EDM is found
-		$pageUid = intval($settings['pageuids']['404'], 10);
+		$pageUid = intval($settings['pageuids']['404'] ?? 0, 10);
+		if ($pageUid <= 0) {
+			// No 404 page configured: use the error handling of the site
+			throw new PropagateResponseException(
+				GeneralUtility::makeInstance(ErrorController::class)
+					->pageNotFoundAction($this->request, 'No event base found for the requested slug'),
+				1759842001
+			);
+		}
 		$uriBuilder = $this->uriBuilder;
 		$uri = $uriBuilder
 			->setTargetPageUid($pageUid)

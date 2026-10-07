@@ -5,6 +5,10 @@ namespace Priorist\EdmTypo3\Controller;
 use Priorist\EDM\Client\Rest\ClientException;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
+use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\ErrorController;
 
 class EventController extends AbstractController
 {
@@ -637,15 +641,29 @@ class EventController extends AbstractController
 		return $events;
 	}
 
-	protected function redirectTo404($settings)
+	protected function redirectTo404($settings): never
 	{
 		// redirect to 404 error page if no event in EDM is found
-		$pageUid = intval($settings['pageuids']['404'], 10);
+		$pageUid = intval($settings['pageuids']['404'] ?? 0, 10);
+		if ($pageUid <= 0) {
+			// No 404 page configured: use the error handling of the site
+			throw new PropagateResponseException(
+				GeneralUtility::makeInstance(ErrorController::class)
+					->pageNotFoundAction($this->request, 'No event base found for the requested slug'),
+				1759842001
+			);
+		}
 		$uriBuilder = $this->uriBuilder;
 		$uri = $uriBuilder
 			->setTargetPageUid($pageUid)
 			->build();
-		$this->redirectToUri($uri, 0, 404);
+		// Answer with status 404; the meta refresh sends the browser on to the 404 page,
+		// because browsers do not follow a Location header on a 404 response.
+		$escapedUri = htmlspecialchars($uri, ENT_QUOTES);
+		throw new PropagateResponseException(
+			new HtmlResponse('<html><head><meta http-equiv="refresh" content="0;url=' . $escapedUri . '"/></head></html>', 404),
+			1759842000
+		);
 	}
 
 	protected function prepareCitiesForFilterData($locationData = [])
